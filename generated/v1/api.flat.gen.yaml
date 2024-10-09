@@ -1,8 +1,11 @@
 openapi: 3.0.0
 info:
-  title: Arctir API
+  title: Flightdeck API
   version: 1.0.0
-  description: API for managing arctir environments
+  description: API for interacting with Flightdeck
+  license:
+    name: Apache-2.0
+    url: 'https://opensource.org/license/apache-2-0'
 servers:
   - url: 'https://api.arctir.cloud/v1'
   - url: /v1
