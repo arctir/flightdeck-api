@@ -1,0 +1,36 @@
+components:
+  schemas:
+    Cluster:
+      allOf:
+        - $ref: "./base.yaml#/components/schemas/BaseResourceType"
+        - type: object
+          properties:
+            name:
+              type: string
+              format: lowercasealpha
+              minLength: 3
+              maxLength: 24
+            displayName:
+              type: string
+            region:
+              type: string
+          required:
+            - name
+            - displayName
+            - region
+
+    ClustersListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Cluster"
+        total:
+          type: integer
+        pageInfo:
+          $ref: "./pagination.yaml#/components/schemas/PageInfo"
+      required:
+        - item
+        - total
+        - pageInfo

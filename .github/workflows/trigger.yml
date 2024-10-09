@@ -1,0 +1,39 @@
+name: Trigger downstream client builds
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag'
+        required: true
+  push:
+    tags:
+    - v*.*.*
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: make
+      - run: git diff --exit-code
+
+      - name: get branch ref
+        shell: bash
+        run: |
+          if [ -z "${{ inputs.tag }}" ]; then
+            echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF##*/}}" >> $GITHUB_OUTPUT;
+          else
+            echo "branch=${{ inputs.tag }}" >> $GITHUB_OUTPUT;
+          fi;
+        id: extract_branch
+
+      - name: Trigger flightdeck-typescript build
+        uses: convictional/trigger-workflow-and-wait@v1.6.5
+        with:
+          owner: arctir
+          repo: flightdeck-typescript
+          workflow_file_name: generate.yml
+          github_token: ${{ secrets.ARCTIR_GH_ACTIONS_TOKEN }}
+          client_payload:  '{ "tag": "${{ steps.extract_branch.outputs.branch }}" }'
+          wait_workflow: false

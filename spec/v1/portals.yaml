@@ -1,0 +1,86 @@
+components:
+  schemas:
+    Portal:
+      allOf:
+        - $ref: "./base.yaml#/components/schemas/BaseResourceType"
+        - $ref: "#/components/schemas/PortalInput"
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            url:
+              type: string
+            hostname:
+              type: string
+            identifier:
+              type: string
+            status:
+              $ref: "#/components/schemas/PortalStatus"
+          required:
+            - organizationId
+            - url
+            - hostname
+            - identifier
+
+    PortalsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Portal"
+        total:
+          type: integer
+        pageInfo:
+          $ref: "./pagination.yaml#/components/schemas/PageInfo"
+      required:
+        - item
+        - total
+        - pageInfo
+
+    PortalInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 16
+        title:
+          type: string
+        organizationName:
+          type: string
+        domain:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 16
+        version:
+          type: string
+        tenantName:
+          type: string
+        alternateDomains:
+          type: array
+          items:
+            type: string
+            format: hostname
+      required:
+        - name
+        - title
+        - organizationName
+        - tenantName
+        - domain
+        - version
+        - alternateDomains
+
+    PortalStatus:
+      type: object
+      properties:
+        status:
+          type: string
+        detail:
+          type: string
+      required:
+        - status
+        - detail

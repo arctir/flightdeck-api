@@ -1,0 +1,49 @@
+components:
+  schemas:
+    Tenant:
+      allOf:
+        - $ref: "./base.yaml#/components/schemas/BaseResourceType"
+        - $ref: "#/components/schemas/TenantInput"
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            identifier:
+              type: string
+            issuerUrl:
+              type: string
+          required:
+            - organizationId
+            - identifier
+            - issuerUrl
+
+    TenantsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Tenant"
+        total:
+          type: integer
+        pageInfo:
+          $ref: "./pagination.yaml#/components/schemas/PageInfo"
+      required:
+        - item
+        - total
+        - pageInfo
+
+    TenantInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 16
+        displayName:
+          type: string
+      required:
+        - name
+        - displayName

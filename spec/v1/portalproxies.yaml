@@ -1,0 +1,91 @@
+components:
+  schemas:
+    PortalProxyHeader:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      required:
+        - name
+        - value
+
+    PortalProxyPathRewrite:
+      type: object
+      properties:
+        src:
+          type: string
+        dst:
+          type: string
+      required:
+        - src
+        - dst
+
+    PortalProxyInput:
+      type: object
+      properties:
+        name:
+          type: string
+        endpoint:
+          type: string
+        target:
+          type: string
+        httpHeaders:
+          type: array
+          items:
+            $ref: "#/components/schemas/PortalProxyHeader"
+        pathRewrite:
+          type: array
+          items:
+            $ref: "#/components/schemas/PortalProxyPathRewrite"
+        changeOrigin:
+          type: boolean
+        allowedMethods:
+          type: array
+          items:
+            type: string
+        allowedHeaders:
+          type: array
+          items:
+            type: string
+        credentials:
+          type: string
+          enum:
+            - require
+            - forward
+            - dangerously-allow-unauthenticated
+      required:
+        - name
+        - target
+
+    PortalProxy:
+      allOf:
+        - $ref: "./base.yaml#/components/schemas/BaseResourceType"
+        - $ref: "#/components/schemas/PortalProxyInput"
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            portalName:
+              type: string
+          required:
+            - organizationId
+            - portalName
+
+    PortalProxiesListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PortalProxy"
+        total:
+          type: integer
+        pageInfo:
+          $ref: "./pagination.yaml#/components/schemas/PageInfo"
+      required:
+        - item
+        - total
+        - pageInfo

@@ -1,0 +1,76 @@
+components:
+  schemas:
+    TailscaleConnection:
+      allOf:
+        - $ref: "#/components/schemas/ConnectionConfig"
+        - $ref: "#/components/schemas/TailscaleConnectionInput"
+
+    TailscaleConnectionInput:
+      type: object
+      properties:
+        authToken:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: auth_token
+      required:
+        - authToken
+
+    ConnectionsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Connection"
+        total:
+          type: integer
+        pageInfo:
+          $ref: "./pagination.yaml#/components/schemas/PageInfo"
+      required:
+        - item
+        - total
+        - pageInfo
+
+    Connection:
+      allOf:
+        - $ref: "./base.yaml#/components/schemas/BaseResourceType"
+        - $ref: "#/components/schemas/ConnectionInput"
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            portalName:
+              type: string
+          required:
+            - organizationId
+            - portalName
+
+    ConnectionConfig:
+      type: object
+      required:
+        - configType
+      properties:
+        configType:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: "-"
+
+    ConnectionInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        connectionConfig:
+          oneOf:
+            - $ref: "#/components/schemas/TailscaleConnection"
+          discriminator:
+            propertyName: configType
+            mapping:
+              tailscale: "#/components/schemas/TailscaleConnection"
+      required:
+        - name
+        - connectionConfig

@@ -1,0 +1,134 @@
+components:
+  schemas:
+    GithubIdentityProvider:
+      allOf:
+        - $ref: "#/components/schemas/IdentityProviderConfig"
+        - $ref: "#/components/schemas/GithubIdentityProviderInput"
+
+    GithubIdentityProviderInput:
+      type: object
+      properties:
+        redirectUri:
+          type: string
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+          format: password
+          writeOnly: true
+        baseUrl:
+          type: string
+          default: https://github.com
+        apiUrl:
+          type: string
+          default: https://api.github.com
+      required:
+        - redirectUri
+        - clientId
+        - clientSecret
+
+    GitlabIdentityProvider:
+      allOf:
+        - $ref: "#/components/schemas/IdentityProviderConfig"
+        - $ref: "#/components/schemas/GitlabIdentityProviderInput"
+
+    GitlabIdentityProviderInput:
+      type: object
+      properties:
+        redirectUri:
+          type: string
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+          format: password
+          writeOnly: true
+      required:
+        - redirectUri
+        - clientId
+        - clientSecret
+
+    GoogleIdentityProvider:
+      allOf:
+        - $ref: "#/components/schemas/IdentityProviderConfig"
+        - $ref: "#/components/schemas/GoogleIdentityProviderInput"
+
+    GoogleIdentityProviderInput:
+      type: object
+      properties:
+        redirectUri:
+          type: string
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+          format: password
+          writeOnly: true
+        hostedDomain:
+          type: string
+        userIp:
+          type: boolean
+        refreshToken:
+          type: boolean
+
+    IdentityProvidersListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/IdentityProvider"
+        total:
+          type: integer
+        pageInfo:
+          $ref: "./pagination.yaml#/components/schemas/PageInfo"
+      required:
+        - item
+        - total
+        - pageInfo
+
+    IdentityProvider:
+      allOf:
+        - $ref: "./base.yaml#/components/schemas/BaseResourceType"
+        - $ref: "#/components/schemas/IdentityProviderInput"
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            tenantName:
+              type: string
+          required:
+            - organizationId
+            - tenantName
+
+    IdentityProviderConfig:
+      type: object
+      required:
+        - configType
+      properties:
+        configType:
+          type: string
+
+    IdentityProviderInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        providerConfig:
+          oneOf:
+            - $ref: "#/components/schemas/GithubIdentityProvider"
+            - $ref: "#/components/schemas/GitlabIdentityProvider"
+            - $ref: "#/components/schemas/GoogleIdentityProvider"
+          discriminator:
+            propertyName: configType
+            mapping:
+              github: "#/components/schemas/GithubIdentityProvider"
+              gitlab: "#/components/schemas/GitlabIdentityProvider"
+              google: "#/components/schemas/GoogleIdentityProvider"
+      required:
+        - name
+        - providerConfig

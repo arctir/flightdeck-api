@@ -1,0 +1,137 @@
+
+common_name = "Catalog Provider"
+plural_common_name = "Catalog Providers"
+object_name = "CatalogProvider"
+plural_object_name = "CatalogProviders"
+collection_name = catalogproviders
+path_param = providerType
+child_types: {
+ "github": GithubCatalogProvider
+}
+
+
+
+
+
+
+/org/{orgId}/portals/{portalName}/{{ collection_name }}/{{ path_param }}:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the org
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the portal
+      - name: {{ path_param }}
+        in: path
+        required: true
+        schema:
+          type: string
+          enum: {{ path_param_options }}
+        description: The type of {{ common_name }}
+    get:
+      summary: Get a list of {{ plural_common_name }}
+      operationId: get{{ plural_object_name }}
+      responses:
+        "200":
+          description: List of {{ plural_common_name }}
+          content:
+            application/json:
+              schema:
+                $ref: "./catalogproviders.yaml#/components/schemas/{{ plural_object_name }}Response"
+        "404":
+          description: Organization or Portal not found
+    post:
+      summary: Create a {{ common_name }}
+      operationId: create{{ object_name }}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+              {% for _, value in child_types.items() %}
+                - $ref: 
+              {% endfor %}
+      responses:
+        "201":
+          description: The {{ plural_common_name}} was created
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "./catalogproviders.yaml#/components/schemas/GithubCatalogProvider"
+        "404":
+          description: Portal not found
+
+  ? /org/{orgId}/portals/{portalName}/catalogproviders/{providerType}/{providerName}
+  : parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the org
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the portal
+      - name: providerType
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The provider type
+      - name: providerName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the provider
+    get:
+      summary: Get a catalog provider
+      operationId: getCatalogProvider
+      responses:
+        "200":
+          description: The catalog provider
+          content:
+            application/json:
+              schema:
+                $ref: "./catalogproviders.yaml#/components/schemas/GithubCatalogProvider"
+        "404":
+          description: Portal not found
+    put:
+      summary: Update a catalog provider
+      operationId: updateCatalogProvider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./catalogproviders.yaml#/components/schemas/GithubCatalogProvider"
+      responses:
+        "200":
+          description: The catalog provider was updated
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "./catalogproviders.yaml#/components/schemas/GithubCatalogProvider"
+        "404":
+          description: Portal not found
+    delete:
+      summary: Delete a catalog provider
+      operationId: deleteCatalogProvider
+      responses:
+        "204":
+          description: The catalog provider was deleted
+        "404":
+          description: Portal not found

@@ -1,0 +1,153 @@
+components:
+  schemas:
+    GithubAuthProvider:
+      allOf:
+        - $ref: "#/components/schemas/AuthProviderConfig"
+        - $ref: "#/components/schemas/GithubAuthProviderInput"
+
+    GithubAuthProviderInput:
+      type: object
+      properties:
+        clientId:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: client_id
+        clientSecret:
+          type: string
+          format: password
+          writeOnly: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: client_secret
+        callbackUrl:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: callback_url
+        enterpriseInstanceUrl:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: enterprise_instance_url
+        additionalScopes:
+          type: array
+          items:
+            type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: additional_scopes
+      required:
+        - clientId
+        - clientSecret
+
+    GitlabAuthProvider:
+      allOf:
+        - $ref: "#/components/schemas/AuthProviderConfig"
+        - $ref: "#/components/schemas/GitlabAuthProviderInput"
+
+    GitlabAuthProviderInput:
+      type: object
+      properties:
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+          format: password
+          writeOnly: true
+        audience:
+          type: string
+        callbackUrl:
+          type: string
+        additionalScopes:
+          type: array
+          items:
+            type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: additional_scopes
+      required:
+        - clientId
+        - clientSecret
+
+    GoogleAuthProvider:
+      allOf:
+        - $ref: "#/components/schemas/AuthProviderConfig"
+        - $ref: "#/components/schemas/GoogleAuthProviderInput"
+
+    GoogleAuthProviderInput:
+      type: object
+      properties:
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+          format: password
+          writeOnly: true
+        callbackUrl:
+          type: string
+        additionalScopes:
+          type: array
+          items:
+            type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: additional_scopes
+      required:
+        - clientId
+        - clientSecret
+
+    AuthProvidersListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/AuthProvider"
+        total:
+          type: integer
+        pageInfo:
+          $ref: "./pagination.yaml#/components/schemas/PageInfo"
+      required:
+        - item
+        - total
+        - pageInfo
+
+    AuthProvider:
+      allOf:
+        - $ref: "./base.yaml#/components/schemas/BaseResourceType"
+        - $ref: "#/components/schemas/AuthProviderInput"
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            portalName:
+              type: string
+          required:
+            - organizationId
+            - portalName
+
+    AuthProviderConfig:
+      type: object
+      required:
+        - configType
+      properties:
+        configType:
+          type: string
+
+    AuthProviderInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        providerConfig:
+          oneOf:
+            - $ref: "#/components/schemas/GithubAuthProvider"
+            - $ref: "#/components/schemas/GitlabAuthProvider"
+            - $ref: "#/components/schemas/GoogleAuthProvider"
+          discriminator:
+            propertyName: configType
+            mapping:
+              github: "#/components/schemas/GithubAuthProvider"
+              gitlab: "#/components/schemas/GitlabAuthProvider"
+              google: "#/components/schemas/GoogleAuthProvider"
+      required:
+        - name
+        - providerConfig

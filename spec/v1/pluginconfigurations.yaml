@@ -1,0 +1,69 @@
+components:
+  schemas:
+    PluginConfiguration:
+      allOf:
+        - $ref: "./base.yaml#/components/schemas/BaseResourceType"
+        - $ref: "#/components/schemas/PluginConfigurationInput"
+        - type: object
+          properties:
+            iconName:
+              type: string
+          required:
+            - iconName
+
+    PluginConfigurationFrontendEntityConfig:
+      type: object
+      properties:
+        path:
+          type: string
+        enabled:
+          type: boolean
+        config:
+          type: object
+      required:
+        - path
+        - enabled
+
+    PluginConfigurationFrontendEntitiesConfig:
+      type: array
+      items:
+        $ref: "#/components/schemas/PluginConfigurationFrontendEntityConfig"
+
+    PluginConfigurationInput:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        frontendEntityConfig:
+          $ref: "#/components/schemas/PluginConfigurationFrontendEntitiesConfig"
+        configValue:
+          type: object
+        definition:
+          type: object
+          properties:
+            name:
+              type: string
+            version:
+              type: integer
+          required:
+            - name
+            - version
+      required:
+        - enabled
+        - definition
+
+    PluginConfigurationsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PluginConfiguration"
+        total:
+          type: integer
+        pageInfo:
+          $ref: "./pagination.yaml#/components/schemas/PageInfo"
+      required:
+        - item
+        - total
+        - pageInfo

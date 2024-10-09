@@ -1,0 +1,2730 @@
+openapi: 3.0.0
+info:
+  title: Arctir API
+  version: 1.0.0
+  description: API for managing arctir environments
+servers:
+  - url: https://api.arctir.cloud/v1
+  - url: /v1
+paths:
+  /clusters:
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Search for a Cluster by name
+      summary: Retrieve a list of Clusters
+      operationId: getClusters
+      responses:
+        '200':
+          description: A list of Clusters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClustersListResponse'
+  /clusters/{clusterId}:
+    get:
+      parameters:
+        - name: clusterId
+          in: path
+          required: true
+          schema:
+            type: string
+      summary: Retrieve a Cluster
+      operationId: getClusterById
+      responses:
+        '200':
+          description: The Cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cluster'
+        '404':
+          description: The resource was not found
+  /orgs:
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Search for an Organization by name
+      summary: Retrieve a list of Organizations for this user
+      operationId: getOrganizations
+      responses:
+        '200':
+          description: A list of Organizations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationsListResponse'
+    post:
+      summary: Create a new Organization
+      operationId: createOrganization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationInput'
+      responses:
+        '201':
+          description: The newly created Organization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+  /orgs/{orgId}:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Organization to update or retrieve
+    get:
+      summary: Retrieve Organization by ID
+      operationId: getOrganizationByID
+      responses:
+        '200':
+          description: The requested Organization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '404':
+          description: The resource was not found
+    put:
+      summary: Update Organization by ID
+      operationId: updateOrganizationByID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationInput'
+      responses:
+        '200':
+          description: The updated organization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '404':
+          description: The resource was not found
+    delete:
+      summary: Delete Organization by ID
+      operationId: deleteOrganizationByID
+      responses:
+        '204':
+          description: Organization successfully deleted
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/portals/{portalName}/connections:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the Organization
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name pf the Portal
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Retrieve a list of Connections
+      operationId: getConnections
+      responses:
+        '200':
+          description: A list of Connections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionsListResponse'
+    post:
+      summary: Create a new Connection
+      operationId: createConnection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectionInput'
+      responses:
+        '201':
+          description: The newly created Connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Connection'
+  /orgs/{orgId}/portals/{portalName}/connections/{name}:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the Organization
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Portal
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Connection
+    get:
+      summary: Retrieve a Connection
+      operationId: getConnection
+      responses:
+        '200':
+          description: The Connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Connection'
+    put:
+      summary: Update Connection
+      operationId: updateConnection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectionInput'
+      responses:
+        '200':
+          description: The updated Connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Connection'
+        '404':
+          description: The resource was not found
+    delete:
+      summary: Delete Connection
+      operationId: deleteConnection
+      responses:
+        '204':
+          description: Connection successfully deleted
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/plugindefinitions:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the Organization
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Retrieve a list of Plugin Definitions
+      operationId: getPluginDefinitions
+      responses:
+        '200':
+          description: A list of Plugin Definitions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginDefinitionsListResponse'
+    post:
+      summary: Create a new Plugin Definition
+      operationId: createPluginDefinition
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PluginDefinitionInput'
+      responses:
+        '201':
+          description: The newly created Plugin Definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginDefinition'
+  /orgs/{orgId}/plugindefinitions/{name}/{version}:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the Organization
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Plugin Definition
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The version of the Plugin Definition
+    get:
+      summary: Retrieve a Plugin Definition
+      operationId: getPluginDefinition
+      responses:
+        '200':
+          description: The Plugin Definitions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginDefinition'
+    put:
+      summary: Update Plugin Definition
+      operationId: updatePluginDefinition
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PluginDefinitionInput'
+      responses:
+        '200':
+          description: The updated Plugin Definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginDefinition'
+        '404':
+          description: The resource was not found
+    delete:
+      summary: Delete Plugin Definition
+      operationId: deletePluginDefinition
+      responses:
+        '204':
+          description: Plugin Definition successfully deleted
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/tenants:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the Organizzation
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Retrieve a list of tenants
+      operationId: getTenants
+      responses:
+        '200':
+          description: A list of tenants
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantsListResponse'
+    post:
+      summary: Create a new tenant
+      operationId: createTenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantInput'
+      responses:
+        '201':
+          description: The newly created tenant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+  /orgs/{orgId}/tenants/{tenantName}:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the org
+      - name: tenantName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the tenant to retrieve or update
+    get:
+      summary: Retrieve a tenant by name
+      operationId: getTenant
+      responses:
+        '200':
+          description: The requested tenant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '404':
+          description: The resource was not found
+    put:
+      summary: Update a tenant by name
+      operationId: updateTenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantInput'
+      responses:
+        '200':
+          description: The updated tenant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '404':
+          description: The resource was not found
+    delete:
+      summary: Delete a tenant by name
+      operationId: deleteTenant
+      responses:
+        '204':
+          description: Tenant successfully deleted
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/tenants/{tenantName}/users:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the org
+      - name: tenantName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the tenant
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Get a list of Tenant Users
+      operationId: getTenantUsers
+      responses:
+        '200':
+          description: The Tenant Users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantUsersListResponse'
+        '404':
+          description: The resource was not found
+    post:
+      summary: Create a TenantUser resource
+      operationId: createTenantUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantUserInput'
+      responses:
+        '201':
+          description: The newly created TenantUser
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantUser'
+  /orgs/{orgId}/tenants/{tenantName}/users/{username}:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the org
+      - name: tenantName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the tenant
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The username of the user
+    get:
+      summary: Get a Tenant User
+      operationId: getTenantUser
+      responses:
+        '200':
+          description: The Tenant User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantUser'
+        '404':
+          description: The resource was not found
+    delete:
+      summary: Delete a Tenant User
+      operationId: deleteTenantUser
+      responses:
+        '204':
+          description: Tenant User successfully deleted
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/portals:
+    get:
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the Organizzation
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Retrieve a list of portals
+      operationId: getPortals
+      responses:
+        '200':
+          description: A list of portals
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortalsListResponse'
+    post:
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the Organizzation
+      summary: Create a new portal
+      operationId: createPortal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortalInput'
+      responses:
+        '201':
+          description: The newly created portal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portal'
+  /orgs/{orgId}/portals/{portalName}:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the org
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the portal
+    get:
+      summary: Retrieve a portal by name
+      operationId: getPortal
+      responses:
+        '200':
+          description: The requested portal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portal'
+        '404':
+          description: The resource was not found
+    put:
+      summary: Update a portal by name
+      operationId: updatePortal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortalInput'
+      responses:
+        '200':
+          description: The updated portal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portal'
+        '404':
+          description: The resource was not found
+    delete:
+      summary: Delete a portal by name
+      operationId: deletePortal
+      responses:
+        '204':
+          description: Portal successfully deleted
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/portals/{portalName}/status:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the Organization
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Portal
+    get:
+      summary: Get Portal status
+      operationId: getPortalStatus
+      responses:
+        '200':
+          description: Current Portal Status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortalStatus'
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/portals/{portalName}/catalogproviders:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the Organization
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Portal
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Get a list of Catalog Providers
+      operationId: getCatalogProviders
+      responses:
+        '200':
+          description: List of Catalog Providers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogProvidersListResponse'
+        '404':
+          description: The resource was not found
+    post:
+      summary: Create a Catalog Provider
+      operationId: createCatalogProvider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatalogProviderInput'
+      responses:
+        '201':
+          description: The Catalog Provider was created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogProvider'
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/portals/{portalName}/catalogproviders/{providerName}:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the org
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the portal
+      - name: providerName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Catalog Provider
+    get:
+      summary: Get a Catalog Provider
+      operationId: getCatalogProvider
+      responses:
+        '200':
+          description: The Catalog Provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogProvider'
+        '404':
+          description: The resource was not found
+    put:
+      summary: Update a Catalog Provider
+      operationId: updateCatalogProvider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatalogProviderInput'
+      responses:
+        '200':
+          description: The Catalog Provider was updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogProvider'
+        '404':
+          description: The resource was not found
+    delete:
+      summary: Delete a Catalog Provider
+      operationId: deleteCatalogProvider
+      responses:
+        '204':
+          description: The Catalog Provider was deleted
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/portals/{portalName}/integrations:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the Organization
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Portal
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Get a list of Integrations
+      operationId: getIntegrations
+      responses:
+        '200':
+          description: List of Integrations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationsListResponse'
+        '404':
+          description: The resource was not found
+    post:
+      summary: Create an Integration
+      operationId: createIntegration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntegrationInput'
+      responses:
+        '201':
+          description: The Integration was created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Integration'
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/portals/{portalName}/integrations/{integrationName}:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the org
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the portal
+      - name: integrationName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Integration
+    get:
+      summary: Get an Integration
+      operationId: getIntegration
+      responses:
+        '200':
+          description: The Integration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Integration'
+        '404':
+          description: The resource was not found
+    put:
+      summary: Update an Integration
+      operationId: updateIntegration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntegrationInput'
+      responses:
+        '200':
+          description: The Integration was updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Integration'
+        '404':
+          description: The resource was not found
+    delete:
+      summary: Delete an Integration
+      operationId: deleteIntegration
+      responses:
+        '204':
+          description: The Integration was deleted
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/tenants/{tenantName}/identityproviders:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the Organization
+      - name: tenantName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Tenant
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Get a list of Identity Providers
+      operationId: getIdentityProviders
+      responses:
+        '200':
+          description: List of Identity Providers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityProvidersListResponse'
+        '404':
+          description: The resource was not found
+    post:
+      summary: Create an Identity Provider
+      operationId: createIdentityProvider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentityProviderInput'
+      responses:
+        '201':
+          description: The Identity Provider was created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityProvider'
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/tenants/{tenantName}/identityproviders/{providerName}:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the org
+      - name: tenantName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the portal
+      - name: providerName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Identity Provider
+    get:
+      summary: Get an Identity Provider
+      operationId: getIdentityProvider
+      responses:
+        '200':
+          description: The Identity Provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityProvider'
+        '404':
+          description: The resource was not found
+    put:
+      summary: Update an Identity Provider
+      operationId: updateIdentityProvider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentityProviderInput'
+      responses:
+        '200':
+          description: The Identity Provider was updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityProvider'
+        '404':
+          description: The resource was not found
+    delete:
+      summary: Delete an Identity Provider
+      operationId: deleteIdentityProvider
+      responses:
+        '204':
+          description: The Identity Provider was deleted
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/portals/{portalName}/proxies:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the Organization
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Portal
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Get a list of Proxies
+      operationId: getPortalProxies
+      responses:
+        '200':
+          description: List of Portal Proxies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortalProxiesListResponse'
+        '404':
+          description: The resource was not found
+    post:
+      summary: Create a Portal Proxy
+      operationId: createPortalProxy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortalProxyInput'
+      responses:
+        '201':
+          description: The Portal Proxy was created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortalProxy'
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/portals/{portalName}/proxies/{proxyName}:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the org
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the portal
+      - name: proxyName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Portal proxy
+    get:
+      summary: Get a Portal Proxy
+      operationId: getPortalProxy
+      responses:
+        '200':
+          description: The Portal Proxy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortalProxy'
+        '404':
+          description: The resource was not found
+    put:
+      summary: Update a Portal Proxy
+      operationId: updatePortalProxy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortalProxyInput'
+      responses:
+        '200':
+          description: The Portal Proxy was updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortalProxy'
+        '404':
+          description: The resource was not found
+    delete:
+      summary: Delete a Portal Proxy
+      operationId: deletePortalProxy
+      responses:
+        '204':
+          description: The Portal Proxy was deleted
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/portals/{portalName}/pluginconfigurations:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the Organization
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Portal
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Retrieve a list of Plugin Configurations
+      operationId: getPluginConfigurations
+      responses:
+        '200':
+          description: A list of Plugin Configurations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginConfigurationsListResponse'
+    post:
+      summary: Create a new Plugin Configuration
+      operationId: createPluginConfiguration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PluginConfigurationInput'
+      responses:
+        '201':
+          description: The newly created Plugin Configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginConfiguration'
+  /orgs/{orgId}/portals/{portalName}/pluginconfigurations/{pluginName}:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the Organization
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Portal
+      - name: pluginName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Plugin
+    get:
+      summary: Retrieve a Plugin Configurations
+      operationId: getPluginConfiguration
+      responses:
+        '200':
+          description: A Plugin Configurations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginConfiguration'
+    put:
+      summary: Update a Plugin Configuration
+      operationId: updatePluginConfiguration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PluginConfigurationInput'
+      responses:
+        '200':
+          description: The Plugin Configuation was updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginConfiguration'
+        '404':
+          description: The resource was not found
+    delete:
+      summary: Delete a Plugin Configuration
+      operationId: deletePluginConfiguration
+      responses:
+        '204':
+          description: The Plugin Configuration was deleted
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/portals/{portalName}/authproviders:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the Organization
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the portal
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Get a list of Auth Providers
+      operationId: getAuthProviders
+      responses:
+        '200':
+          description: List of Auth Providers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthProvidersListResponse'
+        '404':
+          description: The resource was not found
+    post:
+      summary: Create an Auth Provider
+      operationId: createAuthProvider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthProviderInput'
+      responses:
+        '201':
+          description: The Auth Provider was created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthProvider'
+        '404':
+          description: The resource was not found
+  /orgs/{orgId}/portals/{portalName}/authproviders/{providerName}:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the org
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the portal
+      - name: providerName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Auth Provider
+    get:
+      summary: Get an Auth Provider
+      operationId: getAuthProvider
+      responses:
+        '200':
+          description: The Auth Provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthProvider'
+        '404':
+          description: The resource was not found
+    put:
+      summary: Update an Auth Provider
+      operationId: updateAuthProvider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthProviderInput'
+      responses:
+        '200':
+          description: The Auth Provider was updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthProvider'
+        '404':
+          description: The resource was not found
+    delete:
+      summary: Delete an Auth Provider
+      operationId: deleteAuthProvider
+      responses:
+        '204':
+          description: The Auth Provider was deleted
+        '404':
+          description: The resource was not found
+components:
+  schemas:
+    AuthProvider:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceType'
+        - $ref: '#/components/schemas/AuthProviderInput'
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            portalName:
+              type: string
+          required:
+            - organizationId
+            - portalName
+    AuthProviderConfig:
+      type: object
+      required:
+        - configType
+      properties:
+        configType:
+          type: string
+    AuthProviderInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        providerConfig:
+          oneOf:
+            - $ref: '#/components/schemas/GithubAuthProvider'
+            - $ref: '#/components/schemas/GitlabAuthProvider'
+            - $ref: '#/components/schemas/GoogleAuthProvider'
+          discriminator:
+            propertyName: configType
+            mapping:
+              github: '#/components/schemas/GithubAuthProvider'
+              gitlab: '#/components/schemas/GitlabAuthProvider'
+              google: '#/components/schemas/GoogleAuthProvider'
+      required:
+        - name
+        - providerConfig
+    AuthProvidersListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthProvider'
+        total:
+          type: integer
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+      required:
+        - item
+        - total
+        - pageInfo
+    BaseResourceType:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - createdAt
+    CatalogProvider:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceType'
+        - $ref: '#/components/schemas/CatalogProviderInput'
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            portalName:
+              type: string
+          required:
+            - organizationId
+            - portalName
+    CatalogProviderConfig:
+      type: object
+      required:
+        - configType
+      properties:
+        configType:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: '-'
+    CatalogProviderInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        providerConfig:
+          oneOf:
+            - $ref: '#/components/schemas/GithubCatalogProvider'
+            - $ref: '#/components/schemas/GitlabCatalogProvider'
+            - $ref: '#/components/schemas/LocationCatalogProvider'
+          discriminator:
+            propertyName: configType
+            mapping:
+              github: '#/components/schemas/GithubCatalogProvider'
+              gitlab: '#/components/schemas/GitlabCatalogProvider'
+              location: '#/components/schemas/LocationCatalogProvider'
+      required:
+        - name
+        - providerConfig
+    CatalogProvidersListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogProvider'
+        total:
+          type: integer
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+      required:
+        - item
+        - total
+        - pageInfo
+    Cluster:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceType'
+        - type: object
+          properties:
+            name:
+              type: string
+              format: lowercasealpha
+              minLength: 3
+              maxLength: 24
+            displayName:
+              type: string
+            region:
+              type: string
+          required:
+            - name
+            - displayName
+            - region
+    ClustersListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cluster'
+        total:
+          type: integer
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+      required:
+        - item
+        - total
+        - pageInfo
+    Connection:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceType'
+        - $ref: '#/components/schemas/ConnectionInput'
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            portalName:
+              type: string
+          required:
+            - organizationId
+            - portalName
+    ConnectionConfig:
+      type: object
+      required:
+        - configType
+      properties:
+        configType:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: '-'
+    ConnectionInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        connectionConfig:
+          oneOf:
+            - $ref: '#/components/schemas/TailscaleConnection'
+          discriminator:
+            propertyName: configType
+            mapping:
+              tailscale: '#/components/schemas/TailscaleConnection'
+      required:
+        - name
+        - connectionConfig
+    ConnectionsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Connection'
+        total:
+          type: integer
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+      required:
+        - item
+        - total
+        - pageInfo
+    GithubAppIntegration:
+      type: object
+      properties:
+        allowedInstallationOwners:
+          description: |-
+            List of installation owners allowed to be used by this GitHub app. The GitHub UI does not provide a way to list the installations.
+            However you can list the installations with the GitHub API. You can find the list of installations here:
+            https://api.github.com/app/installations
+            The relevant documentation for this is here.
+            https://docs.github.com/en/rest/reference/apps#list-installations-for-the-authenticated-app--code-samples
+          type: array
+          items:
+            type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: allowed_installation_owners
+        appId:
+          description: The numeric GitHub App ID, string for environment variables
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: app_id
+        clientId:
+          description: The client ID to use
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: client_id
+        clientSecret:
+          description: The client secret to use
+          type: string
+          format: password
+          writeOnly: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: client_secret
+            arctirmapstructue: '-'
+            json: '-'
+        privateKey:
+          description: The private key to use for auth against the app
+          type: string
+          format: password
+          writeOnly: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: private_key
+            arctirmapstructue: '-'
+            json: '-'
+        webhookSecret:
+          description: The secret used for webhooks
+          type: string
+          format: password
+          writeOnly: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: webhook_secret
+            arctirmapstructue: '-'
+            json: '-'
+      required:
+        - appId
+        - clientId
+        - clientSecret
+        - privateKey
+        - webhookSecret
+    GithubAuthProvider:
+      allOf:
+        - $ref: '#/components/schemas/AuthProviderConfig'
+        - $ref: '#/components/schemas/GithubAuthProviderInput'
+    GithubAuthProviderInput:
+      type: object
+      properties:
+        clientId:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: client_id
+        clientSecret:
+          type: string
+          format: password
+          writeOnly: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: client_secret
+        callbackUrl:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: callback_url
+        enterpriseInstanceUrl:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: enterprise_instance_url
+        additionalScopes:
+          type: array
+          items:
+            type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: additional_scopes
+      required:
+        - clientId
+        - clientSecret
+    GithubCatalogProvider:
+      allOf:
+        - $ref: '#/components/schemas/CatalogProviderConfig'
+        - $ref: '#/components/schemas/GithubCatalogProviderInput'
+    GithubCatalogProviderFilters:
+      x-arctir-generate: true
+      x-oapi-codegen-extra-tags:
+        tfsdk: filters
+      type: object
+      properties:
+        branch:
+          type: string
+          default: main
+          x-oapi-codegen-extra-tags:
+            tfsdk: branch
+        repository:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: repository
+        allowForks:
+          type: boolean
+          default: false
+          x-oapi-codegen-extra-tags:
+            tfsdk: allow_forks
+        topic:
+          $ref: '#/components/schemas/GithubCatalogProviderFiltersTopic'
+        visibility:
+          type: array
+          items:
+            type: string
+            enum:
+              - private
+              - internal
+              - public
+          x-oapi-codegen-extra-tags:
+            tfsdk: visibility
+    GithubCatalogProviderFiltersTopic:
+      x-arctir-generate: true
+      x-oapi-codegen-extra-tags:
+        tfsdk: topic
+      type: object
+      properties:
+        include:
+          type: array
+          items:
+            type: string
+          default: []
+          x-oapi-codegen-extra-tags:
+            tfsdk: include
+        exclude:
+          type: array
+          items:
+            type: string
+          default: []
+          x-oapi-codegen-extra-tags:
+            tfsdk: exclude
+    GithubCatalogProviderInput:
+      type: object
+      properties:
+        host:
+          type: string
+          default: https://github.com
+          x-oapi-codegen-extra-tags:
+            tfsdk: host
+        organization:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: organization
+        catalogPath:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: catalog_path
+        filters:
+          $ref: '#/components/schemas/GithubCatalogProviderFilters'
+        schedule:
+          $ref: '#/components/schemas/TaskScheduleDefinitionConfig'
+      required:
+        - organization
+    GithubIdentityProvider:
+      allOf:
+        - $ref: '#/components/schemas/IdentityProviderConfig'
+        - $ref: '#/components/schemas/GithubIdentityProviderInput'
+    GithubIdentityProviderInput:
+      type: object
+      properties:
+        redirectUri:
+          type: string
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+          format: password
+          writeOnly: true
+        baseUrl:
+          type: string
+          default: https://github.com
+        apiUrl:
+          type: string
+          default: https://api.github.com
+      required:
+        - redirectUri
+        - clientId
+        - clientSecret
+    GithubIntegration:
+      allOf:
+        - $ref: '#/components/schemas/IntegrationConfig'
+        - $ref: '#/components/schemas/GithubIntegrationInput'
+    GithubIntegrationInput:
+      type: object
+      properties:
+        apiBaseUrl:
+          description: The base url for the GitHub API, for example https://api.github.com
+          type: string
+          default: https://api.github.com
+          x-oapi-codegen-extra-tags:
+            tfsdk: api_base_url
+        apps:
+          description: GitHub Apps configuration
+          type: array
+          items:
+            $ref: '#/components/schemas/GithubAppIntegration'
+          x-oapi-codegen-extra-tags:
+            tfsdk: apps
+        host:
+          description: The hostname of the given GitHub instance
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: host
+        rawBaseUrl:
+          description: The base url for GitHub raw resources, for example https://raw.githubusercontent.com
+          type: string
+          default: https://raw.githubusercontent.com
+          x-oapi-codegen-extra-tags:
+            tfsdk: raw_base_url
+        token:
+          description: Token used to authenticate requests.
+          type: string
+          format: password
+          writeOnly: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: token
+            arctirmapstructure: tokenRef
+      required:
+        - host
+    GitlabAuthProvider:
+      allOf:
+        - $ref: '#/components/schemas/AuthProviderConfig'
+        - $ref: '#/components/schemas/GitlabAuthProviderInput'
+    GitlabAuthProviderInput:
+      type: object
+      properties:
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+          format: password
+          writeOnly: true
+        audience:
+          type: string
+        callbackUrl:
+          type: string
+        additionalScopes:
+          type: array
+          items:
+            type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: additional_scopes
+      required:
+        - clientId
+        - clientSecret
+    GitlabCatalogProvider:
+      allOf:
+        - $ref: '#/components/schemas/CatalogProviderConfig'
+        - $ref: '#/components/schemas/GitlabCatalogProviderInput'
+    GitlabCatalogProviderInput:
+      type: object
+      properties:
+        host:
+          type: string
+          default: https://gitlab.com
+          x-oapi-codegen-extra-tags:
+            tfsdk: host
+        group:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: group
+        branch:
+          type: string
+          default: main
+          x-oapi-codegen-extra-tags:
+            tfsdk: branch
+        entityFilename:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: entity_filename
+        projectPattern:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: project_pattern
+        userPattern:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: user_pattern
+        groupPattern:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: group_pattern
+        skipForkedRepos:
+          type: boolean
+          default: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: skip_forked_repos
+        schedule:
+          $ref: '#/components/schemas/TaskScheduleDefinitionConfig'
+      required:
+        - host
+    GitlabIdentityProvider:
+      allOf:
+        - $ref: '#/components/schemas/IdentityProviderConfig'
+        - $ref: '#/components/schemas/GitlabIdentityProviderInput'
+    GitlabIdentityProviderInput:
+      type: object
+      properties:
+        redirectUri:
+          type: string
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+          format: password
+          writeOnly: true
+      required:
+        - redirectUri
+        - clientId
+        - clientSecret
+    GitlabIntegration:
+      allOf:
+        - $ref: '#/components/schemas/IntegrationConfig'
+        - $ref: '#/components/schemas/GitlabIntegrationInput'
+    GitlabIntegrationInput:
+      type: object
+      properties:
+        host:
+          type: string
+          default: gitlab.com
+          format: hostname
+          x-oapi-codegen-extra-tags:
+            tfsdk: host
+        token:
+          type: string
+          format: password
+          writeOnly: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: token
+        baseUrl:
+          type: string
+          default: https://gitlab.com
+          x-oapi-codegen-extra-tags:
+            tfsdk: base_url
+        apiBaseUrl:
+          type: string
+          default: https://gitlab.com/api/v4
+          x-oapi-codegen-extra-tags:
+            tfsdk: api_base_url
+      required:
+        - host
+        - token
+    GoogleAuthProvider:
+      allOf:
+        - $ref: '#/components/schemas/AuthProviderConfig'
+        - $ref: '#/components/schemas/GoogleAuthProviderInput'
+    GoogleAuthProviderInput:
+      type: object
+      properties:
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+          format: password
+          writeOnly: true
+        callbackUrl:
+          type: string
+        additionalScopes:
+          type: array
+          items:
+            type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: additional_scopes
+      required:
+        - clientId
+        - clientSecret
+    GoogleIdentityProvider:
+      allOf:
+        - $ref: '#/components/schemas/IdentityProviderConfig'
+        - $ref: '#/components/schemas/GoogleIdentityProviderInput'
+    GoogleIdentityProviderInput:
+      type: object
+      properties:
+        redirectUri:
+          type: string
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+          format: password
+          writeOnly: true
+        hostedDomain:
+          type: string
+        userIp:
+          type: boolean
+        refreshToken:
+          type: boolean
+    IdentityProvider:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceType'
+        - $ref: '#/components/schemas/IdentityProviderInput'
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            tenantName:
+              type: string
+          required:
+            - organizationId
+            - tenantName
+    IdentityProviderConfig:
+      type: object
+      required:
+        - configType
+      properties:
+        configType:
+          type: string
+    IdentityProviderInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        providerConfig:
+          oneOf:
+            - $ref: '#/components/schemas/GithubIdentityProvider'
+            - $ref: '#/components/schemas/GitlabIdentityProvider'
+            - $ref: '#/components/schemas/GoogleIdentityProvider'
+          discriminator:
+            propertyName: configType
+            mapping:
+              github: '#/components/schemas/GithubIdentityProvider'
+              gitlab: '#/components/schemas/GitlabIdentityProvider'
+              google: '#/components/schemas/GoogleIdentityProvider'
+      required:
+        - name
+        - providerConfig
+    IdentityProvidersListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdentityProvider'
+        total:
+          type: integer
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+      required:
+        - item
+        - total
+        - pageInfo
+    Integration:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceType'
+        - $ref: '#/components/schemas/IntegrationInput'
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            portalName:
+              type: string
+          required:
+            - organizationId
+            - portalName
+    IntegrationConfig:
+      type: object
+      required:
+        - configType
+      properties:
+        configType:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: '-'
+    IntegrationInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        integrationConfig:
+          oneOf:
+            - $ref: '#/components/schemas/GithubIntegration'
+            - $ref: '#/components/schemas/GitlabIntegration'
+          discriminator:
+            propertyName: configType
+            mapping:
+              github: '#/components/schemas/GithubIntegration'
+              gitlab: '#/components/schemas/GitlabIntegration'
+      required:
+        - name
+        - integrationConfig
+    IntegrationsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Integration'
+        total:
+          type: integer
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+      required:
+        - item
+        - total
+        - pageInfo
+    LocationCatalogProvider:
+      allOf:
+        - $ref: '#/components/schemas/CatalogProviderConfig'
+        - $ref: '#/components/schemas/LocationCatalogProviderInput'
+    LocationCatalogProviderInput:
+      x-arctir-generate: true
+      type: object
+      properties:
+        target:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: target
+        allow:
+          type: array
+          items:
+            type: string
+            enum:
+              - API
+              - Component
+              - Domain
+              - Group
+              - Location
+              - Resource
+              - System
+              - Template
+              - User
+          x-oapi-codegen-extra-tags:
+            tfsdk: allow
+      required:
+        - target
+    Organization:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceType'
+        - $ref: '#/components/schemas/OrganizationInput'
+        - type: object
+          properties:
+            owner:
+              type: string
+              format: uuid
+            subdomain:
+              type: string
+          required:
+            - owner
+            - subdomain
+    OrganizationInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        clusterId:
+          type: string
+          format: uuid
+        subscription:
+          $ref: '#/components/schemas/SubscriptionInfo'
+      required:
+        - name
+        - clusterId
+    OrganizationsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Organization'
+        total:
+          type: integer
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+      required:
+        - item
+        - total
+        - pageInfo
+    PageInfo:
+      type: object
+      properties:
+        prev:
+          type: string
+        next:
+          type: string
+    PluginConfiguration:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceType'
+        - $ref: '#/components/schemas/PluginConfigurationInput'
+        - type: object
+          properties:
+            iconName:
+              type: string
+          required:
+            - iconName
+    PluginConfigurationFrontendEntitiesConfig:
+      type: array
+      items:
+        $ref: '#/components/schemas/PluginConfigurationFrontendEntityConfig'
+    PluginConfigurationFrontendEntityConfig:
+      type: object
+      properties:
+        path:
+          type: string
+        enabled:
+          type: boolean
+        config:
+          type: object
+      required:
+        - path
+        - enabled
+    PluginConfigurationInput:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        frontendEntityConfig:
+          $ref: '#/components/schemas/PluginConfigurationFrontendEntitiesConfig'
+        configValue:
+          type: object
+        definition:
+          type: object
+          properties:
+            name:
+              type: string
+            version:
+              type: integer
+          required:
+            - name
+            - version
+      required:
+        - enabled
+        - definition
+    PluginConfigurationsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PluginConfiguration'
+        total:
+          type: integer
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+      required:
+        - item
+        - total
+        - pageInfo
+    PluginDefinition:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceType'
+        - $ref: '#/components/schemas/PluginDefinitionInput'
+    PluginDefinitionFrontendEntities:
+      type: array
+      items:
+        $ref: '#/components/schemas/PluginDefinitionFrontendEntity'
+    PluginDefinitionFrontendEntity:
+      type: object
+      properties:
+        id:
+          type: string
+        path:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+      required:
+        - path
+        - title
+        - description
+    PluginDefinitionInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        version:
+          type: integer
+        displayName:
+          type: string
+        description:
+          type: string
+        iconName:
+          type: string
+        frontend:
+          type: boolean
+        backend:
+          type: boolean
+        configSchema:
+          type: object
+        uiSchema:
+          type: object
+        configTemplate:
+          type: string
+        frontendEntities:
+          $ref: '#/components/schemas/PluginDefinitionFrontendEntities'
+      required:
+        - name
+        - version
+        - displayName
+        - description
+        - iconName
+        - frontend
+        - backend
+    PluginDefinitionsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PluginDefinition'
+        total:
+          type: integer
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+      required:
+        - item
+        - total
+        - pageInfo
+    Portal:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceType'
+        - $ref: '#/components/schemas/PortalInput'
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            url:
+              type: string
+            hostname:
+              type: string
+            identifier:
+              type: string
+            status:
+              $ref: '#/components/schemas/PortalStatus'
+          required:
+            - organizationId
+            - url
+            - hostname
+            - identifier
+    PortalInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 16
+        title:
+          type: string
+        organizationName:
+          type: string
+        domain:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 16
+        version:
+          type: string
+        tenantName:
+          type: string
+        alternateDomains:
+          type: array
+          items:
+            type: string
+            format: hostname
+      required:
+        - name
+        - title
+        - organizationName
+        - tenantName
+        - domain
+        - version
+        - alternateDomains
+    PortalProxiesListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortalProxy'
+        total:
+          type: integer
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+      required:
+        - item
+        - total
+        - pageInfo
+    PortalProxy:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceType'
+        - $ref: '#/components/schemas/PortalProxyInput'
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            portalName:
+              type: string
+          required:
+            - organizationId
+            - portalName
+    PortalProxyHeader:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      required:
+        - name
+        - value
+    PortalProxyInput:
+      type: object
+      properties:
+        name:
+          type: string
+        endpoint:
+          type: string
+        target:
+          type: string
+        httpHeaders:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortalProxyHeader'
+        pathRewrite:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortalProxyPathRewrite'
+        changeOrigin:
+          type: boolean
+        allowedMethods:
+          type: array
+          items:
+            type: string
+        allowedHeaders:
+          type: array
+          items:
+            type: string
+        credentials:
+          type: string
+          enum:
+            - require
+            - forward
+            - dangerously-allow-unauthenticated
+      required:
+        - name
+        - target
+    PortalProxyPathRewrite:
+      type: object
+      properties:
+        src:
+          type: string
+        dst:
+          type: string
+      required:
+        - src
+        - dst
+    PortalStatus:
+      type: object
+      properties:
+        status:
+          type: string
+        detail:
+          type: string
+      required:
+        - status
+        - detail
+    PortalsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Portal'
+        total:
+          type: integer
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+      required:
+        - item
+        - total
+        - pageInfo
+    SubscriptionEntitlements:
+      type: object
+      properties:
+        portals:
+          type: integer
+        tenants:
+          type: integer
+        tenantUsers:
+          type: integer
+        connections:
+          type: integer
+      required:
+        - portals
+        - tenants
+        - tenantUsers
+        - connections
+    SubscriptionInfo:
+      type: object
+      properties:
+        status:
+          type: string
+        entitlements:
+          $ref: '#/components/schemas/SubscriptionEntitlements'
+      required:
+        - status
+        - entitlements
+    TailscaleConnection:
+      allOf:
+        - $ref: '#/components/schemas/ConnectionConfig'
+        - $ref: '#/components/schemas/TailscaleConnectionInput'
+    TailscaleConnectionInput:
+      type: object
+      properties:
+        authToken:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: auth_token
+      required:
+        - authToken
+    TaskScheduleDefinitionConfig:
+      x-arctir-generate: true
+      x-oapi-codegen-extra-tags:
+        tfsdk: '-'
+      type: object
+      properties:
+        frequency:
+          $ref: '#/components/schemas/TaskScheduleDefinitionTimeConfigFrequency'
+        timeout:
+          $ref: '#/components/schemas/TaskScheduleDefinitionTimeConfigTimeout'
+    TaskScheduleDefinitionTimeConfigFrequency:
+      x-oapi-codegen-extra-tags:
+        tfsdk: frequency
+      type: object
+      properties:
+        minutes:
+          type: integer
+          default: 10
+          x-oapi-codegen-extra-tags:
+            tfsdk: minutes
+    TaskScheduleDefinitionTimeConfigTimeout:
+      x-oapi-codegen-extra-tags:
+        tfsdk: timeout
+      type: object
+      properties:
+        minutes:
+          type: integer
+          default: 10
+          x-oapi-codegen-extra-tags:
+            tfsdk: minutes
+    Tenant:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceType'
+        - $ref: '#/components/schemas/TenantInput'
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            identifier:
+              type: string
+            issuerUrl:
+              type: string
+          required:
+            - organizationId
+            - identifier
+            - issuerUrl
+    TenantInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 16
+        displayName:
+          type: string
+      required:
+        - name
+        - displayName
+    TenantUser:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceType'
+        - $ref: '#/components/schemas/TenantUserInput'
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            tenantName:
+              type: string
+          required:
+            - organizationId
+            - tenantName
+    TenantUserInput:
+      type: object
+      properties:
+        username:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 16
+        email:
+          type: string
+          format: email
+      required:
+        - username
+        - email
+    TenantUsersListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/TenantUser'
+        total:
+          type: integer
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+      required:
+        - item
+        - total
+        - pageInfo
+    TenantsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tenant'
+        total:
+          type: integer
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+      required:
+        - item
+        - total
+        - pageInfo

@@ -1,0 +1,199 @@
+components:
+  schemas:
+    GithubAppIntegration:
+      type: object
+      properties:
+        allowedInstallationOwners:
+          description: |-
+            List of installation owners allowed to be used by this GitHub app. The GitHub UI does not provide a way to list the installations.
+            However you can list the installations with the GitHub API. You can find the list of installations here:
+            https://api.github.com/app/installations
+            The relevant documentation for this is here.
+            https://docs.github.com/en/rest/reference/apps#list-installations-for-the-authenticated-app--code-samples
+          type: array
+          items:
+            type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: allowed_installation_owners
+        appId:
+          description: The numeric GitHub App ID, string for environment variables
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: app_id
+        clientId:
+          description: The client ID to use
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: client_id
+        clientSecret:
+          description: The client secret to use
+          type: string
+          format: password
+          writeOnly: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: client_secret
+            arctirmapstructue: "-"
+            json: "-"
+        privateKey:
+          description: The private key to use for auth against the app
+          type: string
+          format: password
+          writeOnly: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: private_key
+            arctirmapstructue: "-"
+            json: "-"
+        webhookSecret:
+          description: The secret used for webhooks
+          type: string
+          format: password
+          writeOnly: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: webhook_secret
+            arctirmapstructue: "-"
+            json: "-"
+      required:
+        - appId
+        - clientId
+        - clientSecret
+        - privateKey
+        - webhookSecret
+
+    GithubIntegration:
+      allOf:
+        - $ref: "#/components/schemas/IntegrationConfig"
+        - $ref: "#/components/schemas/GithubIntegrationInput"
+
+    GithubIntegrationInput:
+      type: object
+      properties:
+        apiBaseUrl:
+          description: The base url for the GitHub API, for example https://api.github.com
+          type: string
+          default: https://api.github.com
+          x-oapi-codegen-extra-tags:
+            tfsdk: api_base_url
+        apps:
+          description: GitHub Apps configuration
+          type: array
+          items:
+            $ref: "#/components/schemas/GithubAppIntegration"
+          x-oapi-codegen-extra-tags:
+            tfsdk: apps
+        host:
+          description: The hostname of the given GitHub instance
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: host
+        rawBaseUrl:
+          description: The base url for GitHub raw resources, for example https://raw.githubusercontent.com
+          type: string
+          default: https://raw.githubusercontent.com
+          x-oapi-codegen-extra-tags:
+            tfsdk: raw_base_url
+        token:
+          description: Token used to authenticate requests.
+          type: string
+          format: password
+          writeOnly: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: token
+            arctirmapstructure: "tokenRef"
+      required:
+        - host
+
+    GitlabIntegration:
+      allOf:
+        - $ref: "#/components/schemas/IntegrationConfig"
+        - $ref: "#/components/schemas/GitlabIntegrationInput"
+
+    GitlabIntegrationInput:
+      type: object
+      properties:
+        host:
+          type: string
+          default: gitlab.com
+          format: hostname
+          x-oapi-codegen-extra-tags:
+            tfsdk: host
+        token:
+          type: string
+          format: password
+          writeOnly: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: token
+        baseUrl:
+          type: string
+          default: "https://gitlab.com"
+          x-oapi-codegen-extra-tags:
+            tfsdk: base_url
+        apiBaseUrl:
+          type: string
+          default: https://gitlab.com/api/v4
+          x-oapi-codegen-extra-tags:
+            tfsdk: api_base_url
+      required:
+        - host
+        - token
+
+    IntegrationConfig:
+      type: object
+      required:
+        - configType
+      properties:
+        configType:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: "-"
+
+    IntegrationInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        integrationConfig:
+          oneOf:
+            - $ref: "#/components/schemas/GithubIntegration"
+            - $ref: "#/components/schemas/GitlabIntegration"
+          discriminator:
+            propertyName: configType
+            mapping:
+              github: "#/components/schemas/GithubIntegration"
+              gitlab: "#/components/schemas/GitlabIntegration"
+      required:
+        - name
+        - integrationConfig
+
+    Integration:
+      allOf:
+        - $ref: "./base.yaml#/components/schemas/BaseResourceType"
+        - $ref: "#/components/schemas/IntegrationInput"
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            portalName:
+              type: string
+          required:
+            - organizationId
+            - portalName
+
+    IntegrationsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Integration"
+        total:
+          type: integer
+        pageInfo:
+          $ref: "./pagination.yaml#/components/schemas/PageInfo"
+      required:
+        - item
+        - total
+        - pageInfo

@@ -1,0 +1,9 @@
+components:
+  schemas:
+    PageInfo:
+      type: object
+      properties:
+        prev:
+          type: string
+        next:
+          type: string

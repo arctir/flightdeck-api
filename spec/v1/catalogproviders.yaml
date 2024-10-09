@@ -1,0 +1,260 @@
+components:
+  schemas:
+    TaskScheduleDefinitionTimeConfigFrequency:
+      x-oapi-codegen-extra-tags:
+        tfsdk: frequency
+      type: object
+      properties:
+        minutes:
+          type: integer
+          default: 10
+          x-oapi-codegen-extra-tags:
+            tfsdk: minutes
+
+    TaskScheduleDefinitionTimeConfigTimeout:
+      x-oapi-codegen-extra-tags:
+        tfsdk: timeout
+      type: object
+      properties:
+        minutes:
+          type: integer
+          default: 10
+          x-oapi-codegen-extra-tags:
+            tfsdk: minutes
+
+    TaskScheduleDefinitionConfig:
+      x-arctir-generate: true
+      x-oapi-codegen-extra-tags:
+        tfsdk: "-"
+      type: object
+      properties:
+        frequency:
+          $ref: "#/components/schemas/TaskScheduleDefinitionTimeConfigFrequency"
+        timeout:
+          $ref: "#/components/schemas/TaskScheduleDefinitionTimeConfigTimeout"
+
+    GithubCatalogProviderFiltersTopic:
+      x-arctir-generate: true
+      x-oapi-codegen-extra-tags:
+        tfsdk: topic
+      type: object
+      properties:
+        include:
+          type: array
+          items:
+            type: string
+          default: []
+          x-oapi-codegen-extra-tags:
+            tfsdk: include
+        exclude:
+          type: array
+          items:
+            type: string
+          default: []
+          x-oapi-codegen-extra-tags:
+            tfsdk: exclude
+
+    GithubCatalogProviderFilters:
+      x-arctir-generate: true
+      x-oapi-codegen-extra-tags:
+        tfsdk: filters
+      type: object
+      properties:
+        branch:
+          type: string
+          default: main
+          x-oapi-codegen-extra-tags:
+            tfsdk: branch
+        repository:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: repository
+        allowForks:
+          type: boolean
+          default: false
+          x-oapi-codegen-extra-tags:
+            tfsdk: allow_forks
+        topic:
+          $ref: "#/components/schemas/GithubCatalogProviderFiltersTopic"
+        visibility:
+          type: array
+          items:
+            type: string
+            enum:
+              - private
+              - internal
+              - public
+          x-oapi-codegen-extra-tags:
+            tfsdk: visibility
+
+    GithubCatalogProvider:
+      allOf:
+        - $ref: "#/components/schemas/CatalogProviderConfig"
+        - $ref: "#/components/schemas/GithubCatalogProviderInput"
+
+    GithubCatalogProviderInput:
+      type: object
+      properties:
+        host:
+          type: string
+          default: "https://github.com"
+          x-oapi-codegen-extra-tags:
+            tfsdk: host
+        organization:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: organization
+        catalogPath:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: catalog_path
+        filters:
+          $ref: "#/components/schemas/GithubCatalogProviderFilters"
+        schedule:
+          $ref: "#/components/schemas/TaskScheduleDefinitionConfig"
+      required:
+        - organization
+
+    GitlabCatalogProvider:
+      allOf:
+        - $ref: "#/components/schemas/CatalogProviderConfig"
+        - $ref: "#/components/schemas/GitlabCatalogProviderInput"
+
+    GitlabCatalogProviderInput:
+      type: object
+      properties:
+        host:
+          type: string
+          default: "https://gitlab.com"
+          x-oapi-codegen-extra-tags:
+            tfsdk: host
+        group:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: group
+        branch:
+          type: string
+          default: main
+          x-oapi-codegen-extra-tags:
+            tfsdk: branch
+        entityFilename:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: entity_filename
+        projectPattern:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: project_pattern
+        userPattern:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: user_pattern
+        groupPattern:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: group_pattern
+        skipForkedRepos:
+          type: boolean
+          default: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: skip_forked_repos
+        schedule:
+          $ref: "#/components/schemas/TaskScheduleDefinitionConfig"
+      required:
+        - host
+
+    LocationCatalogProvider:
+      allOf:
+        - $ref: "#/components/schemas/CatalogProviderConfig"
+        - $ref: "#/components/schemas/LocationCatalogProviderInput"
+
+    LocationCatalogProviderInput:
+      x-arctir-generate: true
+      type: object
+      properties:
+        target:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: target
+        allow:
+          type: array
+          items:
+            type: string
+            enum:
+              - API
+              - Component
+              - Domain
+              - Group
+              - Location
+              - Resource
+              - System
+              - Template
+              - User
+          x-oapi-codegen-extra-tags:
+            tfsdk: allow
+      required:
+        - target
+
+    CatalogProvidersListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CatalogProvider"
+        total:
+          type: integer
+        pageInfo:
+          $ref: "./pagination.yaml#/components/schemas/PageInfo"
+      required:
+        - item
+        - total
+        - pageInfo
+
+    CatalogProvider:
+      allOf:
+        - $ref: "./base.yaml#/components/schemas/BaseResourceType"
+        - $ref: "#/components/schemas/CatalogProviderInput"
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            portalName:
+              type: string
+          required:
+            - organizationId
+            - portalName
+
+    CatalogProviderConfig:
+      type: object
+      required:
+        - configType
+      properties:
+        configType:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: "-"
+
+    CatalogProviderInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        providerConfig:
+          oneOf:
+            - $ref: "#/components/schemas/GithubCatalogProvider"
+            - $ref: "#/components/schemas/GitlabCatalogProvider"
+            - $ref: "#/components/schemas/LocationCatalogProvider"
+          discriminator:
+            propertyName: configType
+            mapping:
+              github: "#/components/schemas/GithubCatalogProvider"
+              gitlab: "#/components/schemas/GitlabCatalogProvider"
+              location: "#/components/schemas/LocationCatalogProvider"
+      required:
+        - name
+        - providerConfig

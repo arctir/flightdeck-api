@@ -1,0 +1,82 @@
+components:
+  schemas:
+    SubscriptionInfo:
+      type: object
+      properties:
+        status:
+          type: string
+        entitlements:
+          $ref: "#/components/schemas/SubscriptionEntitlements"
+      required:
+        - status
+        - entitlements
+
+    SubscriptionEntitlements:
+      type: object
+      properties:
+        portals:
+          type: integer
+        tenants:
+          type: integer
+        tenantUsers:
+          type: integer
+        connections:
+          type: integer
+      required:
+        - portals
+        - tenants
+        - tenantUsers
+        - connections
+
+    Organization:
+      allOf:
+        - $ref: "./base.yaml#/components/schemas/BaseResourceType"
+        - $ref: "#/components/schemas/OrganizationInput"
+        - type: object
+          properties:
+            owner:
+              type: string
+              format: uuid
+            subdomain:
+              type: string
+          required:
+            - owner
+            - subdomain
+
+    OrganizationsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Organization"
+        total:
+          type: integer
+        pageInfo:
+          $ref: "./pagination.yaml#/components/schemas/PageInfo"
+      required:
+        - item
+        - total
+        - pageInfo
+
+    OrganizationInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        clusterId:
+          type: string
+          format: uuid
+        #members:
+        #  type: array
+        #  items:
+        #    type: string
+        #    format: uuid
+        subscription:
+          $ref: "#/components/schemas/SubscriptionInfo"
+      required:
+        - name
+        - clusterId
