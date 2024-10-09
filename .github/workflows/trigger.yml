@@ -37,3 +37,13 @@ jobs:
           github_token: ${{ secrets.ARCTIR_GH_ACTIONS_TOKEN }}
           client_payload:  '{ "tag": "${{ steps.extract_branch.outputs.branch }}" }'
           wait_workflow: false
+
+      - name: Trigger go-flightdeck build
+        uses: convictional/trigger-workflow-and-wait@v1.6.5
+        with:
+          owner: arctir
+          repo: go-flightdeck
+          workflow_file_name: generate.yml
+          github_token: ${{ secrets.ARCTIR_GH_ACTIONS_TOKEN }}
+          client_payload:  '{ "tag": "${{ steps.extract_branch.outputs.branch }}" }'
+          wait_workflow: false
