@@ -4,11 +4,11 @@ BASE_DIR="$PWD"
 export API_SPEC="$PWD/generated/v1/api.gen.yaml"
 
 make
-cd ../go-arctir/
+cd ../go-flightdeck/
 make
-cd ../arctir-typescript/
+cd ../flightdeck-typescript/
 yarn dev
 yarn tsc
-cd ../envapi/
+cd ../flightdeck/api
 make gen
 cd $BASE_DIR
