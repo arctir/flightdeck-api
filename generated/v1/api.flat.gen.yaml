@@ -914,12 +914,19 @@ paths:
                           items:
                             type: object
                             required:
+                              - id
+                              - type
                               - path
                               - title
                               - description
                             properties:
                               id:
                                 type: string
+                              type:
+                                type: string
+                                enum:
+                                  - Card
+                                  - Content
                               path:
                                 type: string
                               title:
@@ -981,12 +988,19 @@ paths:
                   items:
                     type: object
                     required:
+                      - id
+                      - type
                       - path
                       - title
                       - description
                     properties:
                       id:
                         type: string
+                      type:
+                        type: string
+                        enum:
+                          - Card
+                          - Content
                       path:
                         type: string
                       title:
@@ -1045,12 +1059,19 @@ paths:
                     items:
                       type: object
                       required:
+                        - id
+                        - type
                         - path
                         - title
                         - description
                       properties:
                         id:
                           type: string
+                        type:
+                          type: string
+                          enum:
+                            - Card
+                            - Content
                         path:
                           type: string
                         title:
@@ -1132,12 +1153,19 @@ paths:
                     items:
                       type: object
                       required:
+                        - id
+                        - type
                         - path
                         - title
                         - description
                       properties:
                         id:
                           type: string
+                        type:
+                          type: string
+                          enum:
+                            - Card
+                            - Content
                         path:
                           type: string
                         title:
@@ -1184,6 +1212,11 @@ paths:
                     properties:
                       id:
                         type: string
+                      type:
+                        type: string
+                        enum:
+                          - Card
+                          - Content
                       path:
                         type: string
                       title:
@@ -1191,6 +1224,8 @@ paths:
                       description:
                         type: string
                     required:
+                      - id
+                      - type
                       - path
                       - title
                       - description
@@ -5013,6 +5048,7 @@ paths:
                       type: object
                       required:
                         - createdAt
+                        - endpoint
                         - id
                         - name
                         - organizationId
@@ -5098,6 +5134,7 @@ paths:
               type: object
               required:
                 - name
+                - endpoint
                 - target
               properties:
                 name:
@@ -5155,6 +5192,7 @@ paths:
                 type: object
                 required:
                   - createdAt
+                  - endpoint
                   - id
                   - name
                   - organizationId
@@ -5252,6 +5290,7 @@ paths:
                 type: object
                 required:
                   - createdAt
+                  - endpoint
                   - id
                   - name
                   - organizationId
@@ -5375,6 +5414,7 @@ paths:
                     - dangerously-allow-unauthenticated
               required:
                 - name
+                - endpoint
                 - target
       responses:
         '200':
@@ -9968,12 +10008,19 @@ components:
           items:
             type: object
             required:
+              - id
+              - type
               - path
               - title
               - description
             properties:
               id:
                 type: string
+              type:
+                type: string
+                enum:
+                  - Card
+                  - Content
               path:
                 type: string
               title:
@@ -9985,12 +10032,19 @@ components:
       items:
         type: object
         required:
+          - id
+          - type
           - path
           - title
           - description
         properties:
           id:
             type: string
+          type:
+            type: string
+            enum:
+              - Card
+              - Content
           path:
             type: string
           title:
@@ -10000,12 +10054,19 @@ components:
     PluginDefinitionFrontendEntity:
       type: object
       required:
+        - id
+        - type
         - path
         - title
         - description
       properties:
         id:
           type: string
+        type:
+          type: string
+          enum:
+            - Card
+            - Content
         path:
           type: string
         title:
@@ -10051,12 +10112,19 @@ components:
           items:
             type: object
             required:
+              - id
+              - type
               - path
               - title
               - description
             properties:
               id:
                 type: string
+              type:
+                type: string
+                enum:
+                  - Card
+                  - Content
               path:
                 type: string
               title:
@@ -10119,12 +10187,19 @@ components:
                 items:
                   type: object
                   required:
+                    - id
+                    - type
                     - path
                     - title
                     - description
                   properties:
                     id:
                       type: string
+                    type:
+                      type: string
+                      enum:
+                        - Card
+                        - Content
                     path:
                       type: string
                     title:
@@ -10252,6 +10327,7 @@ components:
             type: object
             required:
               - createdAt
+              - endpoint
               - id
               - name
               - organizationId
@@ -10328,6 +10404,7 @@ components:
       type: object
       required:
         - createdAt
+        - endpoint
         - id
         - name
         - organizationId
@@ -10405,6 +10482,7 @@ components:
       type: object
       required:
         - name
+        - endpoint
         - target
       properties:
         name:

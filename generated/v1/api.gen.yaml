@@ -2347,6 +2347,11 @@ components:
       properties:
         id:
           type: string
+        type:
+          type: string
+          enum:
+            - Card
+            - Content
         path:
           type: string
         title:
@@ -2354,6 +2359,8 @@ components:
         description:
           type: string
       required:
+        - id
+        - type
         - path
         - title
         - description
@@ -2538,6 +2545,7 @@ components:
             - dangerously-allow-unauthenticated
       required:
         - name
+        - endpoint
         - target
     PortalProxyPathRewrite:
       type: object

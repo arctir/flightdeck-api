@@ -57,6 +57,7 @@ components:
             - dangerously-allow-unauthenticated
       required:
         - name
+        - endpoint
         - target
 
     PortalProxy:
