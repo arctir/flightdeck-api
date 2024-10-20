@@ -1491,3 +1491,127 @@ paths:
           description: The Auth Provider was deleted
         "404":
           description: The resource was not found
+
+  # entity page layout
+  /orgs/{orgId}/portals/{portalName}/entitypagelayouts:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the Organization
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the portal
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Get a list of Entity Page Layouts
+      operationId: getEntityPageLayouts
+      responses:
+        "200":
+          description: List of Entity Page Layouts
+          content:
+            application/json:
+              schema:
+                $ref: "./entitypagelayouts.yaml#/components/schemas/EntityPageLayoutsListResponse"
+        "404":
+          description: The resource was not found
+    post:
+      summary: Create an Entity Page Layout
+      operationId: createEntityPageLayout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./entitypagelayouts.yaml#/components/schemas/EntityPageLayoutInput"
+      responses:
+        "201":
+          description: The Entity Page Layout was created
+          content:
+            application/json:
+              schema:
+                $ref: "./entitypagelayouts.yaml#/components/schemas/EntityPageLayout"
+        "404":
+          description: The resource was not found
+
+  /orgs/{orgId}/portals/{portalName}/entitypagelayouts/{providerName}:
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the org
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the portal
+      - name: providerName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Auth Provider
+    get:
+      summary: Get an Auth Provider
+      operationId: getAuthProvider
+      responses:
+        "200":
+          description: The Auth Provider
+          content:
+            application/json:
+              schema:
+                $ref: "./authproviders.yaml#/components/schemas/AuthProvider"
+        "404":
+          description: The resource was not found
+    put:
+      summary: Update an Auth Provider
+      operationId: updateAuthProvider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./authproviders.yaml#/components/schemas/AuthProviderInput"
+      responses:
+        "200":
+          description: The Auth Provider was updated
+          content:
+            application/json:
+              schema:
+                $ref: "./authproviders.yaml#/components/schemas/AuthProvider"
+        "404":
+          description: The resource was not found
+    delete:
+      summary: Delete an Auth Provider
+      operationId: deleteAuthProvider
+      responses:
+        "204":
+          description: The Auth Provider was deleted
+        "404":
+          description: The resource was not found
