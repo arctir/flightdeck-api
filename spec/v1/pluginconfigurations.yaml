@@ -4,12 +4,6 @@ components:
       allOf:
         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
         - $ref: "#/components/schemas/PluginConfigurationInput"
-        - type: object
-          properties:
-            iconName:
-              type: string
-          required:
-            - iconName
 
     PluginConfigurationFrontendEntityConfig:
       type: object
@@ -29,25 +23,29 @@ components:
       items:
         $ref: "#/components/schemas/PluginConfigurationFrontendEntityConfig"
 
+    PluginConfigurationDefinitionSpec:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+      required:
+        - name
+        - version
+
     PluginConfigurationInput:
       type: object
       properties:
         enabled:
           type: boolean
-        frontendEntityConfig:
-          $ref: "#/components/schemas/PluginConfigurationFrontendEntitiesConfig"
-        configValue:
+        frontendConfig:
+          type: object
+        backendConfig:
           type: object
         definition:
-          type: object
-          properties:
-            name:
-              type: string
-            version:
-              type: integer
-          required:
-            - name
-            - version
+          $ref: "#/components/schemas/PluginConfigurationDefinitionSpec"
+
       required:
         - enabled
         - definition

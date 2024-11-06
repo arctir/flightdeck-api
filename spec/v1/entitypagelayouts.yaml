@@ -1,0 +1,96 @@
+components:
+  schemas:
+    EntityPageCardSpec:
+      type: object
+      properties:
+        path:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: path
+        filters:
+          type: array
+          nullable: true
+          items:
+            type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: filters
+        config:
+          type: object
+          nullable: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: config
+      required:
+        - path
+
+    EntityPageContentSpec:
+      type: object
+      properties:
+        path:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: path
+        filters:
+          type: array
+          nullable: true
+          items:
+            type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: filters
+        config:
+          type: object
+          nullable: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: config
+      required:
+        - path
+
+    EntityPageLayoutInput:
+      type: object
+      properties:
+        name:
+          type: string
+        active:
+          type: boolean
+        contentOrder:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/EntityPageContentSpec"
+        cardOrder:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/EntityPageCardSpec"
+      required:
+        - name
+
+    EntityPageLayout:
+      allOf:
+        - $ref: "./base.yaml#/components/schemas/BaseResourceType"
+        - $ref: "#/components/schemas/EntityPageLayoutInput"
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            portalName:
+              type: string
+          required:
+            - organizationId
+            - portalName
+
+    EntityPageLayoutsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/EntityPageLayout"
+        total:
+          type: integer
+        pageInfo:
+          $ref: "./pagination.yaml#/components/schemas/PageInfo"
+      required:
+        - item
+        - total
+        - pageInfo

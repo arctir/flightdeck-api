@@ -823,439 +823,6 @@ paths:
           description: Connection successfully deleted
         '404':
           description: The resource was not found
-  '/orgs/{orgId}/plugindefinitions':
-    parameters:
-      - name: orgId
-        in: path
-        required: true
-        schema:
-          type: string
-        description: The ID of the Organization
-    get:
-      parameters:
-        - name: limit
-          in: query
-          required: false
-          schema:
-            type: integer
-          description: Limit number of items
-        - name: prev
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The previous cursor
-        - name: next
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The next cursor
-      summary: Retrieve a list of Plugin Definitions
-      operationId: getPluginDefinitions
-      responses:
-        '200':
-          description: A list of Plugin Definitions
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - item
-                  - total
-                  - pageInfo
-                properties:
-                  items:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - backend
-                        - createdAt
-                        - description
-                        - displayName
-                        - frontend
-                        - iconName
-                        - id
-                        - name
-                        - version
-                      properties:
-                        id:
-                          type: string
-                          format: uuid
-                        createdAt:
-                          type: string
-                          format: date-time
-                        name:
-                          type: string
-                          format: lowercasealpha
-                          minLength: 3
-                          maxLength: 24
-                        version:
-                          type: integer
-                        displayName:
-                          type: string
-                        description:
-                          type: string
-                        iconName:
-                          type: string
-                        frontend:
-                          type: boolean
-                        backend:
-                          type: boolean
-                        configSchema:
-                          type: object
-                        uiSchema:
-                          type: object
-                        configTemplate:
-                          type: string
-                        frontendEntities:
-                          type: array
-                          items:
-                            type: object
-                            required:
-                              - id
-                              - type
-                              - path
-                              - title
-                              - description
-                            properties:
-                              id:
-                                type: string
-                              type:
-                                type: string
-                                enum:
-                                  - Card
-                                  - Content
-                              path:
-                                type: string
-                              title:
-                                type: string
-                              description:
-                                type: string
-                  total:
-                    type: integer
-                  pageInfo:
-                    type: object
-                    properties:
-                      prev:
-                        type: string
-                      next:
-                        type: string
-    post:
-      summary: Create a new Plugin Definition
-      operationId: createPluginDefinition
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - name
-                - version
-                - displayName
-                - description
-                - iconName
-                - frontend
-                - backend
-              properties:
-                name:
-                  type: string
-                  format: lowercasealpha
-                  minLength: 3
-                  maxLength: 24
-                version:
-                  type: integer
-                displayName:
-                  type: string
-                description:
-                  type: string
-                iconName:
-                  type: string
-                frontend:
-                  type: boolean
-                backend:
-                  type: boolean
-                configSchema:
-                  type: object
-                uiSchema:
-                  type: object
-                configTemplate:
-                  type: string
-                frontendEntities:
-                  type: array
-                  items:
-                    type: object
-                    required:
-                      - id
-                      - type
-                      - path
-                      - title
-                      - description
-                    properties:
-                      id:
-                        type: string
-                      type:
-                        type: string
-                        enum:
-                          - Card
-                          - Content
-                      path:
-                        type: string
-                      title:
-                        type: string
-                      description:
-                        type: string
-      responses:
-        '201':
-          description: The newly created Plugin Definition
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - backend
-                  - createdAt
-                  - description
-                  - displayName
-                  - frontend
-                  - iconName
-                  - id
-                  - name
-                  - version
-                properties:
-                  id:
-                    type: string
-                    format: uuid
-                  createdAt:
-                    type: string
-                    format: date-time
-                  name:
-                    type: string
-                    format: lowercasealpha
-                    minLength: 3
-                    maxLength: 24
-                  version:
-                    type: integer
-                  displayName:
-                    type: string
-                  description:
-                    type: string
-                  iconName:
-                    type: string
-                  frontend:
-                    type: boolean
-                  backend:
-                    type: boolean
-                  configSchema:
-                    type: object
-                  uiSchema:
-                    type: object
-                  configTemplate:
-                    type: string
-                  frontendEntities:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - id
-                        - type
-                        - path
-                        - title
-                        - description
-                      properties:
-                        id:
-                          type: string
-                        type:
-                          type: string
-                          enum:
-                            - Card
-                            - Content
-                        path:
-                          type: string
-                        title:
-                          type: string
-                        description:
-                          type: string
-  '/orgs/{orgId}/plugindefinitions/{name}/{version}':
-    parameters:
-      - name: orgId
-        in: path
-        required: true
-        schema:
-          type: string
-        description: The ID of the Organization
-      - name: name
-        in: path
-        required: true
-        schema:
-          type: string
-        description: The name of the Plugin Definition
-      - name: version
-        in: path
-        required: true
-        schema:
-          type: integer
-        description: The version of the Plugin Definition
-    get:
-      summary: Retrieve a Plugin Definition
-      operationId: getPluginDefinition
-      responses:
-        '200':
-          description: The Plugin Definitions
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - backend
-                  - createdAt
-                  - description
-                  - displayName
-                  - frontend
-                  - iconName
-                  - id
-                  - name
-                  - version
-                properties:
-                  id:
-                    type: string
-                    format: uuid
-                  createdAt:
-                    type: string
-                    format: date-time
-                  name:
-                    type: string
-                    format: lowercasealpha
-                    minLength: 3
-                    maxLength: 24
-                  version:
-                    type: integer
-                  displayName:
-                    type: string
-                  description:
-                    type: string
-                  iconName:
-                    type: string
-                  frontend:
-                    type: boolean
-                  backend:
-                    type: boolean
-                  configSchema:
-                    type: object
-                  uiSchema:
-                    type: object
-                  configTemplate:
-                    type: string
-                  frontendEntities:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - id
-                        - type
-                        - path
-                        - title
-                        - description
-                      properties:
-                        id:
-                          type: string
-                        type:
-                          type: string
-                          enum:
-                            - Card
-                            - Content
-                        path:
-                          type: string
-                        title:
-                          type: string
-                        description:
-                          type: string
-    put:
-      summary: Update Plugin Definition
-      operationId: updatePluginDefinition
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: &ref_3
-              type: object
-              properties:
-                name:
-                  type: string
-                  format: lowercasealpha
-                  minLength: 3
-                  maxLength: 24
-                version:
-                  type: integer
-                displayName:
-                  type: string
-                description:
-                  type: string
-                iconName:
-                  type: string
-                frontend:
-                  type: boolean
-                backend:
-                  type: boolean
-                configSchema:
-                  type: object
-                uiSchema:
-                  type: object
-                configTemplate:
-                  type: string
-                frontendEntities:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                      type:
-                        type: string
-                        enum:
-                          - Card
-                          - Content
-                      path:
-                        type: string
-                      title:
-                        type: string
-                      description:
-                        type: string
-                    required:
-                      - id
-                      - type
-                      - path
-                      - title
-                      - description
-              required:
-                - name
-                - version
-                - displayName
-                - description
-                - iconName
-                - frontend
-                - backend
-      responses:
-        '200':
-          description: The updated Plugin Definition
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - *ref_1
-                  - *ref_3
-        '404':
-          description: The resource was not found
-    delete:
-      summary: Delete Plugin Definition
-      operationId: deletePluginDefinition
-      responses:
-        '204':
-          description: Plugin Definition successfully deleted
-        '404':
-          description: The resource was not found
   '/orgs/{orgId}/tenants':
     parameters:
       - name: orgId
@@ -1263,7 +830,7 @@ paths:
         required: true
         schema:
           type: string
-        description: The ID of the Organizzation
+        description: The ID of the Organization
     get:
       parameters:
         - name: limit
@@ -1458,7 +1025,7 @@ paths:
         required: true
         content:
           application/json:
-            schema: &ref_4
+            schema: &ref_3
               type: object
               properties:
                 name:
@@ -1479,7 +1046,7 @@ paths:
               schema:
                 allOf:
                   - *ref_1
-                  - *ref_4
+                  - *ref_3
                   - type: object
                     properties:
                       organizationId:
@@ -2046,7 +1613,7 @@ paths:
         required: true
         content:
           application/json:
-            schema: &ref_5
+            schema: &ref_4
               type: object
               properties:
                 name:
@@ -2088,7 +1655,7 @@ paths:
               schema:
                 allOf:
                   - *ref_1
-                  - *ref_5
+                  - *ref_4
                   - type: object
                     properties:
                       organizationId:
@@ -3184,7 +2751,7 @@ paths:
         required: true
         content:
           application/json:
-            schema: &ref_8
+            schema: &ref_7
               type: object
               properties:
                 name:
@@ -3195,7 +2762,7 @@ paths:
                 providerConfig:
                   oneOf:
                     - allOf:
-                        - &ref_6
+                        - &ref_5
                           type: object
                           required:
                             - configType
@@ -3269,7 +2836,7 @@ paths:
                                       - public
                                   x-oapi-codegen-extra-tags:
                                     tfsdk: visibility
-                            schedule: &ref_7
+                            schedule: &ref_6
                               x-arctir-generate: true
                               x-oapi-codegen-extra-tags:
                                 tfsdk: '-'
@@ -3298,7 +2865,7 @@ paths:
                           required:
                             - organization
                     - allOf:
-                        - *ref_6
+                        - *ref_5
                         - type: object
                           properties:
                             host:
@@ -3336,11 +2903,11 @@ paths:
                               default: true
                               x-oapi-codegen-extra-tags:
                                 tfsdk: skip_forked_repos
-                            schedule: *ref_7
+                            schedule: *ref_6
                           required:
                             - host
                     - allOf:
-                        - *ref_6
+                        - *ref_5
                         - x-arctir-generate: true
                           type: object
                           properties:
@@ -3383,7 +2950,7 @@ paths:
               schema:
                 allOf:
                   - *ref_1
-                  - *ref_8
+                  - *ref_7
                   - type: object
                     properties:
                       organizationId:
@@ -4215,7 +3782,7 @@ paths:
         required: true
         content:
           application/json:
-            schema: &ref_10
+            schema: &ref_9
               type: object
               properties:
                 name:
@@ -4226,7 +3793,7 @@ paths:
                 integrationConfig:
                   oneOf:
                     - allOf:
-                        - &ref_9
+                        - &ref_8
                           type: object
                           required:
                             - configType
@@ -4346,7 +3913,7 @@ paths:
                           required:
                             - host
                     - allOf:
-                        - *ref_9
+                        - *ref_8
                         - type: object
                           properties:
                             host:
@@ -4390,7 +3957,7 @@ paths:
               schema:
                 allOf:
                   - *ref_1
-                  - *ref_10
+                  - *ref_9
                   - type: object
                     properties:
                       organizationId:
@@ -4884,7 +4451,7 @@ paths:
         required: true
         content:
           application/json:
-            schema: &ref_12
+            schema: &ref_11
               type: object
               properties:
                 name:
@@ -4895,7 +4462,7 @@ paths:
                 providerConfig:
                   oneOf:
                     - allOf:
-                        - &ref_11
+                        - &ref_10
                           type: object
                           required:
                             - configType
@@ -4923,7 +4490,7 @@ paths:
                             - clientId
                             - clientSecret
                     - allOf:
-                        - *ref_11
+                        - *ref_10
                         - type: object
                           properties:
                             redirectUri:
@@ -4939,7 +4506,7 @@ paths:
                             - clientId
                             - clientSecret
                     - allOf:
-                        - *ref_11
+                        - *ref_10
                         - type: object
                           properties:
                             redirectUri:
@@ -4973,7 +4540,7 @@ paths:
               schema:
                 allOf:
                   - *ref_1
-                  - *ref_12
+                  - *ref_11
                   - type: object
                     properties:
                       organizationId:
@@ -5048,6 +4615,7 @@ paths:
                       type: object
                       required:
                         - createdAt
+                        - credentials
                         - endpoint
                         - id
                         - name
@@ -5069,6 +4637,7 @@ paths:
                           type: string
                         httpHeaders:
                           type: array
+                          nullable: true
                           items:
                             type: object
                             required:
@@ -5081,6 +4650,7 @@ paths:
                                 type: string
                         pathRewrite:
                           type: array
+                          nullable: true
                           items:
                             type: object
                             required:
@@ -5095,10 +4665,12 @@ paths:
                           type: boolean
                         allowedMethods:
                           type: array
+                          nullable: true
                           items:
                             type: string
                         allowedHeaders:
                           type: array
+                          nullable: true
                           items:
                             type: string
                         credentials:
@@ -5136,6 +4708,7 @@ paths:
                 - name
                 - endpoint
                 - target
+                - credentials
               properties:
                 name:
                   type: string
@@ -5145,6 +4718,7 @@ paths:
                   type: string
                 httpHeaders:
                   type: array
+                  nullable: true
                   items:
                     type: object
                     required:
@@ -5157,6 +4731,7 @@ paths:
                         type: string
                 pathRewrite:
                   type: array
+                  nullable: true
                   items:
                     type: object
                     required:
@@ -5171,10 +4746,12 @@ paths:
                   type: boolean
                 allowedMethods:
                   type: array
+                  nullable: true
                   items:
                     type: string
                 allowedHeaders:
                   type: array
+                  nullable: true
                   items:
                     type: string
                 credentials:
@@ -5192,6 +4769,7 @@ paths:
                 type: object
                 required:
                   - createdAt
+                  - credentials
                   - endpoint
                   - id
                   - name
@@ -5213,6 +4791,7 @@ paths:
                     type: string
                   httpHeaders:
                     type: array
+                    nullable: true
                     items:
                       type: object
                       required:
@@ -5225,6 +4804,7 @@ paths:
                           type: string
                   pathRewrite:
                     type: array
+                    nullable: true
                     items:
                       type: object
                       required:
@@ -5239,10 +4819,12 @@ paths:
                     type: boolean
                   allowedMethods:
                     type: array
+                    nullable: true
                     items:
                       type: string
                   allowedHeaders:
                     type: array
+                    nullable: true
                     items:
                       type: string
                   credentials:
@@ -5290,6 +4872,7 @@ paths:
                 type: object
                 required:
                   - createdAt
+                  - credentials
                   - endpoint
                   - id
                   - name
@@ -5311,6 +4894,7 @@ paths:
                     type: string
                   httpHeaders:
                     type: array
+                    nullable: true
                     items:
                       type: object
                       required:
@@ -5323,6 +4907,7 @@ paths:
                           type: string
                   pathRewrite:
                     type: array
+                    nullable: true
                     items:
                       type: object
                       required:
@@ -5337,10 +4922,12 @@ paths:
                     type: boolean
                   allowedMethods:
                     type: array
+                    nullable: true
                     items:
                       type: string
                   allowedHeaders:
                     type: array
+                    nullable: true
                     items:
                       type: string
                   credentials:
@@ -5363,7 +4950,7 @@ paths:
         required: true
         content:
           application/json:
-            schema: &ref_13
+            schema: &ref_12
               type: object
               properties:
                 name:
@@ -5374,6 +4961,7 @@ paths:
                   type: string
                 httpHeaders:
                   type: array
+                  nullable: true
                   items:
                     type: object
                     properties:
@@ -5386,6 +4974,7 @@ paths:
                       - value
                 pathRewrite:
                   type: array
+                  nullable: true
                   items:
                     type: object
                     properties:
@@ -5400,10 +4989,12 @@ paths:
                   type: boolean
                 allowedMethods:
                   type: array
+                  nullable: true
                   items:
                     type: string
                 allowedHeaders:
                   type: array
+                  nullable: true
                   items:
                     type: string
                 credentials:
@@ -5416,6 +5007,7 @@ paths:
                 - name
                 - endpoint
                 - target
+                - credentials
       responses:
         '200':
           description: The Portal Proxy was updated
@@ -5424,7 +5016,7 @@ paths:
               schema:
                 allOf:
                   - *ref_1
-                  - *ref_13
+                  - *ref_12
                   - type: object
                     properties:
                       organizationId:
@@ -5501,7 +5093,6 @@ paths:
                         - createdAt
                         - definition
                         - enabled
-                        - iconName
                         - id
                       properties:
                         id:
@@ -5512,21 +5103,9 @@ paths:
                           format: date-time
                         enabled:
                           type: boolean
-                        frontendEntityConfig:
-                          type: array
-                          items:
-                            type: object
-                            required:
-                              - path
-                              - enabled
-                            properties:
-                              path:
-                                type: string
-                              enabled:
-                                type: boolean
-                              config:
-                                type: object
-                        configValue:
+                        frontendConfig:
+                          type: object
+                        backendConfig:
                           type: object
                         definition:
                           type: object
@@ -5537,9 +5116,7 @@ paths:
                             name:
                               type: string
                             version:
-                              type: integer
-                        iconName:
-                          type: string
+                              type: string
                   total:
                     type: integer
                   pageInfo:
@@ -5564,21 +5141,9 @@ paths:
               properties:
                 enabled:
                   type: boolean
-                frontendEntityConfig:
-                  type: array
-                  items:
-                    type: object
-                    required:
-                      - path
-                      - enabled
-                    properties:
-                      path:
-                        type: string
-                      enabled:
-                        type: boolean
-                      config:
-                        type: object
-                configValue:
+                frontendConfig:
+                  type: object
+                backendConfig:
                   type: object
                 definition:
                   type: object
@@ -5589,7 +5154,7 @@ paths:
                     name:
                       type: string
                     version:
-                      type: integer
+                      type: string
       responses:
         '201':
           description: The newly created Plugin Configuration
@@ -5601,7 +5166,6 @@ paths:
                   - createdAt
                   - definition
                   - enabled
-                  - iconName
                   - id
                 properties:
                   id:
@@ -5612,21 +5176,9 @@ paths:
                     format: date-time
                   enabled:
                     type: boolean
-                  frontendEntityConfig:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - path
-                        - enabled
-                      properties:
-                        path:
-                          type: string
-                        enabled:
-                          type: boolean
-                        config:
-                          type: object
-                  configValue:
+                  frontendConfig:
+                    type: object
+                  backendConfig:
                     type: object
                   definition:
                     type: object
@@ -5637,9 +5189,7 @@ paths:
                       name:
                         type: string
                       version:
-                        type: integer
-                  iconName:
-                    type: string
+                        type: string
   '/orgs/{orgId}/portals/{portalName}/pluginconfigurations/{pluginName}':
     parameters:
       - name: orgId
@@ -5674,7 +5224,6 @@ paths:
                   - createdAt
                   - definition
                   - enabled
-                  - iconName
                   - id
                 properties:
                   id:
@@ -5685,21 +5234,9 @@ paths:
                     format: date-time
                   enabled:
                     type: boolean
-                  frontendEntityConfig:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - path
-                        - enabled
-                      properties:
-                        path:
-                          type: string
-                        enabled:
-                          type: boolean
-                        config:
-                          type: object
-                  configValue:
+                  frontendConfig:
+                    type: object
+                  backendConfig:
                     type: object
                   definition:
                     type: object
@@ -5710,9 +5247,7 @@ paths:
                       name:
                         type: string
                       version:
-                        type: integer
-                  iconName:
-                    type: string
+                        type: string
     put:
       summary: Update a Plugin Configuration
       operationId: updatePluginConfiguration
@@ -5720,26 +5255,14 @@ paths:
         required: true
         content:
           application/json:
-            schema: &ref_14
+            schema: &ref_13
               type: object
               properties:
                 enabled:
                   type: boolean
-                frontendEntityConfig:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      path:
-                        type: string
-                      enabled:
-                        type: boolean
-                      config:
-                        type: object
-                    required:
-                      - path
-                      - enabled
-                configValue:
+                frontendConfig:
+                  type: object
+                backendConfig:
                   type: object
                 definition:
                   type: object
@@ -5747,7 +5270,7 @@ paths:
                     name:
                       type: string
                     version:
-                      type: integer
+                      type: string
                   required:
                     - name
                     - version
@@ -5762,13 +5285,7 @@ paths:
               schema:
                 allOf:
                   - *ref_1
-                  - *ref_14
-                  - type: object
-                    properties:
-                      iconName:
-                        type: string
-                    required:
-                      - iconName
+                  - *ref_13
         '404':
           description: The resource was not found
     delete:
@@ -6324,7 +5841,7 @@ paths:
         required: true
         content:
           application/json:
-            schema: &ref_16
+            schema: &ref_15
               type: object
               properties:
                 name:
@@ -6335,7 +5852,7 @@ paths:
                 providerConfig:
                   oneOf:
                     - allOf:
-                        - &ref_15
+                        - &ref_14
                           type: object
                           required:
                             - configType
@@ -6372,7 +5889,7 @@ paths:
                             - clientId
                             - clientSecret
                     - allOf:
-                        - *ref_15
+                        - *ref_14
                         - type: object
                           properties:
                             clientId:
@@ -6395,7 +5912,7 @@ paths:
                             - clientId
                             - clientSecret
                     - allOf:
-                        - *ref_15
+                        - *ref_14
                         - type: object
                           properties:
                             clientId:
@@ -6432,7 +5949,7 @@ paths:
               schema:
                 allOf:
                   - *ref_1
-                  - *ref_16
+                  - *ref_15
                   - type: object
                     properties:
                       organizationId:
@@ -6451,6 +5968,477 @@ paths:
       responses:
         '204':
           description: The Auth Provider was deleted
+        '404':
+          description: The resource was not found
+  '/orgs/{orgId}/portals/{portalName}/entitypagelayouts':
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the Organization
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the portal
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Get a list of Entity Page Layouts
+      operationId: getEntityPageLayouts
+      responses:
+        '200':
+          description: List of Entity Page Layouts
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - item
+                  - total
+                  - pageInfo
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - createdAt
+                        - id
+                        - name
+                        - organizationId
+                        - portalName
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        createdAt:
+                          type: string
+                          format: date-time
+                        name:
+                          type: string
+                        active:
+                          type: boolean
+                        contentOrder:
+                          type: array
+                          nullable: true
+                          items:
+                            type: object
+                            required:
+                              - path
+                            properties:
+                              path:
+                                type: string
+                                x-oapi-codegen-extra-tags:
+                                  tfsdk: path
+                              filters:
+                                type: array
+                                nullable: true
+                                x-oapi-codegen-extra-tags:
+                                  tfsdk: filters
+                                items:
+                                  type: string
+                              config:
+                                type: object
+                                nullable: true
+                                x-oapi-codegen-extra-tags:
+                                  tfsdk: config
+                        cardOrder:
+                          type: array
+                          nullable: true
+                          items:
+                            type: object
+                            required:
+                              - path
+                            properties:
+                              path:
+                                type: string
+                                x-oapi-codegen-extra-tags:
+                                  tfsdk: path
+                              filters:
+                                type: array
+                                nullable: true
+                                x-oapi-codegen-extra-tags:
+                                  tfsdk: filters
+                                items:
+                                  type: string
+                              config:
+                                type: object
+                                nullable: true
+                                x-oapi-codegen-extra-tags:
+                                  tfsdk: config
+                        organizationId:
+                          type: string
+                          format: uuid
+                        portalName:
+                          type: string
+                  total:
+                    type: integer
+                  pageInfo:
+                    type: object
+                    properties:
+                      prev:
+                        type: string
+                      next:
+                        type: string
+        '404':
+          description: The resource was not found
+    post:
+      summary: Create an Entity Page Layout
+      operationId: createEntityPageLayout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                active:
+                  type: boolean
+                contentOrder:
+                  type: array
+                  nullable: true
+                  items:
+                    type: object
+                    required:
+                      - path
+                    properties:
+                      path:
+                        type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: path
+                      filters:
+                        type: array
+                        nullable: true
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: filters
+                        items:
+                          type: string
+                      config:
+                        type: object
+                        nullable: true
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: config
+                cardOrder:
+                  type: array
+                  nullable: true
+                  items:
+                    type: object
+                    required:
+                      - path
+                    properties:
+                      path:
+                        type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: path
+                      filters:
+                        type: array
+                        nullable: true
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: filters
+                        items:
+                          type: string
+                      config:
+                        type: object
+                        nullable: true
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: config
+      responses:
+        '201':
+          description: The Entity Page Layout was created
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - createdAt
+                  - id
+                  - name
+                  - organizationId
+                  - portalName
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  createdAt:
+                    type: string
+                    format: date-time
+                  name:
+                    type: string
+                  active:
+                    type: boolean
+                  contentOrder:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      required:
+                        - path
+                      properties:
+                        path:
+                          type: string
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: path
+                        filters:
+                          type: array
+                          nullable: true
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: filters
+                          items:
+                            type: string
+                        config:
+                          type: object
+                          nullable: true
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: config
+                  cardOrder:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      required:
+                        - path
+                      properties:
+                        path:
+                          type: string
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: path
+                        filters:
+                          type: array
+                          nullable: true
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: filters
+                          items:
+                            type: string
+                        config:
+                          type: object
+                          nullable: true
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: config
+                  organizationId:
+                    type: string
+                    format: uuid
+                  portalName:
+                    type: string
+        '404':
+          description: The resource was not found
+  '/orgs/{orgId}/portals/{portalName}/entitypagelayouts/{name}':
+    parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the org
+      - name: portalName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the portal
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Entity Page Layout
+    get:
+      summary: Get an Entity Page Layout
+      operationId: getEntityPageLayout
+      responses:
+        '200':
+          description: The Entity Page Layout
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - createdAt
+                  - id
+                  - name
+                  - organizationId
+                  - portalName
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  createdAt:
+                    type: string
+                    format: date-time
+                  name:
+                    type: string
+                  active:
+                    type: boolean
+                  contentOrder:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      required:
+                        - path
+                      properties:
+                        path:
+                          type: string
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: path
+                        filters:
+                          type: array
+                          nullable: true
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: filters
+                          items:
+                            type: string
+                        config:
+                          type: object
+                          nullable: true
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: config
+                  cardOrder:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      required:
+                        - path
+                      properties:
+                        path:
+                          type: string
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: path
+                        filters:
+                          type: array
+                          nullable: true
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: filters
+                          items:
+                            type: string
+                        config:
+                          type: object
+                          nullable: true
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: config
+                  organizationId:
+                    type: string
+                    format: uuid
+                  portalName:
+                    type: string
+        '404':
+          description: The resource was not found
+    put:
+      summary: Update an Entity Page Layout
+      operationId: updateEntityPageLayout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: &ref_16
+              type: object
+              properties:
+                name:
+                  type: string
+                active:
+                  type: boolean
+                contentOrder:
+                  type: array
+                  nullable: true
+                  items:
+                    type: object
+                    properties:
+                      path:
+                        type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: path
+                      filters:
+                        type: array
+                        nullable: true
+                        items:
+                          type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: filters
+                      config:
+                        type: object
+                        nullable: true
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: config
+                    required:
+                      - path
+                cardOrder:
+                  type: array
+                  nullable: true
+                  items:
+                    type: object
+                    properties:
+                      path:
+                        type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: path
+                      filters:
+                        type: array
+                        nullable: true
+                        items:
+                          type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: filters
+                      config:
+                        type: object
+                        nullable: true
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: config
+                    required:
+                      - path
+              required:
+                - name
+      responses:
+        '200':
+          description: The Entity Page Layout was updated
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - *ref_1
+                  - *ref_16
+                  - type: object
+                    properties:
+                      organizationId:
+                        type: string
+                        format: uuid
+                      portalName:
+                        type: string
+                    required:
+                      - organizationId
+                      - portalName
+        '404':
+          description: The resource was not found
+    delete:
+      summary: Delete an Entity Page Layout
+      operationId: deleteEntityPageLayout
+      responses:
+        '204':
+          description: The Entity Page Layout was deleted
         '404':
           description: The resource was not found
 components:
@@ -7720,6 +7708,267 @@ components:
                   propertyName: configType
                   mapping:
                     tailscale: '#/components/schemas/TailscaleConnection'
+              organizationId:
+                type: string
+                format: uuid
+              portalName:
+                type: string
+        total:
+          type: integer
+        pageInfo:
+          type: object
+          properties:
+            prev:
+              type: string
+            next:
+              type: string
+    EntityPageCardSpec:
+      type: object
+      required:
+        - path
+      properties:
+        path:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: path
+        filters:
+          type: array
+          nullable: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: filters
+          items:
+            type: string
+        config:
+          type: object
+          nullable: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: config
+    EntityPageContentSpec:
+      type: object
+      required:
+        - path
+      properties:
+        path:
+          type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: path
+        filters:
+          type: array
+          nullable: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: filters
+          items:
+            type: string
+        config:
+          type: object
+          nullable: true
+          x-oapi-codegen-extra-tags:
+            tfsdk: config
+    EntityPageLayout:
+      type: object
+      required:
+        - createdAt
+        - id
+        - name
+        - organizationId
+        - portalName
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        name:
+          type: string
+        active:
+          type: boolean
+        contentOrder:
+          type: array
+          nullable: true
+          items:
+            type: object
+            required:
+              - path
+            properties:
+              path:
+                type: string
+                x-oapi-codegen-extra-tags:
+                  tfsdk: path
+              filters:
+                type: array
+                nullable: true
+                x-oapi-codegen-extra-tags:
+                  tfsdk: filters
+                items:
+                  type: string
+              config:
+                type: object
+                nullable: true
+                x-oapi-codegen-extra-tags:
+                  tfsdk: config
+        cardOrder:
+          type: array
+          nullable: true
+          items:
+            type: object
+            required:
+              - path
+            properties:
+              path:
+                type: string
+                x-oapi-codegen-extra-tags:
+                  tfsdk: path
+              filters:
+                type: array
+                nullable: true
+                x-oapi-codegen-extra-tags:
+                  tfsdk: filters
+                items:
+                  type: string
+              config:
+                type: object
+                nullable: true
+                x-oapi-codegen-extra-tags:
+                  tfsdk: config
+        organizationId:
+          type: string
+          format: uuid
+        portalName:
+          type: string
+    EntityPageLayoutInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        active:
+          type: boolean
+        contentOrder:
+          type: array
+          nullable: true
+          items:
+            type: object
+            required:
+              - path
+            properties:
+              path:
+                type: string
+                x-oapi-codegen-extra-tags:
+                  tfsdk: path
+              filters:
+                type: array
+                nullable: true
+                x-oapi-codegen-extra-tags:
+                  tfsdk: filters
+                items:
+                  type: string
+              config:
+                type: object
+                nullable: true
+                x-oapi-codegen-extra-tags:
+                  tfsdk: config
+        cardOrder:
+          type: array
+          nullable: true
+          items:
+            type: object
+            required:
+              - path
+            properties:
+              path:
+                type: string
+                x-oapi-codegen-extra-tags:
+                  tfsdk: path
+              filters:
+                type: array
+                nullable: true
+                x-oapi-codegen-extra-tags:
+                  tfsdk: filters
+                items:
+                  type: string
+              config:
+                type: object
+                nullable: true
+                x-oapi-codegen-extra-tags:
+                  tfsdk: config
+    EntityPageLayoutsListResponse:
+      type: object
+      required:
+        - item
+        - total
+        - pageInfo
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            required:
+              - createdAt
+              - id
+              - name
+              - organizationId
+              - portalName
+            properties:
+              id:
+                type: string
+                format: uuid
+              createdAt:
+                type: string
+                format: date-time
+              name:
+                type: string
+              active:
+                type: boolean
+              contentOrder:
+                type: array
+                nullable: true
+                items:
+                  type: object
+                  required:
+                    - path
+                  properties:
+                    path:
+                      type: string
+                      x-oapi-codegen-extra-tags:
+                        tfsdk: path
+                    filters:
+                      type: array
+                      nullable: true
+                      x-oapi-codegen-extra-tags:
+                        tfsdk: filters
+                      items:
+                        type: string
+                    config:
+                      type: object
+                      nullable: true
+                      x-oapi-codegen-extra-tags:
+                        tfsdk: config
+              cardOrder:
+                type: array
+                nullable: true
+                items:
+                  type: object
+                  required:
+                    - path
+                  properties:
+                    path:
+                      type: string
+                      x-oapi-codegen-extra-tags:
+                        tfsdk: path
+                    filters:
+                      type: array
+                      nullable: true
+                      x-oapi-codegen-extra-tags:
+                        tfsdk: filters
+                      items:
+                        type: string
+                    config:
+                      type: object
+                      nullable: true
+                      x-oapi-codegen-extra-tags:
+                        tfsdk: config
               organizationId:
                 type: string
                 format: uuid
@@ -9799,7 +10048,6 @@ components:
         - createdAt
         - definition
         - enabled
-        - iconName
         - id
       properties:
         id:
@@ -9810,21 +10058,9 @@ components:
           format: date-time
         enabled:
           type: boolean
-        frontendEntityConfig:
-          type: array
-          items:
-            type: object
-            required:
-              - path
-              - enabled
-            properties:
-              path:
-                type: string
-              enabled:
-                type: boolean
-              config:
-                type: object
-        configValue:
+        frontendConfig:
+          type: object
+        backendConfig:
           type: object
         definition:
           type: object
@@ -9835,35 +10071,17 @@ components:
             name:
               type: string
             version:
-              type: integer
-        iconName:
-          type: string
-    PluginConfigurationFrontendEntitiesConfig:
-      type: array
-      items:
-        type: object
-        required:
-          - path
-          - enabled
-        properties:
-          path:
-            type: string
-          enabled:
-            type: boolean
-          config:
-            type: object
-    PluginConfigurationFrontendEntityConfig:
+              type: string
+    PluginConfigurationDefinitionSpec:
       type: object
       required:
-        - path
-        - enabled
+        - name
+        - version
       properties:
-        path:
+        name:
           type: string
-        enabled:
-          type: boolean
-        config:
-          type: object
+        version:
+          type: string
     PluginConfigurationInput:
       type: object
       required:
@@ -9872,21 +10090,9 @@ components:
       properties:
         enabled:
           type: boolean
-        frontendEntityConfig:
-          type: array
-          items:
-            type: object
-            required:
-              - path
-              - enabled
-            properties:
-              path:
-                type: string
-              enabled:
-                type: boolean
-              config:
-                type: object
-        configValue:
+        frontendConfig:
+          type: object
+        backendConfig:
           type: object
         definition:
           type: object
@@ -9897,7 +10103,7 @@ components:
             name:
               type: string
             version:
-              type: integer
+              type: string
     PluginConfigurationsListResponse:
       type: object
       required:
@@ -9913,7 +10119,6 @@ components:
               - createdAt
               - definition
               - enabled
-              - iconName
               - id
             properties:
               id:
@@ -9924,21 +10129,9 @@ components:
                 format: date-time
               enabled:
                 type: boolean
-              frontendEntityConfig:
-                type: array
-                items:
-                  type: object
-                  required:
-                    - path
-                    - enabled
-                  properties:
-                    path:
-                      type: string
-                    enabled:
-                      type: boolean
-                    config:
-                      type: object
-              configValue:
+              frontendConfig:
+                type: object
+              backendConfig:
                 type: object
               definition:
                 type: object
@@ -9949,263 +10142,7 @@ components:
                   name:
                     type: string
                   version:
-                    type: integer
-              iconName:
-                type: string
-        total:
-          type: integer
-        pageInfo:
-          type: object
-          properties:
-            prev:
-              type: string
-            next:
-              type: string
-    PluginDefinition:
-      type: object
-      required:
-        - backend
-        - createdAt
-        - description
-        - displayName
-        - frontend
-        - iconName
-        - id
-        - name
-        - version
-      properties:
-        id:
-          type: string
-          format: uuid
-        createdAt:
-          type: string
-          format: date-time
-        name:
-          type: string
-          format: lowercasealpha
-          minLength: 3
-          maxLength: 24
-        version:
-          type: integer
-        displayName:
-          type: string
-        description:
-          type: string
-        iconName:
-          type: string
-        frontend:
-          type: boolean
-        backend:
-          type: boolean
-        configSchema:
-          type: object
-        uiSchema:
-          type: object
-        configTemplate:
-          type: string
-        frontendEntities:
-          type: array
-          items:
-            type: object
-            required:
-              - id
-              - type
-              - path
-              - title
-              - description
-            properties:
-              id:
-                type: string
-              type:
-                type: string
-                enum:
-                  - Card
-                  - Content
-              path:
-                type: string
-              title:
-                type: string
-              description:
-                type: string
-    PluginDefinitionFrontendEntities:
-      type: array
-      items:
-        type: object
-        required:
-          - id
-          - type
-          - path
-          - title
-          - description
-        properties:
-          id:
-            type: string
-          type:
-            type: string
-            enum:
-              - Card
-              - Content
-          path:
-            type: string
-          title:
-            type: string
-          description:
-            type: string
-    PluginDefinitionFrontendEntity:
-      type: object
-      required:
-        - id
-        - type
-        - path
-        - title
-        - description
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          enum:
-            - Card
-            - Content
-        path:
-          type: string
-        title:
-          type: string
-        description:
-          type: string
-    PluginDefinitionInput:
-      type: object
-      required:
-        - name
-        - version
-        - displayName
-        - description
-        - iconName
-        - frontend
-        - backend
-      properties:
-        name:
-          type: string
-          format: lowercasealpha
-          minLength: 3
-          maxLength: 24
-        version:
-          type: integer
-        displayName:
-          type: string
-        description:
-          type: string
-        iconName:
-          type: string
-        frontend:
-          type: boolean
-        backend:
-          type: boolean
-        configSchema:
-          type: object
-        uiSchema:
-          type: object
-        configTemplate:
-          type: string
-        frontendEntities:
-          type: array
-          items:
-            type: object
-            required:
-              - id
-              - type
-              - path
-              - title
-              - description
-            properties:
-              id:
-                type: string
-              type:
-                type: string
-                enum:
-                  - Card
-                  - Content
-              path:
-                type: string
-              title:
-                type: string
-              description:
-                type: string
-    PluginDefinitionsListResponse:
-      type: object
-      required:
-        - item
-        - total
-        - pageInfo
-      properties:
-        items:
-          type: array
-          items:
-            type: object
-            required:
-              - backend
-              - createdAt
-              - description
-              - displayName
-              - frontend
-              - iconName
-              - id
-              - name
-              - version
-            properties:
-              id:
-                type: string
-                format: uuid
-              createdAt:
-                type: string
-                format: date-time
-              name:
-                type: string
-                format: lowercasealpha
-                minLength: 3
-                maxLength: 24
-              version:
-                type: integer
-              displayName:
-                type: string
-              description:
-                type: string
-              iconName:
-                type: string
-              frontend:
-                type: boolean
-              backend:
-                type: boolean
-              configSchema:
-                type: object
-              uiSchema:
-                type: object
-              configTemplate:
-                type: string
-              frontendEntities:
-                type: array
-                items:
-                  type: object
-                  required:
-                    - id
-                    - type
-                    - path
-                    - title
-                    - description
-                  properties:
-                    id:
-                      type: string
-                    type:
-                      type: string
-                      enum:
-                        - Card
-                        - Content
-                    path:
-                      type: string
-                    title:
-                      type: string
-                    description:
-                      type: string
+                    type: string
         total:
           type: integer
         pageInfo:
@@ -10327,6 +10264,7 @@ components:
             type: object
             required:
               - createdAt
+              - credentials
               - endpoint
               - id
               - name
@@ -10348,6 +10286,7 @@ components:
                 type: string
               httpHeaders:
                 type: array
+                nullable: true
                 items:
                   type: object
                   required:
@@ -10360,6 +10299,7 @@ components:
                       type: string
               pathRewrite:
                 type: array
+                nullable: true
                 items:
                   type: object
                   required:
@@ -10374,10 +10314,12 @@ components:
                 type: boolean
               allowedMethods:
                 type: array
+                nullable: true
                 items:
                   type: string
               allowedHeaders:
                 type: array
+                nullable: true
                 items:
                   type: string
               credentials:
@@ -10404,6 +10346,7 @@ components:
       type: object
       required:
         - createdAt
+        - credentials
         - endpoint
         - id
         - name
@@ -10425,6 +10368,7 @@ components:
           type: string
         httpHeaders:
           type: array
+          nullable: true
           items:
             type: object
             required:
@@ -10437,6 +10381,7 @@ components:
                 type: string
         pathRewrite:
           type: array
+          nullable: true
           items:
             type: object
             required:
@@ -10451,10 +10396,12 @@ components:
           type: boolean
         allowedMethods:
           type: array
+          nullable: true
           items:
             type: string
         allowedHeaders:
           type: array
+          nullable: true
           items:
             type: string
         credentials:
@@ -10484,6 +10431,7 @@ components:
         - name
         - endpoint
         - target
+        - credentials
       properties:
         name:
           type: string
@@ -10493,6 +10441,7 @@ components:
           type: string
         httpHeaders:
           type: array
+          nullable: true
           items:
             type: object
             required:
@@ -10505,6 +10454,7 @@ components:
                 type: string
         pathRewrite:
           type: array
+          nullable: true
           items:
             type: object
             required:
@@ -10519,10 +10469,12 @@ components:
           type: boolean
         allowedMethods:
           type: array
+          nullable: true
           items:
             type: string
         allowedHeaders:
           type: array
+          nullable: true
           items:
             type: string
         credentials:

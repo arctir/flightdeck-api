@@ -287,120 +287,6 @@ paths:
         "404":
           description: The resource was not found
 
-  # plugindefinitions
-  /orgs/{orgId}/plugindefinitions:
-    parameters:
-      - name: orgId
-        in: path
-        required: true
-        schema:
-          type: string
-        description: The ID of the Organization
-    get:
-      parameters:
-        - name: limit
-          in: query
-          required: false
-          schema:
-            type: integer
-          description: Limit number of items
-        - name: prev
-
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The previous cursor
-        - name: next
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The next cursor
-      summary: Retrieve a list of Plugin Definitions
-      operationId: getPluginDefinitions
-      responses:
-        "200":
-          description: A list of Plugin Definitions
-          content:
-            application/json:
-              schema:
-                $ref: "./plugindefinitions.yaml#/components/schemas/PluginDefinitionsListResponse"
-    post:
-      summary: Create a new Plugin Definition
-      operationId: createPluginDefinition
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "./plugindefinitions.yaml#/components/schemas/PluginDefinitionInput"
-      responses:
-        "201":
-          description: The newly created Plugin Definition
-          content:
-            application/json:
-              schema:
-                $ref: "./plugindefinitions.yaml#/components/schemas/PluginDefinition"
-
-  /orgs/{orgId}/plugindefinitions/{name}/{version}:
-    parameters:
-      - name: orgId
-        in: path
-        required: true
-        schema:
-          type: string
-        description: The ID of the Organization
-      - name: name
-        in: path
-        required: true
-        schema:
-          type: string
-        description: The name of the Plugin Definition
-      - name: version
-        in: path
-        required: true
-        schema:
-          type: integer
-        description: The version of the Plugin Definition
-    get:
-      summary: Retrieve a Plugin Definition
-      operationId: getPluginDefinition
-      responses:
-        "200":
-          description: The Plugin Definitions
-          content:
-            application/json:
-              schema:
-                $ref: "./plugindefinitions.yaml#/components/schemas/PluginDefinition"
-    put:
-      summary: Update Plugin Definition
-      operationId: updatePluginDefinition
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "./plugindefinitions.yaml#/components/schemas/PluginDefinitionInput"
-      responses:
-        "200":
-          description: The updated Plugin Definition
-          content:
-            application/json:
-              schema:
-                $ref: "./plugindefinitions.yaml#/components/schemas/PluginDefinition"
-        "404":
-          description: The resource was not found
-
-    delete:
-      summary: Delete Plugin Definition
-      operationId: deletePluginDefinition
-      responses:
-        "204":
-          description: Plugin Definition successfully deleted
-        "404":
-          description: The resource was not found
-
   # tenants
   /orgs/{orgId}/tenants:
     parameters:
@@ -409,7 +295,7 @@ paths:
         required: true
         schema:
           type: string
-        description: The ID of the Organizzation
+        description: The ID of the Organization
     get:
       parameters:
         - name: limit
@@ -1557,7 +1443,7 @@ paths:
         "404":
           description: The resource was not found
 
-  /orgs/{orgId}/portals/{portalName}/entitypagelayouts/{providerName}:
+  /orgs/{orgId}/portals/{portalName}/entitypagelayouts/{name}:
     parameters:
       - name: orgId
         in: path
@@ -1571,47 +1457,47 @@ paths:
         schema:
           type: string
         description: The name of the portal
-      - name: providerName
+      - name: name
         in: path
         required: true
         schema:
           type: string
-        description: The name of the Auth Provider
+        description: The name of the Entity Page Layout
     get:
-      summary: Get an Auth Provider
-      operationId: getAuthProvider
+      summary: Get an Entity Page Layout
+      operationId: getEntityPageLayout
       responses:
         "200":
-          description: The Auth Provider
+          description: The Entity Page Layout
           content:
             application/json:
               schema:
-                $ref: "./authproviders.yaml#/components/schemas/AuthProvider"
+                $ref: "./entitypagelayouts.yaml#/components/schemas/EntityPageLayout"
         "404":
           description: The resource was not found
     put:
-      summary: Update an Auth Provider
-      operationId: updateAuthProvider
+      summary: Update an Entity Page Layout
+      operationId: updateEntityPageLayout
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "./authproviders.yaml#/components/schemas/AuthProviderInput"
+              $ref: "./entitypagelayouts.yaml#/components/schemas/EntityPageLayoutInput"
       responses:
         "200":
-          description: The Auth Provider was updated
+          description: The Entity Page Layout was updated
           content:
             application/json:
               schema:
-                $ref: "./authproviders.yaml#/components/schemas/AuthProvider"
+                $ref: "./entitypagelayouts.yaml#/components/schemas/EntityPageLayout"
         "404":
           description: The resource was not found
     delete:
-      summary: Delete an Auth Provider
-      operationId: deleteAuthProvider
+      summary: Delete an Entity Page Layout
+      operationId: deleteEntityPageLayout
       responses:
         "204":
-          description: The Auth Provider was deleted
+          description: The Entity Page Layout was deleted
         "404":
           description: The resource was not found

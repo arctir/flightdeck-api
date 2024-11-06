@@ -11,6 +11,7 @@ generate:
 		-i spec/v1/catalogproviders.yaml \
 		-i spec/v1/plugins.yaml \
 		-i spec/v1/authproviders.yaml \
+		-i spec/v1/entitypagelayouts.yaml \
 		-i spec/v1/api.yaml \
 		-o generated/v1/api.gen.yaml
 	npx openapi-flattener -s generated/v1/api.gen.yaml -o generated/v1/api.flat.gen.yaml

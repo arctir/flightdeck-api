@@ -33,20 +33,24 @@ components:
           type: string
         httpHeaders:
           type: array
+          nullable: true
           items:
             $ref: "#/components/schemas/PortalProxyHeader"
         pathRewrite:
           type: array
+          nullable: true
           items:
             $ref: "#/components/schemas/PortalProxyPathRewrite"
         changeOrigin:
           type: boolean
         allowedMethods:
           type: array
+          nullable: true
           items:
             type: string
         allowedHeaders:
           type: array
+          nullable: true
           items:
             type: string
         credentials:
@@ -59,6 +63,7 @@ components:
         - name
         - endpoint
         - target
+        - credentials
 
     PortalProxy:
       allOf:
