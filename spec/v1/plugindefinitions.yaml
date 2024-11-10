@@ -1,0 +1,193 @@
+components:
+  schemas:
+    PluginDefinition:
+      allOf:
+        - $ref: "./base.yaml#/components/schemas/BaseResourceType"
+        - $ref: "#/components/schemas/PluginDefinitionInput"
+
+    PluginDefinitionFrontendExtension:
+      type: object
+      properties:
+        path:
+          type: string
+        type:
+          type: string
+          enum:
+            - Card
+            - Content
+        title:
+          type: string
+        description:
+          type: string
+        configSchema:
+          type: object
+        uiSchema:
+          type: object
+      required:
+        - type
+        - path
+        - title
+        - description
+
+    PluginNameVersionSpec:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+
+    PluginDefinitionBackendSpec:
+      type: object
+      properties:
+        plugins:
+          type: array
+          items:
+            $ref: "#/components/schemas/PluginNameVersionSpec"
+        configSchema:
+          type: object
+        uiSchema:
+          type: object
+
+    PluginDefinitionFrontendSpec:
+      type: object
+      properties:
+        plugins:
+          type: array
+          items:
+            $ref: "#/components/schemas/PluginNameVersionSpec"
+        configSchema:
+          type: object
+        uiSchema:
+          type: object
+        extensions:
+          type: array
+          items:
+            $ref: "#/components/schemas/PluginDefinitionFrontendExtension"
+
+    PluginDefinitionInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        displayName:
+          type: string
+        description:
+          type: string
+        iconName:
+          type: string
+        frontend:
+          $ref: "#/components/schemas/PluginDefinitionFrontendSpec"
+        backend:
+          $ref: "#/components/schemas/PluginDefinitionBackendSpec"
+      required:
+        - name
+        - displayName
+        - description
+        - iconName
+
+    PluginDefinitionsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PluginDefinition"
+        total:
+          type: integer
+        pageInfo:
+          $ref: "./pagination.yaml#/components/schemas/PageInfo"
+      required:
+        - item
+        - total
+        - pageInfo
+# components:
+#   schemas:
+#     PluginDefinition:
+#       allOf:
+#         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
+#         - $ref: "#/components/schemas/PluginDefinitionInput"
+
+#     PluginDefinitionFrontendEntity:
+#       type: object
+#       properties:
+#         id:
+#           type: string
+#         type:
+#           type: string
+#           enum:
+#             - Card
+#             - Content
+#         path:
+#           type: string
+#         title:
+#           type: string
+#         description:
+#           type: string
+#       required:
+#         - id
+#         - type
+#         - path
+#         - title
+#         - description
+
+#     PluginDefinitionFrontendEntities:
+#       type: array
+#       items:
+#         $ref: "#/components/schemas/PluginDefinitionFrontendEntity"
+
+#     PluginDefinitionInput:
+#       type: object
+#       properties:
+#         name:
+#           type: string
+#           format: lowercasealpha
+#           minLength: 3
+#           maxLength: 24
+#         version:
+#           type: integer
+#         displayName:
+#           type: string
+#         description:
+#           type: string
+#         iconName:
+#           type: string
+#         frontend:
+#           type: boolean
+#         backend:
+#           type: boolean
+#         configSchema:
+#           type: object
+#         uiSchema:
+#           type: object
+#         configTemplate:
+#           type: string
+#         frontendEntities:
+#           $ref: "#/components/schemas/PluginDefinitionFrontendEntities"
+#       required:
+#         - name
+#         - version
+#         - displayName
+#         - description
+#         - iconName
+#         - frontend
+#         - backend
+
+#     PluginDefinitionsListResponse:
+#       type: object
+#       properties:
+#         items:
+#           type: array
+#           items:
+#             $ref: "#/components/schemas/PluginDefinition"
+#         total:
+#           type: integer
+#         pageInfo:
+#           $ref: "./pagination.yaml#/components/schemas/PageInfo"
+#       required:
+#         - item
+#         - total
+#         - pageInfo

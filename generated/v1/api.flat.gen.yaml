@@ -823,6 +823,365 @@ paths:
           description: Connection successfully deleted
         '404':
           description: The resource was not found
+  /versions:
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Retrieve a list of PortalVersions
+      operationId: getPortalVersions
+      responses:
+        '200':
+          description: A list of PortalVersions
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - item
+                  - total
+                  - pageInfo
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - createdAt
+                        - id
+                        - major
+                        - minor
+                        - patch
+                        - rev
+                        - version
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        createdAt:
+                          type: string
+                          format: date-time
+                        version:
+                          type: string
+                        major:
+                          type: integer
+                        minor:
+                          type: integer
+                        patch:
+                          type: integer
+                        rev:
+                          type: integer
+                  total:
+                    type: integer
+                  pageInfo:
+                    type: object
+                    properties:
+                      prev:
+                        type: string
+                      next:
+                        type: string
+  '/versions/{versionId}':
+    parameters:
+      - name: versionId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The version of the PortalVersion
+    get:
+      summary: Retrieve a PortalVersion
+      operationId: getPortalVersion
+      responses:
+        '200':
+          description: The PortalVersion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - createdAt
+                  - id
+                  - major
+                  - minor
+                  - patch
+                  - rev
+                  - version
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  createdAt:
+                    type: string
+                    format: date-time
+                  version:
+                    type: string
+                  major:
+                    type: integer
+                  minor:
+                    type: integer
+                  patch:
+                    type: integer
+                  rev:
+                    type: integer
+  '/versions/{versionId}/plugindefinitions':
+    parameters:
+      - name: versionId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The version of the PortalVersion
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Retrieve a list of Plugin Definitions for a PortalVersion
+      operationId: getPortalVersionPluginDefinitions
+      responses:
+        '200':
+          description: A list of PortalVersion Plugin Definitions
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - item
+                  - total
+                  - pageInfo
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - createdAt
+                        - description
+                        - displayName
+                        - iconName
+                        - id
+                        - name
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        createdAt:
+                          type: string
+                          format: date-time
+                        name:
+                          type: string
+                          format: lowercasealpha
+                          minLength: 3
+                          maxLength: 24
+                        displayName:
+                          type: string
+                        description:
+                          type: string
+                        iconName:
+                          type: string
+                        frontend:
+                          type: object
+                          properties:
+                            plugins:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                  version:
+                                    type: string
+                            configSchema:
+                              type: object
+                            uiSchema:
+                              type: object
+                            extensions:
+                              type: array
+                              items:
+                                type: object
+                                required:
+                                  - type
+                                  - path
+                                  - title
+                                  - description
+                                properties:
+                                  path:
+                                    type: string
+                                  type:
+                                    type: string
+                                    enum:
+                                      - Card
+                                      - Content
+                                  title:
+                                    type: string
+                                  description:
+                                    type: string
+                                  configSchema:
+                                    type: object
+                                  uiSchema:
+                                    type: object
+                        backend:
+                          type: object
+                          properties:
+                            plugins:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                  version:
+                                    type: string
+                            configSchema:
+                              type: object
+                            uiSchema:
+                              type: object
+                  total:
+                    type: integer
+                  pageInfo:
+                    type: object
+                    properties:
+                      prev:
+                        type: string
+                      next:
+                        type: string
+  '/versions/{versionId}/plugindefinitions/{name}':
+    parameters:
+      - name: versionId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The version of the PortalVersion
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Plugin Definition
+    get:
+      summary: Retrieve a Plugin Definition
+      operationId: getPortalVersionPluginDefinition
+      responses:
+        '200':
+          description: The PortalVersion Plugin Definition
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - createdAt
+                  - description
+                  - displayName
+                  - iconName
+                  - id
+                  - name
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  createdAt:
+                    type: string
+                    format: date-time
+                  name:
+                    type: string
+                    format: lowercasealpha
+                    minLength: 3
+                    maxLength: 24
+                  displayName:
+                    type: string
+                  description:
+                    type: string
+                  iconName:
+                    type: string
+                  frontend:
+                    type: object
+                    properties:
+                      plugins:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            version:
+                              type: string
+                      configSchema:
+                        type: object
+                      uiSchema:
+                        type: object
+                      extensions:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - type
+                            - path
+                            - title
+                            - description
+                          properties:
+                            path:
+                              type: string
+                            type:
+                              type: string
+                              enum:
+                                - Card
+                                - Content
+                            title:
+                              type: string
+                            description:
+                              type: string
+                            configSchema:
+                              type: object
+                            uiSchema:
+                              type: object
+                  backend:
+                    type: object
+                    properties:
+                      plugins:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            version:
+                              type: string
+                      configSchema:
+                        type: object
+                      uiSchema:
+                        type: object
   '/orgs/{orgId}/tenants':
     parameters:
       - name: orgId
@@ -830,7 +1189,7 @@ paths:
         required: true
         schema:
           type: string
-        description: The ID of the Organization
+        description: The ID of the Organizzation
     get:
       parameters:
         - name: limit
@@ -1340,7 +1699,7 @@ paths:
                         - tenantName
                         - title
                         - url
-                        - version
+                        - versionId
                       properties:
                         id:
                           type: string
@@ -1362,7 +1721,7 @@ paths:
                           format: lowercasealpha
                           minLength: 3
                           maxLength: 16
-                        version:
+                        versionId:
                           type: string
                         tenantName:
                           type: string
@@ -1390,6 +1749,33 @@ paths:
                               type: string
                             detail:
                               type: string
+                        version:
+                          type: object
+                          required:
+                            - createdAt
+                            - id
+                            - major
+                            - minor
+                            - patch
+                            - rev
+                            - version
+                          properties:
+                            id:
+                              type: string
+                              format: uuid
+                            createdAt:
+                              type: string
+                              format: date-time
+                            version:
+                              type: string
+                            major:
+                              type: integer
+                            minor:
+                              type: integer
+                            patch:
+                              type: integer
+                            rev:
+                              type: integer
                   total:
                     type: integer
                   pageInfo:
@@ -1421,7 +1807,7 @@ paths:
                 - organizationName
                 - tenantName
                 - domain
-                - version
+                - versionId
                 - alternateDomains
               properties:
                 name:
@@ -1438,7 +1824,7 @@ paths:
                   format: lowercasealpha
                   minLength: 3
                   maxLength: 16
-                version:
+                versionId:
                   type: string
                 tenantName:
                   type: string
@@ -1467,7 +1853,7 @@ paths:
                   - tenantName
                   - title
                   - url
-                  - version
+                  - versionId
                 properties:
                   id:
                     type: string
@@ -1489,7 +1875,7 @@ paths:
                     format: lowercasealpha
                     minLength: 3
                     maxLength: 16
-                  version:
+                  versionId:
                     type: string
                   tenantName:
                     type: string
@@ -1517,6 +1903,33 @@ paths:
                         type: string
                       detail:
                         type: string
+                  version:
+                    type: object
+                    required:
+                      - createdAt
+                      - id
+                      - major
+                      - minor
+                      - patch
+                      - rev
+                      - version
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      createdAt:
+                        type: string
+                        format: date-time
+                      version:
+                        type: string
+                      major:
+                        type: integer
+                      minor:
+                        type: integer
+                      patch:
+                        type: integer
+                      rev:
+                        type: integer
   '/orgs/{orgId}/portals/{portalName}':
     parameters:
       - name: orgId
@@ -1554,7 +1967,7 @@ paths:
                   - tenantName
                   - title
                   - url
-                  - version
+                  - versionId
                 properties:
                   id:
                     type: string
@@ -1576,7 +1989,7 @@ paths:
                     format: lowercasealpha
                     minLength: 3
                     maxLength: 16
-                  version:
+                  versionId:
                     type: string
                   tenantName:
                     type: string
@@ -1604,6 +2017,33 @@ paths:
                         type: string
                       detail:
                         type: string
+                  version:
+                    type: object
+                    required:
+                      - createdAt
+                      - id
+                      - major
+                      - minor
+                      - patch
+                      - rev
+                      - version
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      createdAt:
+                        type: string
+                        format: date-time
+                      version:
+                        type: string
+                      major:
+                        type: integer
+                      minor:
+                        type: integer
+                      patch:
+                        type: integer
+                      rev:
+                        type: integer
         '404':
           description: The resource was not found
     put:
@@ -1630,7 +2070,7 @@ paths:
                   format: lowercasealpha
                   minLength: 3
                   maxLength: 16
-                version:
+                versionId:
                   type: string
                 tenantName:
                   type: string
@@ -1645,7 +2085,7 @@ paths:
                 - organizationName
                 - tenantName
                 - domain
-                - version
+                - versionId
                 - alternateDomains
       responses:
         '200':
@@ -1677,6 +2117,27 @@ paths:
                         required:
                           - status
                           - detail
+                      version:
+                        allOf:
+                          - *ref_1
+                          - type: object
+                            properties:
+                              version:
+                                type: string
+                              major:
+                                type: integer
+                              minor:
+                                type: integer
+                              patch:
+                                type: integer
+                              rev:
+                                type: integer
+                            required:
+                              - version
+                              - major
+                              - minor
+                              - patch
+                              - rev
                     required:
                       - organizationId
                       - url
@@ -4646,8 +5107,12 @@ paths:
                             properties:
                               name:
                                 type: string
+                                x-oapi-codegen-extra-tags:
+                                  tfsdk: name
                               value:
                                 type: string
+                                x-oapi-codegen-extra-tags:
+                                  tfsdk: value
                         pathRewrite:
                           type: array
                           nullable: true
@@ -4659,8 +5124,12 @@ paths:
                             properties:
                               src:
                                 type: string
+                                x-oapi-codegen-extra-tags:
+                                  tfsdk: src
                               dst:
                                 type: string
+                                x-oapi-codegen-extra-tags:
+                                  tfsdk: dst
                         changeOrigin:
                           type: boolean
                         allowedMethods:
@@ -4727,8 +5196,12 @@ paths:
                     properties:
                       name:
                         type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: name
                       value:
                         type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: value
                 pathRewrite:
                   type: array
                   nullable: true
@@ -4740,8 +5213,12 @@ paths:
                     properties:
                       src:
                         type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: src
                       dst:
                         type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: dst
                 changeOrigin:
                   type: boolean
                 allowedMethods:
@@ -4800,8 +5277,12 @@ paths:
                       properties:
                         name:
                           type: string
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: name
                         value:
                           type: string
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: value
                   pathRewrite:
                     type: array
                     nullable: true
@@ -4813,8 +5294,12 @@ paths:
                       properties:
                         src:
                           type: string
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: src
                         dst:
                           type: string
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: dst
                   changeOrigin:
                     type: boolean
                   allowedMethods:
@@ -4903,8 +5388,12 @@ paths:
                       properties:
                         name:
                           type: string
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: name
                         value:
                           type: string
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: value
                   pathRewrite:
                     type: array
                     nullable: true
@@ -4916,8 +5405,12 @@ paths:
                       properties:
                         src:
                           type: string
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: src
                         dst:
                           type: string
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: dst
                   changeOrigin:
                     type: boolean
                   allowedMethods:
@@ -4967,8 +5460,12 @@ paths:
                     properties:
                       name:
                         type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: name
                       value:
                         type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: value
                     required:
                       - name
                       - value
@@ -4980,8 +5477,12 @@ paths:
                     properties:
                       src:
                         type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: src
                       dst:
                         type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: dst
                     required:
                       - src
                       - dst
@@ -5094,6 +5595,8 @@ paths:
                         - definition
                         - enabled
                         - id
+                        - organizationId
+                        - portalName
                       properties:
                         id:
                           type: string
@@ -5111,12 +5614,17 @@ paths:
                           type: object
                           required:
                             - name
-                            - version
+                            - portalVersionId
                           properties:
                             name:
                               type: string
-                            version:
+                            portalVersionId:
                               type: string
+                        organizationId:
+                          type: string
+                          format: uuid
+                        portalName:
+                          type: string
                   total:
                     type: integer
                   pageInfo:
@@ -5149,11 +5657,11 @@ paths:
                   type: object
                   required:
                     - name
-                    - version
+                    - portalVersionId
                   properties:
                     name:
                       type: string
-                    version:
+                    portalVersionId:
                       type: string
       responses:
         '201':
@@ -5167,6 +5675,8 @@ paths:
                   - definition
                   - enabled
                   - id
+                  - organizationId
+                  - portalName
                 properties:
                   id:
                     type: string
@@ -5184,12 +5694,17 @@ paths:
                     type: object
                     required:
                       - name
-                      - version
+                      - portalVersionId
                     properties:
                       name:
                         type: string
-                      version:
+                      portalVersionId:
                         type: string
+                  organizationId:
+                    type: string
+                    format: uuid
+                  portalName:
+                    type: string
   '/orgs/{orgId}/portals/{portalName}/pluginconfigurations/{pluginName}':
     parameters:
       - name: orgId
@@ -5225,6 +5740,8 @@ paths:
                   - definition
                   - enabled
                   - id
+                  - organizationId
+                  - portalName
                 properties:
                   id:
                     type: string
@@ -5242,12 +5759,17 @@ paths:
                     type: object
                     required:
                       - name
-                      - version
+                      - portalVersionId
                     properties:
                       name:
                         type: string
-                      version:
+                      portalVersionId:
                         type: string
+                  organizationId:
+                    type: string
+                    format: uuid
+                  portalName:
+                    type: string
     put:
       summary: Update a Plugin Configuration
       operationId: updatePluginConfiguration
@@ -5269,11 +5791,11 @@ paths:
                   properties:
                     name:
                       type: string
-                    version:
+                    portalVersionId:
                       type: string
                   required:
                     - name
-                    - version
+                    - portalVersionId
               required:
                 - enabled
                 - definition
@@ -5286,6 +5808,16 @@ paths:
                 allOf:
                   - *ref_1
                   - *ref_13
+                  - type: object
+                    properties:
+                      organizationId:
+                        type: string
+                        format: uuid
+                      portalName:
+                        type: string
+                    required:
+                      - organizationId
+                      - portalName
         '404':
           description: The resource was not found
     delete:
@@ -5377,6 +5909,8 @@ paths:
                               properties:
                                 configType:
                                   type: string
+                                  x-oapi-codegen-extra-tags:
+                                    tfsdk: '-'
                                 clientId:
                                   type: string
                                   x-oapi-codegen-extra-tags:
@@ -5389,14 +5923,17 @@ paths:
                                     tfsdk: client_secret
                                 callbackUrl:
                                   type: string
+                                  nullable: true
                                   x-oapi-codegen-extra-tags:
                                     tfsdk: callback_url
                                 enterpriseInstanceUrl:
                                   type: string
+                                  nullable: true
                                   x-oapi-codegen-extra-tags:
                                     tfsdk: enterprise_instance_url
                                 additionalScopes:
                                   type: array
+                                  nullable: true
                                   x-oapi-codegen-extra-tags:
                                     tfsdk: additional_scopes
                                   items:
@@ -5409,6 +5946,8 @@ paths:
                               properties:
                                 configType:
                                   type: string
+                                  x-oapi-codegen-extra-tags:
+                                    tfsdk: '-'
                                 clientId:
                                   type: string
                                 clientSecret:
@@ -5433,6 +5972,8 @@ paths:
                               properties:
                                 configType:
                                   type: string
+                                  x-oapi-codegen-extra-tags:
+                                    tfsdk: '-'
                                 clientId:
                                   type: string
                                 clientSecret:
@@ -5497,6 +6038,8 @@ paths:
                       properties:
                         configType:
                           type: string
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: '-'
                         clientId:
                           type: string
                           x-oapi-codegen-extra-tags:
@@ -5509,14 +6052,17 @@ paths:
                             tfsdk: client_secret
                         callbackUrl:
                           type: string
+                          nullable: true
                           x-oapi-codegen-extra-tags:
                             tfsdk: callback_url
                         enterpriseInstanceUrl:
                           type: string
+                          nullable: true
                           x-oapi-codegen-extra-tags:
                             tfsdk: enterprise_instance_url
                         additionalScopes:
                           type: array
+                          nullable: true
                           x-oapi-codegen-extra-tags:
                             tfsdk: additional_scopes
                           items:
@@ -5529,6 +6075,8 @@ paths:
                       properties:
                         configType:
                           type: string
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: '-'
                         clientId:
                           type: string
                         clientSecret:
@@ -5553,6 +6101,8 @@ paths:
                       properties:
                         configType:
                           type: string
+                          x-oapi-codegen-extra-tags:
+                            tfsdk: '-'
                         clientId:
                           type: string
                         clientSecret:
@@ -5609,6 +6159,8 @@ paths:
                         properties:
                           configType:
                             type: string
+                            x-oapi-codegen-extra-tags:
+                              tfsdk: '-'
                           clientId:
                             type: string
                             x-oapi-codegen-extra-tags:
@@ -5621,14 +6173,17 @@ paths:
                               tfsdk: client_secret
                           callbackUrl:
                             type: string
+                            nullable: true
                             x-oapi-codegen-extra-tags:
                               tfsdk: callback_url
                           enterpriseInstanceUrl:
                             type: string
+                            nullable: true
                             x-oapi-codegen-extra-tags:
                               tfsdk: enterprise_instance_url
                           additionalScopes:
                             type: array
+                            nullable: true
                             x-oapi-codegen-extra-tags:
                               tfsdk: additional_scopes
                             items:
@@ -5641,6 +6196,8 @@ paths:
                         properties:
                           configType:
                             type: string
+                            x-oapi-codegen-extra-tags:
+                              tfsdk: '-'
                           clientId:
                             type: string
                           clientSecret:
@@ -5665,6 +6222,8 @@ paths:
                         properties:
                           configType:
                             type: string
+                            x-oapi-codegen-extra-tags:
+                              tfsdk: '-'
                           clientId:
                             type: string
                           clientSecret:
@@ -5751,6 +6310,8 @@ paths:
                         properties:
                           configType:
                             type: string
+                            x-oapi-codegen-extra-tags:
+                              tfsdk: '-'
                           clientId:
                             type: string
                             x-oapi-codegen-extra-tags:
@@ -5763,14 +6324,17 @@ paths:
                               tfsdk: client_secret
                           callbackUrl:
                             type: string
+                            nullable: true
                             x-oapi-codegen-extra-tags:
                               tfsdk: callback_url
                           enterpriseInstanceUrl:
                             type: string
+                            nullable: true
                             x-oapi-codegen-extra-tags:
                               tfsdk: enterprise_instance_url
                           additionalScopes:
                             type: array
+                            nullable: true
                             x-oapi-codegen-extra-tags:
                               tfsdk: additional_scopes
                             items:
@@ -5783,6 +6347,8 @@ paths:
                         properties:
                           configType:
                             type: string
+                            x-oapi-codegen-extra-tags:
+                              tfsdk: '-'
                           clientId:
                             type: string
                           clientSecret:
@@ -5807,6 +6373,8 @@ paths:
                         properties:
                           configType:
                             type: string
+                            x-oapi-codegen-extra-tags:
+                              tfsdk: '-'
                           clientId:
                             type: string
                           clientSecret:
@@ -5859,6 +6427,8 @@ paths:
                           properties:
                             configType:
                               type: string
+                              x-oapi-codegen-extra-tags:
+                                tfsdk: '-'
                         - type: object
                           properties:
                             clientId:
@@ -5873,14 +6443,17 @@ paths:
                                 tfsdk: client_secret
                             callbackUrl:
                               type: string
+                              nullable: true
                               x-oapi-codegen-extra-tags:
                                 tfsdk: callback_url
                             enterpriseInstanceUrl:
                               type: string
+                              nullable: true
                               x-oapi-codegen-extra-tags:
                                 tfsdk: enterprise_instance_url
                             additionalScopes:
                               type: array
+                              nullable: true
                               items:
                                 type: string
                               x-oapi-codegen-extra-tags:
@@ -6265,7 +6838,7 @@ paths:
         required: true
         schema:
           type: string
-        description: The name of the Entity Page Layout
+        description: The name of the EntityPageLayout
     get:
       summary: Get an Entity Page Layout
       operationId: getEntityPageLayout
@@ -6474,6 +7047,8 @@ components:
               properties:
                 configType:
                   type: string
+                  x-oapi-codegen-extra-tags:
+                    tfsdk: '-'
                 clientId:
                   type: string
                   x-oapi-codegen-extra-tags:
@@ -6486,14 +7061,17 @@ components:
                     tfsdk: client_secret
                 callbackUrl:
                   type: string
+                  nullable: true
                   x-oapi-codegen-extra-tags:
                     tfsdk: callback_url
                 enterpriseInstanceUrl:
                   type: string
+                  nullable: true
                   x-oapi-codegen-extra-tags:
                     tfsdk: enterprise_instance_url
                 additionalScopes:
                   type: array
+                  nullable: true
                   x-oapi-codegen-extra-tags:
                     tfsdk: additional_scopes
                   items:
@@ -6506,6 +7084,8 @@ components:
               properties:
                 configType:
                   type: string
+                  x-oapi-codegen-extra-tags:
+                    tfsdk: '-'
                 clientId:
                   type: string
                 clientSecret:
@@ -6530,6 +7110,8 @@ components:
               properties:
                 configType:
                   type: string
+                  x-oapi-codegen-extra-tags:
+                    tfsdk: '-'
                 clientId:
                   type: string
                 clientSecret:
@@ -6562,6 +7144,8 @@ components:
       properties:
         configType:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: '-'
     AuthProviderInput:
       type: object
       required:
@@ -6583,6 +7167,8 @@ components:
               properties:
                 configType:
                   type: string
+                  x-oapi-codegen-extra-tags:
+                    tfsdk: '-'
                 clientId:
                   type: string
                   x-oapi-codegen-extra-tags:
@@ -6595,14 +7181,17 @@ components:
                     tfsdk: client_secret
                 callbackUrl:
                   type: string
+                  nullable: true
                   x-oapi-codegen-extra-tags:
                     tfsdk: callback_url
                 enterpriseInstanceUrl:
                   type: string
+                  nullable: true
                   x-oapi-codegen-extra-tags:
                     tfsdk: enterprise_instance_url
                 additionalScopes:
                   type: array
+                  nullable: true
                   x-oapi-codegen-extra-tags:
                     tfsdk: additional_scopes
                   items:
@@ -6615,6 +7204,8 @@ components:
               properties:
                 configType:
                   type: string
+                  x-oapi-codegen-extra-tags:
+                    tfsdk: '-'
                 clientId:
                   type: string
                 clientSecret:
@@ -6639,6 +7230,8 @@ components:
               properties:
                 configType:
                   type: string
+                  x-oapi-codegen-extra-tags:
+                    tfsdk: '-'
                 clientId:
                   type: string
                 clientSecret:
@@ -6699,6 +7292,8 @@ components:
                     properties:
                       configType:
                         type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: '-'
                       clientId:
                         type: string
                         x-oapi-codegen-extra-tags:
@@ -6711,14 +7306,17 @@ components:
                           tfsdk: client_secret
                       callbackUrl:
                         type: string
+                        nullable: true
                         x-oapi-codegen-extra-tags:
                           tfsdk: callback_url
                       enterpriseInstanceUrl:
                         type: string
+                        nullable: true
                         x-oapi-codegen-extra-tags:
                           tfsdk: enterprise_instance_url
                       additionalScopes:
                         type: array
+                        nullable: true
                         x-oapi-codegen-extra-tags:
                           tfsdk: additional_scopes
                         items:
@@ -6731,6 +7329,8 @@ components:
                     properties:
                       configType:
                         type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: '-'
                       clientId:
                         type: string
                       clientSecret:
@@ -6755,6 +7355,8 @@ components:
                     properties:
                       configType:
                         type: string
+                        x-oapi-codegen-extra-tags:
+                          tfsdk: '-'
                       clientId:
                         type: string
                       clientSecret:
@@ -8056,6 +8658,8 @@ components:
       properties:
         configType:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: '-'
         clientId:
           type: string
           x-oapi-codegen-extra-tags:
@@ -8068,14 +8672,17 @@ components:
             tfsdk: client_secret
         callbackUrl:
           type: string
+          nullable: true
           x-oapi-codegen-extra-tags:
             tfsdk: callback_url
         enterpriseInstanceUrl:
           type: string
+          nullable: true
           x-oapi-codegen-extra-tags:
             tfsdk: enterprise_instance_url
         additionalScopes:
           type: array
+          nullable: true
           x-oapi-codegen-extra-tags:
             tfsdk: additional_scopes
           items:
@@ -8098,14 +8705,17 @@ components:
             tfsdk: client_secret
         callbackUrl:
           type: string
+          nullable: true
           x-oapi-codegen-extra-tags:
             tfsdk: callback_url
         enterpriseInstanceUrl:
           type: string
+          nullable: true
           x-oapi-codegen-extra-tags:
             tfsdk: enterprise_instance_url
         additionalScopes:
           type: array
+          nullable: true
           x-oapi-codegen-extra-tags:
             tfsdk: additional_scopes
           items:
@@ -8636,6 +9246,8 @@ components:
       properties:
         configType:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: '-'
         clientId:
           type: string
         clientSecret:
@@ -8914,6 +9526,8 @@ components:
       properties:
         configType:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: '-'
         clientId:
           type: string
         clientSecret:
@@ -10049,6 +10663,8 @@ components:
         - definition
         - enabled
         - id
+        - organizationId
+        - portalName
       properties:
         id:
           type: string
@@ -10066,21 +10682,26 @@ components:
           type: object
           required:
             - name
-            - version
+            - portalVersionId
           properties:
             name:
               type: string
-            version:
+            portalVersionId:
               type: string
+        organizationId:
+          type: string
+          format: uuid
+        portalName:
+          type: string
     PluginConfigurationDefinitionSpec:
       type: object
       required:
         - name
-        - version
+        - portalVersionId
       properties:
         name:
           type: string
-        version:
+        portalVersionId:
           type: string
     PluginConfigurationInput:
       type: object
@@ -10098,11 +10719,11 @@ components:
           type: object
           required:
             - name
-            - version
+            - portalVersionId
           properties:
             name:
               type: string
-            version:
+            portalVersionId:
               type: string
     PluginConfigurationsListResponse:
       type: object
@@ -10120,6 +10741,8 @@ components:
               - definition
               - enabled
               - id
+              - organizationId
+              - portalName
             properties:
               id:
                 type: string
@@ -10137,12 +10760,17 @@ components:
                 type: object
                 required:
                   - name
-                  - version
+                  - portalVersionId
                 properties:
                   name:
                     type: string
-                  version:
+                  portalVersionId:
                     type: string
+              organizationId:
+                type: string
+                format: uuid
+              portalName:
+                type: string
         total:
           type: integer
         pageInfo:
@@ -10152,6 +10780,355 @@ components:
               type: string
             next:
               type: string
+    PluginDefinition:
+      type: object
+      required:
+        - createdAt
+        - description
+        - displayName
+        - iconName
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        displayName:
+          type: string
+        description:
+          type: string
+        iconName:
+          type: string
+        frontend:
+          type: object
+          properties:
+            plugins:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  version:
+                    type: string
+            configSchema:
+              type: object
+            uiSchema:
+              type: object
+            extensions:
+              type: array
+              items:
+                type: object
+                required:
+                  - type
+                  - path
+                  - title
+                  - description
+                properties:
+                  path:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                      - Card
+                      - Content
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  configSchema:
+                    type: object
+                  uiSchema:
+                    type: object
+        backend:
+          type: object
+          properties:
+            plugins:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  version:
+                    type: string
+            configSchema:
+              type: object
+            uiSchema:
+              type: object
+    PluginDefinitionBackendSpec:
+      type: object
+      properties:
+        plugins:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              version:
+                type: string
+        configSchema:
+          type: object
+        uiSchema:
+          type: object
+    PluginDefinitionFrontendExtension:
+      type: object
+      required:
+        - type
+        - path
+        - title
+        - description
+      properties:
+        path:
+          type: string
+        type:
+          type: string
+          enum:
+            - Card
+            - Content
+        title:
+          type: string
+        description:
+          type: string
+        configSchema:
+          type: object
+        uiSchema:
+          type: object
+    PluginDefinitionFrontendSpec:
+      type: object
+      properties:
+        plugins:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              version:
+                type: string
+        configSchema:
+          type: object
+        uiSchema:
+          type: object
+        extensions:
+          type: array
+          items:
+            type: object
+            required:
+              - type
+              - path
+              - title
+              - description
+            properties:
+              path:
+                type: string
+              type:
+                type: string
+                enum:
+                  - Card
+                  - Content
+              title:
+                type: string
+              description:
+                type: string
+              configSchema:
+                type: object
+              uiSchema:
+                type: object
+    PluginDefinitionInput:
+      type: object
+      required:
+        - name
+        - displayName
+        - description
+        - iconName
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        displayName:
+          type: string
+        description:
+          type: string
+        iconName:
+          type: string
+        frontend:
+          type: object
+          properties:
+            plugins:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  version:
+                    type: string
+            configSchema:
+              type: object
+            uiSchema:
+              type: object
+            extensions:
+              type: array
+              items:
+                type: object
+                required:
+                  - type
+                  - path
+                  - title
+                  - description
+                properties:
+                  path:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                      - Card
+                      - Content
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  configSchema:
+                    type: object
+                  uiSchema:
+                    type: object
+        backend:
+          type: object
+          properties:
+            plugins:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  version:
+                    type: string
+            configSchema:
+              type: object
+            uiSchema:
+              type: object
+    PluginDefinitionsListResponse:
+      type: object
+      required:
+        - item
+        - total
+        - pageInfo
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            required:
+              - createdAt
+              - description
+              - displayName
+              - iconName
+              - id
+              - name
+            properties:
+              id:
+                type: string
+                format: uuid
+              createdAt:
+                type: string
+                format: date-time
+              name:
+                type: string
+                format: lowercasealpha
+                minLength: 3
+                maxLength: 24
+              displayName:
+                type: string
+              description:
+                type: string
+              iconName:
+                type: string
+              frontend:
+                type: object
+                properties:
+                  plugins:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        version:
+                          type: string
+                  configSchema:
+                    type: object
+                  uiSchema:
+                    type: object
+                  extensions:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - type
+                        - path
+                        - title
+                        - description
+                      properties:
+                        path:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                            - Card
+                            - Content
+                        title:
+                          type: string
+                        description:
+                          type: string
+                        configSchema:
+                          type: object
+                        uiSchema:
+                          type: object
+              backend:
+                type: object
+                properties:
+                  plugins:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        version:
+                          type: string
+                  configSchema:
+                    type: object
+                  uiSchema:
+                    type: object
+        total:
+          type: integer
+        pageInfo:
+          type: object
+          properties:
+            prev:
+              type: string
+            next:
+              type: string
+    PluginNameVersionSpec:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
     Portal:
       type: object
       required:
@@ -10167,7 +11144,7 @@ components:
         - tenantName
         - title
         - url
-        - version
+        - versionId
       properties:
         id:
           type: string
@@ -10189,7 +11166,7 @@ components:
           format: lowercasealpha
           minLength: 3
           maxLength: 16
-        version:
+        versionId:
           type: string
         tenantName:
           type: string
@@ -10217,6 +11194,33 @@ components:
               type: string
             detail:
               type: string
+        version:
+          type: object
+          required:
+            - createdAt
+            - id
+            - major
+            - minor
+            - patch
+            - rev
+            - version
+          properties:
+            id:
+              type: string
+              format: uuid
+            createdAt:
+              type: string
+              format: date-time
+            version:
+              type: string
+            major:
+              type: integer
+            minor:
+              type: integer
+            patch:
+              type: integer
+            rev:
+              type: integer
     PortalInput:
       type: object
       required:
@@ -10225,7 +11229,7 @@ components:
         - organizationName
         - tenantName
         - domain
-        - version
+        - versionId
         - alternateDomains
       properties:
         name:
@@ -10242,7 +11246,7 @@ components:
           format: lowercasealpha
           minLength: 3
           maxLength: 16
-        version:
+        versionId:
           type: string
         tenantName:
           type: string
@@ -10295,8 +11299,12 @@ components:
                   properties:
                     name:
                       type: string
+                      x-oapi-codegen-extra-tags:
+                        tfsdk: name
                     value:
                       type: string
+                      x-oapi-codegen-extra-tags:
+                        tfsdk: value
               pathRewrite:
                 type: array
                 nullable: true
@@ -10308,8 +11316,12 @@ components:
                   properties:
                     src:
                       type: string
+                      x-oapi-codegen-extra-tags:
+                        tfsdk: src
                     dst:
                       type: string
+                      x-oapi-codegen-extra-tags:
+                        tfsdk: dst
               changeOrigin:
                 type: boolean
               allowedMethods:
@@ -10377,8 +11389,12 @@ components:
             properties:
               name:
                 type: string
+                x-oapi-codegen-extra-tags:
+                  tfsdk: name
               value:
                 type: string
+                x-oapi-codegen-extra-tags:
+                  tfsdk: value
         pathRewrite:
           type: array
           nullable: true
@@ -10390,8 +11406,12 @@ components:
             properties:
               src:
                 type: string
+                x-oapi-codegen-extra-tags:
+                  tfsdk: src
               dst:
                 type: string
+                x-oapi-codegen-extra-tags:
+                  tfsdk: dst
         changeOrigin:
           type: boolean
         allowedMethods:
@@ -10423,8 +11443,12 @@ components:
       properties:
         name:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: name
         value:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: value
     PortalProxyInput:
       type: object
       required:
@@ -10450,8 +11474,12 @@ components:
             properties:
               name:
                 type: string
+                x-oapi-codegen-extra-tags:
+                  tfsdk: name
               value:
                 type: string
+                x-oapi-codegen-extra-tags:
+                  tfsdk: value
         pathRewrite:
           type: array
           nullable: true
@@ -10463,8 +11491,12 @@ components:
             properties:
               src:
                 type: string
+                x-oapi-codegen-extra-tags:
+                  tfsdk: src
               dst:
                 type: string
+                x-oapi-codegen-extra-tags:
+                  tfsdk: dst
         changeOrigin:
           type: boolean
         allowedMethods:
@@ -10491,8 +11523,12 @@ components:
       properties:
         src:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: src
         dst:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: dst
     PortalStatus:
       type: object
       required:
@@ -10503,6 +11539,78 @@ components:
           type: string
         detail:
           type: string
+    PortalVersion:
+      type: object
+      required:
+        - createdAt
+        - id
+        - major
+        - minor
+        - patch
+        - rev
+        - version
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        version:
+          type: string
+        major:
+          type: integer
+        minor:
+          type: integer
+        patch:
+          type: integer
+        rev:
+          type: integer
+    PortalVersionsListResponse:
+      type: object
+      required:
+        - item
+        - total
+        - pageInfo
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            required:
+              - createdAt
+              - id
+              - major
+              - minor
+              - patch
+              - rev
+              - version
+            properties:
+              id:
+                type: string
+                format: uuid
+              createdAt:
+                type: string
+                format: date-time
+              version:
+                type: string
+              major:
+                type: integer
+              minor:
+                type: integer
+              patch:
+                type: integer
+              rev:
+                type: integer
+        total:
+          type: integer
+        pageInfo:
+          type: object
+          properties:
+            prev:
+              type: string
+            next:
+              type: string
     PortalsListResponse:
       type: object
       required:
@@ -10527,7 +11635,7 @@ components:
               - tenantName
               - title
               - url
-              - version
+              - versionId
             properties:
               id:
                 type: string
@@ -10549,7 +11657,7 @@ components:
                 format: lowercasealpha
                 minLength: 3
                 maxLength: 16
-              version:
+              versionId:
                 type: string
               tenantName:
                 type: string
@@ -10577,6 +11685,33 @@ components:
                     type: string
                   detail:
                     type: string
+              version:
+                type: object
+                required:
+                  - createdAt
+                  - id
+                  - major
+                  - minor
+                  - patch
+                  - rev
+                  - version
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  createdAt:
+                    type: string
+                    format: date-time
+                  version:
+                    type: string
+                  major:
+                    type: integer
+                  minor:
+                    type: integer
+                  patch:
+                    type: integer
+                  rev:
+                    type: integer
         total:
           type: integer
         pageInfo:

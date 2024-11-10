@@ -20,14 +20,17 @@ components:
             tfsdk: client_secret
         callbackUrl:
           type: string
+          nullable: true
           x-oapi-codegen-extra-tags:
             tfsdk: callback_url
         enterpriseInstanceUrl:
           type: string
+          nullable: true
           x-oapi-codegen-extra-tags:
             tfsdk: enterprise_instance_url
         additionalScopes:
           type: array
+          nullable: true
           items:
             type: string
           x-oapi-codegen-extra-tags:
@@ -128,6 +131,8 @@ components:
       properties:
         configType:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: "-"
 
     AuthProviderInput:
       type: object

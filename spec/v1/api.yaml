@@ -287,6 +287,120 @@ paths:
         "404":
           description: The resource was not found
 
+  # images
+  /versions:
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Retrieve a list of PortalVersions
+      operationId: getPortalVersions
+      responses:
+        "200":
+          description: A list of PortalVersions
+          content:
+            application/json:
+              schema:
+                $ref: "./portalversions.yaml#/components/schemas/PortalVersionsListResponse"
+
+  /versions/{versionId}:
+    parameters:
+      - name: versionId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The version of the PortalVersion
+    get:
+      summary: Retrieve a PortalVersion
+      operationId: getPortalVersion
+      responses:
+        "200":
+          description: The PortalVersion
+          content:
+            application/json:
+              schema:
+                $ref: "./portalversions.yaml#/components/schemas/PortalVersion"
+
+  /versions/{versionId}/plugindefinitions:
+    parameters:
+      - name: versionId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The version of the PortalVersion
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Retrieve a list of Plugin Definitions for a PortalVersion
+      operationId: getPortalVersionPluginDefinitions
+      responses:
+        "200":
+          description: A list of PortalVersion Plugin Definitions
+          content:
+            application/json:
+              schema:
+                $ref: "./plugindefinitions.yaml#/components/schemas/PluginDefinitionsListResponse"
+
+  /versions/{versionId}/plugindefinitions/{name}:
+    parameters:
+      - name: versionId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The version of the PortalVersion
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Plugin Definition
+    get:
+      summary: Retrieve a Plugin Definition
+      operationId: getPortalVersionPluginDefinition
+      responses:
+        "200":
+          description: The PortalVersion Plugin Definition
+          content:
+            application/json:
+              schema:
+                $ref: "./plugindefinitions.yaml#/components/schemas/PluginDefinition"
+
   # tenants
   /orgs/{orgId}/tenants:
     parameters:
@@ -295,7 +409,7 @@ paths:
         required: true
         schema:
           type: string
-        description: The ID of the Organization
+        description: The ID of the Organizzation
     get:
       parameters:
         - name: limit
@@ -1462,7 +1576,7 @@ paths:
         required: true
         schema:
           type: string
-        description: The name of the Entity Page Layout
+        description: The name of the EntityPageLayout
     get:
       summary: Get an Entity Page Layout
       operationId: getEntityPageLayout

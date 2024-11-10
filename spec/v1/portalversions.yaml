@@ -1,0 +1,39 @@
+components:
+  schemas:
+    PortalVersion:
+      allOf:
+        - $ref: "./base.yaml#/components/schemas/BaseResourceType"
+        - type: object
+          properties:
+            version:
+              type: string
+            major:
+              type: integer
+            minor:
+              type: integer
+            patch:
+              type: integer
+            rev:
+              type: integer
+          required:
+            - version
+            - major
+            - minor
+            - patch
+            - rev
+
+    PortalVersionsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PortalVersion"
+        total:
+          type: integer
+        pageInfo:
+          $ref: "./pagination.yaml#/components/schemas/PageInfo"
+      required:
+        - item
+        - total
+        - pageInfo

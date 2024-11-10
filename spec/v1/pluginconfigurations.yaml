@@ -4,35 +4,61 @@ components:
       allOf:
         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
         - $ref: "#/components/schemas/PluginConfigurationInput"
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            portalName:
+              type: string
+          required:
+            - organizationId
+            - portalName
 
-    PluginConfigurationFrontendEntityConfig:
-      type: object
-      properties:
-        path:
-          type: string
-        enabled:
-          type: boolean
-        config:
-          type: object
-      required:
-        - path
-        - enabled
+    # PluginConfigurationFrontendEntityConfig:
+    #   type: object
+    #   properties:
+    #     path:
+    #       type: string
+    #     enabled:
+    #       type: boolean
+    #     config:
+    #       type: object
+    #   required:
+    #     - path
+    #     - enabled
 
-    PluginConfigurationFrontendEntitiesConfig:
-      type: array
-      items:
-        $ref: "#/components/schemas/PluginConfigurationFrontendEntityConfig"
+    # PluginConfigurationFrontendEntitiesConfig:
+    #   type: array
+    #   items:    # PluginConfigurationFrontendEntityConfig:
+    #   type: object
+    #   properties:
+    #     path:
+    #       type: string
+    #     enabled:
+    #       type: boolean
+    #     config:
+    #       type: object
+    #   required:
+    #     - path
+    #     - enabled
+
+    # PluginConfigurationFrontendEntitiesConfig:
+    #   type: array
+    #   items:
+    #     $ref: "#/components/schemas/PluginConfigurationFrontendEntityConfig"
+    #     $ref: "#/components/schemas/PluginConfigurationFrontendEntityConfig"
 
     PluginConfigurationDefinitionSpec:
       type: object
       properties:
         name:
           type: string
-        version:
+        portalVersionId:
           type: string
       required:
         - name
-        - version
+        - portalVersionId
 
     PluginConfigurationInput:
       type: object
@@ -45,7 +71,6 @@ components:
           type: object
         definition:
           $ref: "#/components/schemas/PluginConfigurationDefinitionSpec"
-
       required:
         - enabled
         - definition

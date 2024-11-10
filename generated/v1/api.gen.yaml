@@ -276,6 +276,115 @@ paths:
           description: Connection successfully deleted
         '404':
           description: The resource was not found
+  /versions:
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Retrieve a list of PortalVersions
+      operationId: getPortalVersions
+      responses:
+        '200':
+          description: A list of PortalVersions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortalVersionsListResponse'
+  /versions/{versionId}:
+    parameters:
+      - name: versionId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The version of the PortalVersion
+    get:
+      summary: Retrieve a PortalVersion
+      operationId: getPortalVersion
+      responses:
+        '200':
+          description: The PortalVersion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortalVersion'
+  /versions/{versionId}/plugindefinitions:
+    parameters:
+      - name: versionId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The version of the PortalVersion
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Limit number of items
+        - name: prev
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The previous cursor
+        - name: next
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The next cursor
+      summary: Retrieve a list of Plugin Definitions for a PortalVersion
+      operationId: getPortalVersionPluginDefinitions
+      responses:
+        '200':
+          description: A list of PortalVersion Plugin Definitions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginDefinitionsListResponse'
+  /versions/{versionId}/plugindefinitions/{name}:
+    parameters:
+      - name: versionId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The version of the PortalVersion
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the Plugin Definition
+    get:
+      summary: Retrieve a Plugin Definition
+      operationId: getPortalVersionPluginDefinition
+      responses:
+        '200':
+          description: The PortalVersion Plugin Definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginDefinition'
   /orgs/{orgId}/tenants:
     parameters:
       - name: orgId
@@ -283,7 +392,7 @@ paths:
         required: true
         schema:
           type: string
-        description: The ID of the Organization
+        description: The ID of the Organizzation
     get:
       parameters:
         - name: limit
@@ -1421,7 +1530,7 @@ paths:
         required: true
         schema:
           type: string
-        description: The name of the Entity Page Layout
+        description: The name of the EntityPageLayout
     get:
       summary: Get an Entity Page Layout
       operationId: getEntityPageLayout
@@ -1483,6 +1592,8 @@ components:
       properties:
         configType:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: '-'
     AuthProviderInput:
       type: object
       properties:
@@ -1848,14 +1959,17 @@ components:
             tfsdk: client_secret
         callbackUrl:
           type: string
+          nullable: true
           x-oapi-codegen-extra-tags:
             tfsdk: callback_url
         enterpriseInstanceUrl:
           type: string
+          nullable: true
           x-oapi-codegen-extra-tags:
             tfsdk: enterprise_instance_url
         additionalScopes:
           type: array
+          nullable: true
           items:
             type: string
           x-oapi-codegen-extra-tags:
@@ -2377,16 +2491,26 @@ components:
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - $ref: '#/components/schemas/PluginConfigurationInput'
+        - type: object
+          properties:
+            organizationId:
+              type: string
+              format: uuid
+            portalName:
+              type: string
+          required:
+            - organizationId
+            - portalName
     PluginConfigurationDefinitionSpec:
       type: object
       properties:
         name:
           type: string
-        version:
+        portalVersionId:
           type: string
       required:
         - name
-        - version
+        - portalVersionId
     PluginConfigurationInput:
       type: object
       properties:
@@ -2416,6 +2540,104 @@ components:
         - item
         - total
         - pageInfo
+    PluginDefinition:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceType'
+        - $ref: '#/components/schemas/PluginDefinitionInput'
+    PluginDefinitionBackendSpec:
+      type: object
+      properties:
+        plugins:
+          type: array
+          items:
+            $ref: '#/components/schemas/PluginNameVersionSpec'
+        configSchema:
+          type: object
+        uiSchema:
+          type: object
+    PluginDefinitionFrontendExtension:
+      type: object
+      properties:
+        path:
+          type: string
+        type:
+          type: string
+          enum:
+            - Card
+            - Content
+        title:
+          type: string
+        description:
+          type: string
+        configSchema:
+          type: object
+        uiSchema:
+          type: object
+      required:
+        - type
+        - path
+        - title
+        - description
+    PluginDefinitionFrontendSpec:
+      type: object
+      properties:
+        plugins:
+          type: array
+          items:
+            $ref: '#/components/schemas/PluginNameVersionSpec'
+        configSchema:
+          type: object
+        uiSchema:
+          type: object
+        extensions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PluginDefinitionFrontendExtension'
+    PluginDefinitionInput:
+      type: object
+      properties:
+        name:
+          type: string
+          format: lowercasealpha
+          minLength: 3
+          maxLength: 24
+        displayName:
+          type: string
+        description:
+          type: string
+        iconName:
+          type: string
+        frontend:
+          $ref: '#/components/schemas/PluginDefinitionFrontendSpec'
+        backend:
+          $ref: '#/components/schemas/PluginDefinitionBackendSpec'
+      required:
+        - name
+        - displayName
+        - description
+        - iconName
+    PluginDefinitionsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PluginDefinition'
+        total:
+          type: integer
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+      required:
+        - item
+        - total
+        - pageInfo
+    PluginNameVersionSpec:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
     Portal:
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
@@ -2433,6 +2655,8 @@ components:
               type: string
             status:
               $ref: '#/components/schemas/PortalStatus'
+            version:
+              $ref: '#/components/schemas/PortalVersion'
           required:
             - organizationId
             - url
@@ -2455,7 +2679,7 @@ components:
           format: lowercasealpha
           minLength: 3
           maxLength: 16
-        version:
+        versionId:
           type: string
         tenantName:
           type: string
@@ -2470,7 +2694,7 @@ components:
         - organizationName
         - tenantName
         - domain
-        - version
+        - versionId
         - alternateDomains
     PortalProxiesListResponse:
       type: object
@@ -2506,8 +2730,12 @@ components:
       properties:
         name:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: name
         value:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: value
       required:
         - name
         - value
@@ -2558,8 +2786,12 @@ components:
       properties:
         src:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: src
         dst:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: dst
       required:
         - src
         - dst
@@ -2573,6 +2805,42 @@ components:
       required:
         - status
         - detail
+    PortalVersion:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceType'
+        - type: object
+          properties:
+            version:
+              type: string
+            major:
+              type: integer
+            minor:
+              type: integer
+            patch:
+              type: integer
+            rev:
+              type: integer
+          required:
+            - version
+            - major
+            - minor
+            - patch
+            - rev
+    PortalVersionsListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortalVersion'
+        total:
+          type: integer
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+      required:
+        - item
+        - total
+        - pageInfo
     PortalsListResponse:
       type: object
       properties:

@@ -5,8 +5,12 @@ components:
       properties:
         name:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: name
         value:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: value
       required:
         - name
         - value
@@ -16,8 +20,12 @@ components:
       properties:
         src:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: src
         dst:
           type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: dst
       required:
         - src
         - dst
