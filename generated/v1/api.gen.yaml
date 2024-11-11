@@ -297,6 +297,12 @@ paths:
           schema:
             type: string
           description: The next cursor
+        - name: versionName
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Search for a Version by name
       summary: Retrieve a list of PortalVersions
       operationId: getPortalVersions
       responses:
