@@ -1,23 +1,30 @@
 components:
   schemas:
     Portal:
+      description: Represents a Portal resource.
       allOf:
         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
         - $ref: "#/components/schemas/PortalInput"
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             url:
+              description: The primary URL of the Portal.
               type: string
             hostname:
+              description: The hostname of the Portal.
               type: string
             identifier:
+              description: The identifier of the Portal.
               type: string
             status:
+              description: The current reconciliation status of the Portal.
               $ref: "#/components/schemas/PortalStatus"
             version:
+              description: The current version of the Portal.
               $ref: "./portalversions.yaml#/components/schemas/PortalVersion"
           required:
             - organizationId
@@ -26,13 +33,16 @@ components:
             - identifier
 
     PortalsListResponse:
+      description: Represents a list of Portal resources.
       type: object
       properties:
         items:
+          description: The list of Portal resources.
           type: array
           items:
             $ref: "#/components/schemas/Portal"
         total:
+          description: The total number of Portal resources.
           type: integer
         pageInfo:
           $ref: "./pagination.yaml#/components/schemas/PageInfo"
@@ -42,27 +52,35 @@ components:
         - pageInfo
 
     PortalInput:
+      description: Represents a Portal resource.
       type: object
       properties:
         name:
+          description: The name of the Portal.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 16
         title:
+          description: The HTML title of the Portal.
           type: string
         organizationName:
+          description: The name of the Organization operating this Portal.
           type: string
         domain:
+          description: The primary domain of the Portal.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 16
         versionId:
+          description: The ID of the Portal Version.
           type: string
         tenantName:
+          description: The name of the Tenant providing user idenity to this Portal.
           type: string
         alternateDomains:
+          description: A list of alternate domains for the Portal.
           type: array
           items:
             type: string
@@ -77,11 +95,14 @@ components:
         - alternateDomains
 
     PortalStatus:
+      description: Represents the current status of a Portal.
       type: object
       properties:
         status:
+          description: The current status of the Portal.
           type: string
         detail:
+          description: A detailed message about the current status of the Portal.
           type: string
       required:
         - status

@@ -6,6 +6,7 @@ components:
       type: object
       properties:
         minutes:
+          description: The number of minutes between each run of the task.
           type: integer
           default: 10
           x-oapi-codegen-extra-tags:
@@ -17,13 +18,13 @@ components:
       type: object
       properties:
         minutes:
+          description: The number of minutes before the task times out.
           type: integer
           default: 10
           x-oapi-codegen-extra-tags:
             tfsdk: minutes
 
     TaskScheduleDefinitionConfig:
-      x-arctir-generate: true
       x-oapi-codegen-extra-tags:
         tfsdk: "-"
       type: object
@@ -34,12 +35,12 @@ components:
           $ref: "#/components/schemas/TaskScheduleDefinitionTimeConfigTimeout"
 
     GithubCatalogProviderFiltersTopic:
-      x-arctir-generate: true
       x-oapi-codegen-extra-tags:
         tfsdk: topic
       type: object
       properties:
         include:
+          description: A list of Github topics to include in the catalog.
           type: array
           items:
             type: string
@@ -47,6 +48,7 @@ components:
           x-oapi-codegen-extra-tags:
             tfsdk: include
         exclude:
+          description: A list of Github topics to exclude from the catalog.
           type: array
           items:
             type: string
@@ -55,21 +57,23 @@ components:
             tfsdk: exclude
 
     GithubCatalogProviderFilters:
-      x-arctir-generate: true
       x-oapi-codegen-extra-tags:
         tfsdk: filters
       type: object
       properties:
         branch:
+          description: The branch to use for the catalog.
           type: string
           default: main
           x-oapi-codegen-extra-tags:
             tfsdk: branch
         repository:
+          description: The repository to use for the catalog.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: repository
         allowForks:
+          description: Whether to include forks in the catalog.
           type: boolean
           default: false
           x-oapi-codegen-extra-tags:
@@ -77,6 +81,7 @@ components:
         topic:
           $ref: "#/components/schemas/GithubCatalogProviderFiltersTopic"
         visibility:
+          description: The visibility of the repositories to include in the catalog.
           type: array
           items:
             type: string
@@ -96,15 +101,19 @@ components:
       type: object
       properties:
         host:
+          description: The host for the Github catalog provider.
           type: string
           default: "https://github.com"
           x-oapi-codegen-extra-tags:
             tfsdk: host
         organization:
+          description: The organization to use for the catalog.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: organization
         catalogPath:
+          description: The path to the catalog file.
+          default: "./catalog.yaml"
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: catalog_path
@@ -124,36 +133,45 @@ components:
       type: object
       properties:
         host:
+          description: The host for the Gitlab catalog provider.
           type: string
           default: "https://gitlab.com"
           x-oapi-codegen-extra-tags:
             tfsdk: host
         group:
+          description: The group to use for the catalog.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: group
         branch:
+          description: The branch to use for the catalog.
           type: string
           default: main
           x-oapi-codegen-extra-tags:
             tfsdk: branch
         entityFilename:
+          description: The filename to use for the entity.
+          default: "./catalog-info.yaml"
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: entity_filename
         projectPattern:
+          description: The project pattern to use for the catalog.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: project_pattern
         userPattern:
+          description: The user pattern to use for the catalog.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: user_pattern
         groupPattern:
+          description: The group pattern to use for the catalog.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: group_pattern
         skipForkedRepos:
+          description: Whether to skip forked repositories in the catalog.
           type: boolean
           default: true
           x-oapi-codegen-extra-tags:
@@ -173,10 +191,12 @@ components:
       type: object
       properties:
         target:
+          description: The target URL for the location catalog provider.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: target
         allow:
+          description: The types of entities to allow in the catalog.
           type: array
           items:
             type: string
@@ -199,10 +219,12 @@ components:
       type: object
       properties:
         items:
+          description: A list of Flightdeck Catalog Provider resources.
           type: array
           items:
             $ref: "#/components/schemas/CatalogProvider"
         total:
+          description: The total number of Flightdeck Catalog Provider resources.
           type: integer
         pageInfo:
           $ref: "./pagination.yaml#/components/schemas/PageInfo"
@@ -212,15 +234,18 @@ components:
         - pageInfo
 
     CatalogProvider:
+      description: Represents a Flightdeck Catalog Provider.
       allOf:
         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
         - $ref: "#/components/schemas/CatalogProviderInput"
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             portalName:
+              description: The name of the Flightdeck Portal.
               type: string
           required:
             - organizationId
@@ -232,6 +257,7 @@ components:
         - configType
       properties:
         configType:
+          description: The type of the Flightdeck Catalog Provider configuration.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: "-"
@@ -240,11 +266,13 @@ components:
       type: object
       properties:
         name:
+          description: The name of the Catalog Provider resource.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 24
         providerConfig:
+          description: The configuration for the Flightdeck Catalog Provider.
           oneOf:
             - $ref: "#/components/schemas/GithubCatalogProvider"
             - $ref: "#/components/schemas/GitlabCatalogProvider"

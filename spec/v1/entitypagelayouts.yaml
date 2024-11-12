@@ -4,10 +4,12 @@ components:
       type: object
       properties:
         path:
+          description: The unique Entity Page Extension path.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: path
         filters:
+          description: Named filters for this Entity Page Extension.
           type: array
           nullable: true
           items:
@@ -15,6 +17,7 @@ components:
           x-oapi-codegen-extra-tags:
             tfsdk: filters
         config:
+          description: Configuration for the Entity Page Extension.
           type: object
           nullable: true
           x-oapi-codegen-extra-tags:
@@ -26,10 +29,12 @@ components:
       type: object
       properties:
         path:
+          description: The unique Entity Page Extension path.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: path
         filters:
+          description: Named filters for this Entity Page Extension.
           type: array
           nullable: true
           items:
@@ -37,6 +42,7 @@ components:
           x-oapi-codegen-extra-tags:
             tfsdk: filters
         config:
+          description: Configuration for the Entity Page Extension.
           type: object
           nullable: true
           x-oapi-codegen-extra-tags:
@@ -48,15 +54,19 @@ components:
       type: object
       properties:
         name:
+          description: The name of the Flightdeck Entity Page Layout resource.
           type: string
         active:
+          description: Indicates whether the Flightdeck Page Layout is the activated.
           type: boolean
         contentOrder:
+          description: The order in which to display Entity Content pages.
           type: array
           nullable: true
           items:
             $ref: "#/components/schemas/EntityPageContentSpec"
         cardOrder:
+          description: The order in which to display Entity Card components.
           type: array
           nullable: true
           items:
@@ -65,15 +75,18 @@ components:
         - name
 
     EntityPageLayout:
+      description: Represents a Flightdeck Entity Page Layout resource.
       allOf:
         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
         - $ref: "#/components/schemas/EntityPageLayoutInput"
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             portalName:
+              description: The name of the Flightdeck Portal.
               type: string
           required:
             - organizationId
@@ -83,10 +96,12 @@ components:
       type: object
       properties:
         items:
+          description: A list of Flightdeck Entity Page Layout resources.
           type: array
           items:
             $ref: "#/components/schemas/EntityPageLayout"
         total:
+          description: The total number of Flightdeck Entity Page Layout resources.
           type: integer
         pageInfo:
           $ref: "./pagination.yaml#/components/schemas/PageInfo"

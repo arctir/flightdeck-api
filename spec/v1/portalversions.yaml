@@ -1,19 +1,25 @@
 components:
   schemas:
     PortalVersion:
+      description: Represents a Flightdeck Portal Version resource.
       allOf:
         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
         - type: object
           properties:
             version:
+              description: The human-readable semver version of the Flightdeck Portal.
               type: string
             major:
+              description: The version's major release number.
               type: integer
             minor:
+              description: The version's minor release number.
               type: integer
             patch:
+              description: The version's patch release number.
               type: integer
             rev:
+              description: The version's revision release number.
               type: integer
           required:
             - version
@@ -26,10 +32,12 @@ components:
       type: object
       properties:
         items:
+          description: A lidt of Flightdeck Portal Version resources.
           type: array
           items:
             $ref: "#/components/schemas/PortalVersion"
         total:
+          description: The total number of Flightdeck Portal Version resources.
           type: integer
         pageInfo:
           $ref: "./pagination.yaml#/components/schemas/PageInfo"

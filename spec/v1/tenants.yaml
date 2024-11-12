@@ -1,17 +1,21 @@
 components:
   schemas:
     Tenant:
+      description: Represents a Tenant resource.
       allOf:
         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
         - $ref: "#/components/schemas/TenantInput"
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             identifier:
+              description: The internal identifier of the Tenant.
               type: string
             issuerUrl:
+              description: The URL of the Tenant's OIDC Issuer.
               type: string
           required:
             - organizationId
@@ -19,13 +23,16 @@ components:
             - issuerUrl
 
     TenantsListResponse:
+      description: Represents a list of Tenant resources.
       type: object
       properties:
         items:
+          description: The list of Tenant resources.
           type: array
           items:
             $ref: "#/components/schemas/Tenant"
         total:
+          description: The total number of Tenant resources.
           type: integer
         pageInfo:
           $ref: "./pagination.yaml#/components/schemas/PageInfo"
@@ -35,14 +42,17 @@ components:
         - pageInfo
 
     TenantInput:
+      description: Represents a Tenant resource.
       type: object
       properties:
         name:
+          description: The name of the Tenant.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 16
         displayName:
+          description: The display name of the Tenant.
           type: string
       required:
         - name

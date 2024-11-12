@@ -1,27 +1,35 @@
 components:
   schemas:
     PluginDefinition:
+      description: Represents a Plugin Definition resource.
       allOf:
         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
         - $ref: "#/components/schemas/PluginDefinitionInput"
 
     PluginDefinitionFrontendExtension:
+      description: Represents a Plugin Definition Frontend Extension resource.
       type: object
       properties:
         path:
+          description: The unique Entity Extension path.
           type: string
         type:
+          description: The type of the Entity Extension.
           type: string
           enum:
             - Card
             - Content
         title:
+          description: The title of the Entity Extension.
           type: string
         description:
+          description: The description of the Entity Extension.
           type: string
         configSchema:
+          description: The configuration schema of the Entity Extension.
           type: object
         uiSchema:
+          description: The UI schema of the Entity Extension.
           type: object
       required:
         - type
@@ -30,54 +38,70 @@ components:
         - description
 
     PluginNameVersionSpec:
+      description: Represents a Plugin Name Version resource.
       type: object
       properties:
         name:
+          description: The name of the Plugin.
           type: string
         version:
+          description: The version of the Plugin.
           type: string
 
     PluginDefinitionBackendSpec:
+      description: Represents a Plugin Definition Backend resource.
       type: object
       properties:
         plugins:
+          description: The list of Plugin Name Version resources.
           type: array
           items:
             $ref: "#/components/schemas/PluginNameVersionSpec"
         configSchema:
+          description: The configuration schema of the Plugin.
           type: object
         uiSchema:
           type: object
 
     PluginDefinitionFrontendSpec:
+      description: Represents a Plugin Definition Frontend resource.
       type: object
       properties:
         plugins:
+          description: The list of Plugin Name Version resources.
           type: array
           items:
             $ref: "#/components/schemas/PluginNameVersionSpec"
         configSchema:
+          description: The configuration schema of the Plugin.
           type: object
         uiSchema:
+          description: The UI schema of the Plugin.
           type: object
         extensions:
+          description: The list of Plugin Definition Frontend Extension resources.
           type: array
           items:
             $ref: "#/components/schemas/PluginDefinitionFrontendExtension"
 
     PluginDefinitionInput:
+      description: Represents a Plugin Definition resource.
       type: object
       properties:
         name:
+          description: The name of the Plugin Definition.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 24
         displayName:
+          description: The display name of the Plugin Definition.
           type: string
         description:
+          description: The description of the Plugin Definition.
           type: string
         iconName:
+          description: The icon name of the Plugin Definition.
           type: string
         frontend:
           $ref: "#/components/schemas/PluginDefinitionFrontendSpec"
@@ -90,13 +114,16 @@ components:
         - iconName
 
     PluginDefinitionsListResponse:
+      description: Represents a list of Plugin Definition resources.
       type: object
       properties:
         items:
+          description: The list of Plugin Definition resources.
           type: array
           items:
             $ref: "#/components/schemas/PluginDefinition"
         total:
+          description: The total number of Plugin Definition resources.
           type: integer
         pageInfo:
           $ref: "./pagination.yaml#/components/schemas/PageInfo"
@@ -104,90 +131,3 @@ components:
         - item
         - total
         - pageInfo
-# components:
-#   schemas:
-#     PluginDefinition:
-#       allOf:
-#         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
-#         - $ref: "#/components/schemas/PluginDefinitionInput"
-
-#     PluginDefinitionFrontendEntity:
-#       type: object
-#       properties:
-#         id:
-#           type: string
-#         type:
-#           type: string
-#           enum:
-#             - Card
-#             - Content
-#         path:
-#           type: string
-#         title:
-#           type: string
-#         description:
-#           type: string
-#       required:
-#         - id
-#         - type
-#         - path
-#         - title
-#         - description
-
-#     PluginDefinitionFrontendEntities:
-#       type: array
-#       items:
-#         $ref: "#/components/schemas/PluginDefinitionFrontendEntity"
-
-#     PluginDefinitionInput:
-#       type: object
-#       properties:
-#         name:
-#           type: string
-#           format: lowercasealpha
-#           minLength: 3
-#           maxLength: 24
-#         version:
-#           type: integer
-#         displayName:
-#           type: string
-#         description:
-#           type: string
-#         iconName:
-#           type: string
-#         frontend:
-#           type: boolean
-#         backend:
-#           type: boolean
-#         configSchema:
-#           type: object
-#         uiSchema:
-#           type: object
-#         configTemplate:
-#           type: string
-#         frontendEntities:
-#           $ref: "#/components/schemas/PluginDefinitionFrontendEntities"
-#       required:
-#         - name
-#         - version
-#         - displayName
-#         - description
-#         - iconName
-#         - frontend
-#         - backend
-
-#     PluginDefinitionsListResponse:
-#       type: object
-#       properties:
-#         items:
-#           type: array
-#           items:
-#             $ref: "#/components/schemas/PluginDefinition"
-#         total:
-#           type: integer
-#         pageInfo:
-#           $ref: "./pagination.yaml#/components/schemas/PageInfo"
-#       required:
-#         - item
-#         - total
-#         - pageInfo

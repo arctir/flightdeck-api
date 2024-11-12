@@ -1,6 +1,8 @@
 components:
   schemas:
     GithubAuthProvider:
+      description: |
+        Represents the configuration for a Github OAuth2 provider.
       allOf:
         - $ref: "#/components/schemas/AuthProviderConfig"
         - $ref: "#/components/schemas/GithubAuthProviderInput"
@@ -9,26 +11,31 @@ components:
       type: object
       properties:
         clientId:
+          description: The client ID for the Github OAuth2 provider.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: client_id
         clientSecret:
+          description: The client secret for the Github OAuth2 provider.
           type: string
           format: password
           writeOnly: true
           x-oapi-codegen-extra-tags:
             tfsdk: client_secret
         callbackUrl:
+          description: The callback URL for the Github OAuth2 provider.
           type: string
           nullable: true
           x-oapi-codegen-extra-tags:
             tfsdk: callback_url
         enterpriseInstanceUrl:
+          description: The instance URL for the Github Enterprise instance.
           type: string
           nullable: true
           x-oapi-codegen-extra-tags:
             tfsdk: enterprise_instance_url
         additionalScopes:
+          description: Any additional scopes necessary for the Github OAuth2 provider.
           type: array
           nullable: true
           items:
@@ -40,6 +47,8 @@ components:
         - clientSecret
 
     GitlabAuthProvider:
+      description: |
+        Represents the configuration for a Gitlab OAuth2 provider.
       allOf:
         - $ref: "#/components/schemas/AuthProviderConfig"
         - $ref: "#/components/schemas/GitlabAuthProviderInput"
@@ -48,16 +57,21 @@ components:
       type: object
       properties:
         clientId:
+          description: The client ID for the Gitlab OAuth2 provider.
           type: string
         clientSecret:
+          description: The client secret for the Gitlab OAuth2 provider.
           type: string
           format: password
           writeOnly: true
         audience:
+          description: The audience for the Gitlab OAuth2 provider.
           type: string
         callbackUrl:
+          description: The callback URL for the Gitlab OAuth2 provider.
           type: string
         additionalScopes:
+          description: Any additional scopes necessary for the Gitlab OAuth2 provider.
           type: array
           items:
             type: string
@@ -76,14 +90,18 @@ components:
       type: object
       properties:
         clientId:
+          description: The client ID for the Google OAuth2 provider.
           type: string
         clientSecret:
+          description: The client secret for the Google OAuth2 provider.
           type: string
           format: password
           writeOnly: true
         callbackUrl:
+          description: The callback URL for the Google OAuth2 provider.
           type: string
         additionalScopes:
+          description: Any additional scopes necessary for the Google OAuth2 provider.
           type: array
           items:
             type: string
@@ -110,6 +128,7 @@ components:
         - pageInfo
 
     AuthProvider:
+      description: Represents a Flightdeck Auth Provider resource.
       allOf:
         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
         - $ref: "#/components/schemas/AuthProviderInput"
@@ -138,6 +157,7 @@ components:
       type: object
       properties:
         name:
+          description: The name of the Auth Provider resource.
           type: string
           format: lowercasealpha
           minLength: 3

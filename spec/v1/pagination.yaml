@@ -4,6 +4,8 @@ components:
       type: object
       properties:
         prev:
+          description: The URL of the previous page.
           type: string
         next:
+          description: The URL of the next page.
           type: string

@@ -1,13 +1,16 @@
 components:
   schemas:
     PortalProxyHeader:
+      description: Represents a Portal Proxy Header resource.
       type: object
       properties:
         name:
+          description: The name of the HTTP header.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: name
         value:
+          description: The value of the HTTP header.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: value
@@ -16,13 +19,16 @@ components:
         - value
 
     PortalProxyPathRewrite:
+      description: Represents a Portal Proxy Path Rewrite resource.
       type: object
       properties:
         src:
+          description: The source path to rewrite.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: src
         dst:
+          description: The destination of the path to rewrite.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: dst
@@ -31,37 +37,47 @@ components:
         - dst
 
     PortalProxyInput:
+      description: Represents a Portal Proxy resource.
       type: object
       properties:
         name:
+          description: The name of the Portal Proxy.
           type: string
         endpoint:
+          description: The endpoint of the Portal Proxy.
           type: string
         target:
+          description: The HTTP target of the Portal Proxy.
           type: string
         httpHeaders:
+          description: The list of Portal Proxy Header resources to be applied.
           type: array
           nullable: true
           items:
             $ref: "#/components/schemas/PortalProxyHeader"
         pathRewrite:
+          description: The list of Portal Proxy Path Rewrite resources to be applied.
           type: array
           nullable: true
           items:
             $ref: "#/components/schemas/PortalProxyPathRewrite"
         changeOrigin:
+          description: Indicates whether to change the origin of the Portal Proxy.
           type: boolean
         allowedMethods:
+          description: The list of allowed HTTP methods.
           type: array
           nullable: true
           items:
             type: string
         allowedHeaders:
+          description: The list of allowed HTTP headers.
           type: array
           nullable: true
           items:
             type: string
         credentials:
+          description: The credential configuration of the Portal Proxy.
           type: string
           enum:
             - require
@@ -74,6 +90,7 @@ components:
         - credentials
 
     PortalProxy:
+      description: Represents a Portal Proxy resource.
       allOf:
         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
         - $ref: "#/components/schemas/PortalProxyInput"
@@ -89,13 +106,16 @@ components:
             - portalName
 
     PortalProxiesListResponse:
+      description: Represents a list of Portal Proxy resources.
       type: object
       properties:
         items:
+          description: The list of Portal Proxy resources.
           type: array
           items:
             $ref: "#/components/schemas/PortalProxy"
         total:
+          description: The total number of Portal Proxy resources.
           type: integer
         pageInfo:
           $ref: "./pagination.yaml#/components/schemas/PageInfo"

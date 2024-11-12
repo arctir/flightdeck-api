@@ -12,15 +12,20 @@ components:
         - entitlements
 
     SubscriptionEntitlements:
+      description: Represents a Flightdeck Organization's Entitlements status.
       type: object
       properties:
         portals:
+          description: The number of Flightdeck Portals that this Organization is entitled to.
           type: integer
         tenants:
+          description: The number of Flightdeck Tenants that this Organization is entitled to
           type: integer
         tenantUsers:
+          description: The number of Flightdeck Tenant Users that this Organization is entitled to
           type: integer
         connections:
+          description: The number of Flightdeck Connections that this Organization is entitled to
           type: integer
       required:
         - portals
@@ -29,15 +34,18 @@ components:
         - connections
 
     Organization:
+      description: Represents a Flightdeck Organization.
       allOf:
         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
         - $ref: "#/components/schemas/OrganizationInput"
         - type: object
           properties:
             owner:
+              description: The Flightdeck User ID of the Organization's owner.
               type: string
               format: uuid
             subdomain:
+              description: The designated Flightdeck subdomain for this Organization.
               type: string
           required:
             - owner
@@ -63,18 +71,15 @@ components:
       type: object
       properties:
         name:
+          description: The name of the Flightdeck Organization.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 24
         clusterId:
+          description: The ID of the Flightdeck Cluster that manages this Organization.
           type: string
           format: uuid
-        #members:
-        #  type: array
-        #  items:
-        #    type: string
-        #    format: uuid
         subscription:
           $ref: "#/components/schemas/SubscriptionInfo"
       required:

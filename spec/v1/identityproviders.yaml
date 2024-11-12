@@ -1,6 +1,7 @@
 components:
   schemas:
     GithubIdentityProvider:
+      description: Represents a Github Identity Provider resource.
       allOf:
         - $ref: "#/components/schemas/IdentityProviderConfig"
         - $ref: "#/components/schemas/GithubIdentityProviderInput"
@@ -9,17 +10,22 @@ components:
       type: object
       properties:
         redirectUri:
+          description: The URI to redirect to after the user has authenticated.
           type: string
         clientId:
+          description: The client ID of the Github application.
           type: string
         clientSecret:
+          description: The client secret of the Github application.
           type: string
           format: password
           writeOnly: true
         baseUrl:
+          description: The base URL of the Github application.
           type: string
           default: https://github.com
         apiUrl:
+          description: The API URL of the Github application.
           type: string
           default: https://api.github.com
       required:
@@ -28,6 +34,7 @@ components:
         - clientSecret
 
     GitlabIdentityProvider:
+      description: Represents a Gitlab Identity Provider resource.
       allOf:
         - $ref: "#/components/schemas/IdentityProviderConfig"
         - $ref: "#/components/schemas/GitlabIdentityProviderInput"
@@ -36,10 +43,13 @@ components:
       type: object
       properties:
         redirectUri:
+          description: The URI to redirect to after the user has authenticated.
           type: string
         clientId:
+          description: The client ID of the Gitlab application.
           type: string
         clientSecret:
+          description: The client secret of the Gitlab application.
           type: string
           format: password
           writeOnly: true
@@ -49,6 +59,7 @@ components:
         - clientSecret
 
     GoogleIdentityProvider:
+      description: Represents a Google Identity Provider resource.
       allOf:
         - $ref: "#/components/schemas/IdentityProviderConfig"
         - $ref: "#/components/schemas/GoogleIdentityProviderInput"
@@ -57,28 +68,36 @@ components:
       type: object
       properties:
         redirectUri:
+          description: The URI to redirect to after the user has authenticated.
           type: string
         clientId:
+          description: The client ID of the Google application.
           type: string
         clientSecret:
+          description: The client secret of the Google application.
           type: string
           format: password
           writeOnly: true
         hostedDomain:
+          description: The hosted domain of the Google application.
           type: string
         userIp:
+          description: The user IP of the Google application.
           type: boolean
         refreshToken:
+          description: Whether to refresh the token of the Google application.
           type: boolean
 
     IdentityProvidersListResponse:
       type: object
       properties:
         items:
+          description: The list of Flightdeck Identity Provider resources.
           type: array
           items:
             $ref: "#/components/schemas/IdentityProvider"
         total:
+          description: The total number of Flightdeck Identity Provider resources.
           type: integer
         pageInfo:
           $ref: "./pagination.yaml#/components/schemas/PageInfo"
@@ -88,37 +107,44 @@ components:
         - pageInfo
 
     IdentityProvider:
+      description: Represents a Flightdeck Identity Provider resource.
       allOf:
         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
         - $ref: "#/components/schemas/IdentityProviderInput"
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             tenantName:
+              description: The name of the Flightdeck Tenant.
               type: string
           required:
             - organizationId
             - tenantName
 
     IdentityProviderConfig:
+      description: Represents an Identity Provider configuration resource.
       type: object
       required:
         - configType
       properties:
         configType:
+          description: The type of Identity Provider configuration.
           type: string
 
     IdentityProviderInput:
       type: object
       properties:
         name:
+          description: The name of the Flightdeck Identity Provider resource.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 24
         providerConfig:
+          description: The configuration of the Identity Provider.
           oneOf:
             - $ref: "#/components/schemas/GithubIdentityProvider"
             - $ref: "#/components/schemas/GitlabIdentityProvider"

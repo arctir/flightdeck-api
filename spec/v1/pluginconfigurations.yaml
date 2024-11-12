@@ -1,73 +1,49 @@
 components:
   schemas:
     PluginConfiguration:
+      description: Represents a Plugin Configuration resource.
       allOf:
         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
         - $ref: "#/components/schemas/PluginConfigurationInput"
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             portalName:
+              description: The name of the Flightdeck Portal.
               type: string
           required:
             - organizationId
             - portalName
 
-    # PluginConfigurationFrontendEntityConfig:
-    #   type: object
-    #   properties:
-    #     path:
-    #       type: string
-    #     enabled:
-    #       type: boolean
-    #     config:
-    #       type: object
-    #   required:
-    #     - path
-    #     - enabled
-
-    # PluginConfigurationFrontendEntitiesConfig:
-    #   type: array
-    #   items:    # PluginConfigurationFrontendEntityConfig:
-    #   type: object
-    #   properties:
-    #     path:
-    #       type: string
-    #     enabled:
-    #       type: boolean
-    #     config:
-    #       type: object
-    #   required:
-    #     - path
-    #     - enabled
-
-    # PluginConfigurationFrontendEntitiesConfig:
-    #   type: array
-    #   items:
-    #     $ref: "#/components/schemas/PluginConfigurationFrontendEntityConfig"
-    #     $ref: "#/components/schemas/PluginConfigurationFrontendEntityConfig"
-
     PluginConfigurationDefinitionSpec:
+      description: Represents a Plugin Configuration Definition resource.
       type: object
       properties:
         name:
+          description: The name of the Plugin Definition.
           type: string
         portalVersionId:
+          description: The ID of the Flightdeck Portal Version for the Plugin Definition.
           type: string
       required:
         - name
         - portalVersionId
 
     PluginConfigurationInput:
+      description: Represents a Plugin Configuration resource.
       type: object
       properties:
         enabled:
+          description: Indicates whether the Plugin Configuration is enabled.
           type: boolean
         frontendConfig:
+          description: The configuration of the Plugin on the frontend.
           type: object
         backendConfig:
+          description: The configuration of the Plugin on the backend.
           type: object
         definition:
           $ref: "#/components/schemas/PluginConfigurationDefinitionSpec"
@@ -79,10 +55,12 @@ components:
       type: object
       properties:
         items:
+          description: The list of Plugin Configuration resources.
           type: array
           items:
             $ref: "#/components/schemas/PluginConfiguration"
         total:
+          description: The total number of Plugin Configuration resources.
           type: integer
         pageInfo:
           $ref: "./pagination.yaml#/components/schemas/PageInfo"

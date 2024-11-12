@@ -1578,6 +1578,7 @@ paths:
 components:
   schemas:
     AuthProvider:
+      description: Represents a Flightdeck Auth Provider resource.
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - $ref: '#/components/schemas/AuthProviderInput'
@@ -1604,6 +1605,7 @@ components:
       type: object
       properties:
         name:
+          description: The name of the Auth Provider resource.
           type: string
           format: lowercasealpha
           minLength: 3
@@ -1641,24 +1643,29 @@ components:
       type: object
       properties:
         id:
+          description: The ID of the Flightdeck resource.
           type: string
           format: uuid
         createdAt:
+          description: The date and time of the resources creation.
           type: string
           format: date-time
       required:
         - id
         - createdAt
     CatalogProvider:
+      description: Represents a Flightdeck Catalog Provider.
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - $ref: '#/components/schemas/CatalogProviderInput'
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             portalName:
+              description: The name of the Flightdeck Portal.
               type: string
           required:
             - organizationId
@@ -1669,6 +1676,7 @@ components:
         - configType
       properties:
         configType:
+          description: The type of the Flightdeck Catalog Provider configuration.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: '-'
@@ -1676,11 +1684,13 @@ components:
       type: object
       properties:
         name:
+          description: The name of the Catalog Provider resource.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 24
         providerConfig:
+          description: The configuration for the Flightdeck Catalog Provider.
           oneOf:
             - $ref: '#/components/schemas/GithubCatalogProvider'
             - $ref: '#/components/schemas/GitlabCatalogProvider'
@@ -1698,10 +1708,12 @@ components:
       type: object
       properties:
         items:
+          description: A list of Flightdeck Catalog Provider resources.
           type: array
           items:
             $ref: '#/components/schemas/CatalogProvider'
         total:
+          description: The total number of Flightdeck Catalog Provider resources.
           type: integer
         pageInfo:
           $ref: '#/components/schemas/PageInfo'
@@ -1710,18 +1722,22 @@ components:
         - total
         - pageInfo
     Cluster:
+      description: Represents a Flightdeck Cluster resource.
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - type: object
           properties:
             name:
+              description: The name of the Cluster resource.
               type: string
               format: lowercasealpha
               minLength: 3
               maxLength: 24
             displayName:
+              description: The common name of the Cluster resource.
               type: string
             region:
+              description: The region where the Cluster is located.
               type: string
           required:
             - name
@@ -1810,10 +1826,12 @@ components:
       type: object
       properties:
         path:
+          description: The unique Entity Page Extension path.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: path
         filters:
+          description: Named filters for this Entity Page Extension.
           type: array
           nullable: true
           items:
@@ -1821,6 +1839,7 @@ components:
           x-oapi-codegen-extra-tags:
             tfsdk: filters
         config:
+          description: Configuration for the Entity Page Extension.
           type: object
           nullable: true
           x-oapi-codegen-extra-tags:
@@ -1831,10 +1850,12 @@ components:
       type: object
       properties:
         path:
+          description: The unique Entity Page Extension path.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: path
         filters:
+          description: Named filters for this Entity Page Extension.
           type: array
           nullable: true
           items:
@@ -1842,6 +1863,7 @@ components:
           x-oapi-codegen-extra-tags:
             tfsdk: filters
         config:
+          description: Configuration for the Entity Page Extension.
           type: object
           nullable: true
           x-oapi-codegen-extra-tags:
@@ -1849,15 +1871,18 @@ components:
       required:
         - path
     EntityPageLayout:
+      description: Represents a Flightdeck Entity Page Layout resource.
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - $ref: '#/components/schemas/EntityPageLayoutInput'
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             portalName:
+              description: The name of the Flightdeck Portal.
               type: string
           required:
             - organizationId
@@ -1866,15 +1891,19 @@ components:
       type: object
       properties:
         name:
+          description: The name of the Flightdeck Entity Page Layout resource.
           type: string
         active:
+          description: Indicates whether the Flightdeck Page Layout is the activated.
           type: boolean
         contentOrder:
+          description: The order in which to display Entity Content pages.
           type: array
           nullable: true
           items:
             $ref: '#/components/schemas/EntityPageContentSpec'
         cardOrder:
+          description: The order in which to display Entity Card components.
           type: array
           nullable: true
           items:
@@ -1885,10 +1914,12 @@ components:
       type: object
       properties:
         items:
+          description: A list of Flightdeck Entity Page Layout resources.
           type: array
           items:
             $ref: '#/components/schemas/EntityPageLayout'
         total:
+          description: The total number of Flightdeck Entity Page Layout resources.
           type: integer
         pageInfo:
           $ref: '#/components/schemas/PageInfo'
@@ -1955,6 +1986,8 @@ components:
         - privateKey
         - webhookSecret
     GithubAuthProvider:
+      description: |
+        Represents the configuration for a Github OAuth2 provider.
       allOf:
         - $ref: '#/components/schemas/AuthProviderConfig'
         - $ref: '#/components/schemas/GithubAuthProviderInput'
@@ -1962,26 +1995,31 @@ components:
       type: object
       properties:
         clientId:
+          description: The client ID for the Github OAuth2 provider.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: client_id
         clientSecret:
+          description: The client secret for the Github OAuth2 provider.
           type: string
           format: password
           writeOnly: true
           x-oapi-codegen-extra-tags:
             tfsdk: client_secret
         callbackUrl:
+          description: The callback URL for the Github OAuth2 provider.
           type: string
           nullable: true
           x-oapi-codegen-extra-tags:
             tfsdk: callback_url
         enterpriseInstanceUrl:
+          description: The instance URL for the Github Enterprise instance.
           type: string
           nullable: true
           x-oapi-codegen-extra-tags:
             tfsdk: enterprise_instance_url
         additionalScopes:
+          description: Any additional scopes necessary for the Github OAuth2 provider.
           type: array
           nullable: true
           items:
@@ -1996,21 +2034,23 @@ components:
         - $ref: '#/components/schemas/CatalogProviderConfig'
         - $ref: '#/components/schemas/GithubCatalogProviderInput'
     GithubCatalogProviderFilters:
-      x-arctir-generate: true
       x-oapi-codegen-extra-tags:
         tfsdk: filters
       type: object
       properties:
         branch:
+          description: The branch to use for the catalog.
           type: string
           default: main
           x-oapi-codegen-extra-tags:
             tfsdk: branch
         repository:
+          description: The repository to use for the catalog.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: repository
         allowForks:
+          description: Whether to include forks in the catalog.
           type: boolean
           default: false
           x-oapi-codegen-extra-tags:
@@ -2018,6 +2058,7 @@ components:
         topic:
           $ref: '#/components/schemas/GithubCatalogProviderFiltersTopic'
         visibility:
+          description: The visibility of the repositories to include in the catalog.
           type: array
           items:
             type: string
@@ -2028,12 +2069,12 @@ components:
           x-oapi-codegen-extra-tags:
             tfsdk: visibility
     GithubCatalogProviderFiltersTopic:
-      x-arctir-generate: true
       x-oapi-codegen-extra-tags:
         tfsdk: topic
       type: object
       properties:
         include:
+          description: A list of Github topics to include in the catalog.
           type: array
           items:
             type: string
@@ -2041,6 +2082,7 @@ components:
           x-oapi-codegen-extra-tags:
             tfsdk: include
         exclude:
+          description: A list of Github topics to exclude from the catalog.
           type: array
           items:
             type: string
@@ -2051,15 +2093,19 @@ components:
       type: object
       properties:
         host:
+          description: The host for the Github catalog provider.
           type: string
           default: https://github.com
           x-oapi-codegen-extra-tags:
             tfsdk: host
         organization:
+          description: The organization to use for the catalog.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: organization
         catalogPath:
+          description: The path to the catalog file.
+          default: ./catalog.yaml
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: catalog_path
@@ -2070,6 +2116,7 @@ components:
       required:
         - organization
     GithubIdentityProvider:
+      description: Represents a Github Identity Provider resource.
       allOf:
         - $ref: '#/components/schemas/IdentityProviderConfig'
         - $ref: '#/components/schemas/GithubIdentityProviderInput'
@@ -2077,17 +2124,22 @@ components:
       type: object
       properties:
         redirectUri:
+          description: The URI to redirect to after the user has authenticated.
           type: string
         clientId:
+          description: The client ID of the Github application.
           type: string
         clientSecret:
+          description: The client secret of the Github application.
           type: string
           format: password
           writeOnly: true
         baseUrl:
+          description: The base URL of the Github application.
           type: string
           default: https://github.com
         apiUrl:
+          description: The API URL of the Github application.
           type: string
           default: https://api.github.com
       required:
@@ -2095,6 +2147,7 @@ components:
         - clientId
         - clientSecret
     GithubIntegration:
+      description: Represents a GitHub Integration resource.
       allOf:
         - $ref: '#/components/schemas/IntegrationConfig'
         - $ref: '#/components/schemas/GithubIntegrationInput'
@@ -2136,6 +2189,8 @@ components:
       required:
         - host
     GitlabAuthProvider:
+      description: |
+        Represents the configuration for a Gitlab OAuth2 provider.
       allOf:
         - $ref: '#/components/schemas/AuthProviderConfig'
         - $ref: '#/components/schemas/GitlabAuthProviderInput'
@@ -2143,16 +2198,21 @@ components:
       type: object
       properties:
         clientId:
+          description: The client ID for the Gitlab OAuth2 provider.
           type: string
         clientSecret:
+          description: The client secret for the Gitlab OAuth2 provider.
           type: string
           format: password
           writeOnly: true
         audience:
+          description: The audience for the Gitlab OAuth2 provider.
           type: string
         callbackUrl:
+          description: The callback URL for the Gitlab OAuth2 provider.
           type: string
         additionalScopes:
+          description: Any additional scopes necessary for the Gitlab OAuth2 provider.
           type: array
           items:
             type: string
@@ -2169,36 +2229,45 @@ components:
       type: object
       properties:
         host:
+          description: The host for the Gitlab catalog provider.
           type: string
           default: https://gitlab.com
           x-oapi-codegen-extra-tags:
             tfsdk: host
         group:
+          description: The group to use for the catalog.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: group
         branch:
+          description: The branch to use for the catalog.
           type: string
           default: main
           x-oapi-codegen-extra-tags:
             tfsdk: branch
         entityFilename:
+          description: The filename to use for the entity.
+          default: ./catalog-info.yaml
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: entity_filename
         projectPattern:
+          description: The project pattern to use for the catalog.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: project_pattern
         userPattern:
+          description: The user pattern to use for the catalog.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: user_pattern
         groupPattern:
+          description: The group pattern to use for the catalog.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: group_pattern
         skipForkedRepos:
+          description: Whether to skip forked repositories in the catalog.
           type: boolean
           default: true
           x-oapi-codegen-extra-tags:
@@ -2208,6 +2277,7 @@ components:
       required:
         - host
     GitlabIdentityProvider:
+      description: Represents a Gitlab Identity Provider resource.
       allOf:
         - $ref: '#/components/schemas/IdentityProviderConfig'
         - $ref: '#/components/schemas/GitlabIdentityProviderInput'
@@ -2215,10 +2285,13 @@ components:
       type: object
       properties:
         redirectUri:
+          description: The URI to redirect to after the user has authenticated.
           type: string
         clientId:
+          description: The client ID of the Gitlab application.
           type: string
         clientSecret:
+          description: The client secret of the Gitlab application.
           type: string
           format: password
           writeOnly: true
@@ -2227,30 +2300,36 @@ components:
         - clientId
         - clientSecret
     GitlabIntegration:
+      description: Represents a Gitlab Integration resource.
       allOf:
         - $ref: '#/components/schemas/IntegrationConfig'
         - $ref: '#/components/schemas/GitlabIntegrationInput'
     GitlabIntegrationInput:
+      description: Represents a Gitlab Integration resource.
       type: object
       properties:
         host:
+          description: The hostname of the Gitlab instance.
           type: string
           default: gitlab.com
           format: hostname
           x-oapi-codegen-extra-tags:
             tfsdk: host
         token:
+          description: Token used to authenticate requests.
           type: string
           format: password
           writeOnly: true
           x-oapi-codegen-extra-tags:
             tfsdk: token
         baseUrl:
+          description: The base URL of the Gitlab instance.
           type: string
           default: https://gitlab.com
           x-oapi-codegen-extra-tags:
             tfsdk: base_url
         apiBaseUrl:
+          description: The base URL of the Gitlab API.
           type: string
           default: https://gitlab.com/api/v4
           x-oapi-codegen-extra-tags:
@@ -2266,14 +2345,18 @@ components:
       type: object
       properties:
         clientId:
+          description: The client ID for the Google OAuth2 provider.
           type: string
         clientSecret:
+          description: The client secret for the Google OAuth2 provider.
           type: string
           format: password
           writeOnly: true
         callbackUrl:
+          description: The callback URL for the Google OAuth2 provider.
           type: string
         additionalScopes:
+          description: Any additional scopes necessary for the Google OAuth2 provider.
           type: array
           items:
             type: string
@@ -2283,6 +2366,7 @@ components:
         - clientId
         - clientSecret
     GoogleIdentityProvider:
+      description: Represents a Google Identity Provider resource.
       allOf:
         - $ref: '#/components/schemas/IdentityProviderConfig'
         - $ref: '#/components/schemas/GoogleIdentityProviderInput'
@@ -2290,49 +2374,62 @@ components:
       type: object
       properties:
         redirectUri:
+          description: The URI to redirect to after the user has authenticated.
           type: string
         clientId:
+          description: The client ID of the Google application.
           type: string
         clientSecret:
+          description: The client secret of the Google application.
           type: string
           format: password
           writeOnly: true
         hostedDomain:
+          description: The hosted domain of the Google application.
           type: string
         userIp:
+          description: The user IP of the Google application.
           type: boolean
         refreshToken:
+          description: Whether to refresh the token of the Google application.
           type: boolean
     IdentityProvider:
+      description: Represents a Flightdeck Identity Provider resource.
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - $ref: '#/components/schemas/IdentityProviderInput'
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             tenantName:
+              description: The name of the Flightdeck Tenant.
               type: string
           required:
             - organizationId
             - tenantName
     IdentityProviderConfig:
+      description: Represents an Identity Provider configuration resource.
       type: object
       required:
         - configType
       properties:
         configType:
+          description: The type of Identity Provider configuration.
           type: string
     IdentityProviderInput:
       type: object
       properties:
         name:
+          description: The name of the Flightdeck Identity Provider resource.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 24
         providerConfig:
+          description: The configuration of the Identity Provider.
           oneOf:
             - $ref: '#/components/schemas/GithubIdentityProvider'
             - $ref: '#/components/schemas/GitlabIdentityProvider'
@@ -2350,10 +2447,12 @@ components:
       type: object
       properties:
         items:
+          description: The list of Flightdeck Identity Provider resources.
           type: array
           items:
             $ref: '#/components/schemas/IdentityProvider'
         total:
+          description: The total number of Flightdeck Identity Provider resources.
           type: integer
         pageInfo:
           $ref: '#/components/schemas/PageInfo'
@@ -2362,37 +2461,45 @@ components:
         - total
         - pageInfo
     Integration:
+      description: Represents an Integration resource.
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - $ref: '#/components/schemas/IntegrationInput'
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             portalName:
+              description: The name of the Flightdeck Portal.
               type: string
           required:
             - organizationId
             - portalName
     IntegrationConfig:
+      description: Represents an Integration configuration.
       type: object
       required:
         - configType
       properties:
         configType:
+          description: The type of integration configuration.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: '-'
     IntegrationInput:
+      description: Represents an Integration resource.
       type: object
       properties:
         name:
+          description: The name of the Integration.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 24
         integrationConfig:
+          description: The configuration of the Integration.
           oneOf:
             - $ref: '#/components/schemas/GithubIntegration'
             - $ref: '#/components/schemas/GitlabIntegration'
@@ -2405,13 +2512,16 @@ components:
         - name
         - integrationConfig
     IntegrationsListResponse:
+      description: Represents a list of Integration resources.
       type: object
       properties:
         items:
+          description: The list of Integration resources.
           type: array
           items:
             $ref: '#/components/schemas/Integration'
         total:
+          description: The total number of Integration resources.
           type: integer
         pageInfo:
           $ref: '#/components/schemas/PageInfo'
@@ -2428,10 +2538,12 @@ components:
       type: object
       properties:
         target:
+          description: The target URL for the location catalog provider.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: target
         allow:
+          description: The types of entities to allow in the catalog.
           type: array
           items:
             type: string
@@ -2450,15 +2562,18 @@ components:
       required:
         - target
     Organization:
+      description: Represents a Flightdeck Organization.
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - $ref: '#/components/schemas/OrganizationInput'
         - type: object
           properties:
             owner:
+              description: The Flightdeck User ID of the Organization's owner.
               type: string
               format: uuid
             subdomain:
+              description: The designated Flightdeck subdomain for this Organization.
               type: string
           required:
             - owner
@@ -2467,11 +2582,13 @@ components:
       type: object
       properties:
         name:
+          description: The name of the Flightdeck Organization.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 24
         clusterId:
+          description: The ID of the Flightdeck Cluster that manages this Organization.
           type: string
           format: uuid
         subscription:
@@ -2498,41 +2615,53 @@ components:
       type: object
       properties:
         prev:
+          description: The URL of the previous page.
           type: string
         next:
+          description: The URL of the next page.
           type: string
     PluginConfiguration:
+      description: Represents a Plugin Configuration resource.
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - $ref: '#/components/schemas/PluginConfigurationInput'
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             portalName:
+              description: The name of the Flightdeck Portal.
               type: string
           required:
             - organizationId
             - portalName
     PluginConfigurationDefinitionSpec:
+      description: Represents a Plugin Configuration Definition resource.
       type: object
       properties:
         name:
+          description: The name of the Plugin Definition.
           type: string
         portalVersionId:
+          description: The ID of the Flightdeck Portal Version for the Plugin Definition.
           type: string
       required:
         - name
         - portalVersionId
     PluginConfigurationInput:
+      description: Represents a Plugin Configuration resource.
       type: object
       properties:
         enabled:
+          description: Indicates whether the Plugin Configuration is enabled.
           type: boolean
         frontendConfig:
+          description: The configuration of the Plugin on the frontend.
           type: object
         backendConfig:
+          description: The configuration of the Plugin on the backend.
           type: object
         definition:
           $ref: '#/components/schemas/PluginConfigurationDefinitionSpec'
@@ -2543,10 +2672,12 @@ components:
       type: object
       properties:
         items:
+          description: The list of Plugin Configuration resources.
           type: array
           items:
             $ref: '#/components/schemas/PluginConfiguration'
         total:
+          description: The total number of Plugin Configuration resources.
           type: integer
         pageInfo:
           $ref: '#/components/schemas/PageInfo'
@@ -2555,37 +2686,48 @@ components:
         - total
         - pageInfo
     PluginDefinition:
+      description: Represents a Plugin Definition resource.
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - $ref: '#/components/schemas/PluginDefinitionInput'
     PluginDefinitionBackendSpec:
+      description: Represents a Plugin Definition Backend resource.
       type: object
       properties:
         plugins:
+          description: The list of Plugin Name Version resources.
           type: array
           items:
             $ref: '#/components/schemas/PluginNameVersionSpec'
         configSchema:
+          description: The configuration schema of the Plugin.
           type: object
         uiSchema:
           type: object
     PluginDefinitionFrontendExtension:
+      description: Represents a Plugin Definition Frontend Extension resource.
       type: object
       properties:
         path:
+          description: The unique Entity Extension path.
           type: string
         type:
+          description: The type of the Entity Extension.
           type: string
           enum:
             - Card
             - Content
         title:
+          description: The title of the Entity Extension.
           type: string
         description:
+          description: The description of the Entity Extension.
           type: string
         configSchema:
+          description: The configuration schema of the Entity Extension.
           type: object
         uiSchema:
+          description: The UI schema of the Entity Extension.
           type: object
       required:
         - type
@@ -2593,33 +2735,43 @@ components:
         - title
         - description
     PluginDefinitionFrontendSpec:
+      description: Represents a Plugin Definition Frontend resource.
       type: object
       properties:
         plugins:
+          description: The list of Plugin Name Version resources.
           type: array
           items:
             $ref: '#/components/schemas/PluginNameVersionSpec'
         configSchema:
+          description: The configuration schema of the Plugin.
           type: object
         uiSchema:
+          description: The UI schema of the Plugin.
           type: object
         extensions:
+          description: The list of Plugin Definition Frontend Extension resources.
           type: array
           items:
             $ref: '#/components/schemas/PluginDefinitionFrontendExtension'
     PluginDefinitionInput:
+      description: Represents a Plugin Definition resource.
       type: object
       properties:
         name:
+          description: The name of the Plugin Definition.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 24
         displayName:
+          description: The display name of the Plugin Definition.
           type: string
         description:
+          description: The description of the Plugin Definition.
           type: string
         iconName:
+          description: The icon name of the Plugin Definition.
           type: string
         frontend:
           $ref: '#/components/schemas/PluginDefinitionFrontendSpec'
@@ -2631,13 +2783,16 @@ components:
         - description
         - iconName
     PluginDefinitionsListResponse:
+      description: Represents a list of Plugin Definition resources.
       type: object
       properties:
         items:
+          description: The list of Plugin Definition resources.
           type: array
           items:
             $ref: '#/components/schemas/PluginDefinition'
         total:
+          description: The total number of Plugin Definition resources.
           type: integer
         pageInfo:
           $ref: '#/components/schemas/PageInfo'
@@ -2646,30 +2801,40 @@ components:
         - total
         - pageInfo
     PluginNameVersionSpec:
+      description: Represents a Plugin Name Version resource.
       type: object
       properties:
         name:
+          description: The name of the Plugin.
           type: string
         version:
+          description: The version of the Plugin.
           type: string
     Portal:
+      description: Represents a Portal resource.
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - $ref: '#/components/schemas/PortalInput'
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             url:
+              description: The primary URL of the Portal.
               type: string
             hostname:
+              description: The hostname of the Portal.
               type: string
             identifier:
+              description: The identifier of the Portal.
               type: string
             status:
+              description: The current reconciliation status of the Portal.
               $ref: '#/components/schemas/PortalStatus'
             version:
+              description: The current version of the Portal.
               $ref: '#/components/schemas/PortalVersion'
           required:
             - organizationId
@@ -2677,27 +2842,35 @@ components:
             - hostname
             - identifier
     PortalInput:
+      description: Represents a Portal resource.
       type: object
       properties:
         name:
+          description: The name of the Portal.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 16
         title:
+          description: The HTML title of the Portal.
           type: string
         organizationName:
+          description: The name of the Organization operating this Portal.
           type: string
         domain:
+          description: The primary domain of the Portal.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 16
         versionId:
+          description: The ID of the Portal Version.
           type: string
         tenantName:
+          description: The name of the Tenant providing user idenity to this Portal.
           type: string
         alternateDomains:
+          description: A list of alternate domains for the Portal.
           type: array
           items:
             type: string
@@ -2711,13 +2884,16 @@ components:
         - versionId
         - alternateDomains
     PortalProxiesListResponse:
+      description: Represents a list of Portal Proxy resources.
       type: object
       properties:
         items:
+          description: The list of Portal Proxy resources.
           type: array
           items:
             $ref: '#/components/schemas/PortalProxy'
         total:
+          description: The total number of Portal Proxy resources.
           type: integer
         pageInfo:
           $ref: '#/components/schemas/PageInfo'
@@ -2726,6 +2902,7 @@ components:
         - total
         - pageInfo
     PortalProxy:
+      description: Represents a Portal Proxy resource.
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - $ref: '#/components/schemas/PortalProxyInput'
@@ -2740,13 +2917,16 @@ components:
             - organizationId
             - portalName
     PortalProxyHeader:
+      description: Represents a Portal Proxy Header resource.
       type: object
       properties:
         name:
+          description: The name of the HTTP header.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: name
         value:
+          description: The value of the HTTP header.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: value
@@ -2754,37 +2934,47 @@ components:
         - name
         - value
     PortalProxyInput:
+      description: Represents a Portal Proxy resource.
       type: object
       properties:
         name:
+          description: The name of the Portal Proxy.
           type: string
         endpoint:
+          description: The endpoint of the Portal Proxy.
           type: string
         target:
+          description: The HTTP target of the Portal Proxy.
           type: string
         httpHeaders:
+          description: The list of Portal Proxy Header resources to be applied.
           type: array
           nullable: true
           items:
             $ref: '#/components/schemas/PortalProxyHeader'
         pathRewrite:
+          description: The list of Portal Proxy Path Rewrite resources to be applied.
           type: array
           nullable: true
           items:
             $ref: '#/components/schemas/PortalProxyPathRewrite'
         changeOrigin:
+          description: Indicates whether to change the origin of the Portal Proxy.
           type: boolean
         allowedMethods:
+          description: The list of allowed HTTP methods.
           type: array
           nullable: true
           items:
             type: string
         allowedHeaders:
+          description: The list of allowed HTTP headers.
           type: array
           nullable: true
           items:
             type: string
         credentials:
+          description: The credential configuration of the Portal Proxy.
           type: string
           enum:
             - require
@@ -2796,13 +2986,16 @@ components:
         - target
         - credentials
     PortalProxyPathRewrite:
+      description: Represents a Portal Proxy Path Rewrite resource.
       type: object
       properties:
         src:
+          description: The source path to rewrite.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: src
         dst:
+          description: The destination of the path to rewrite.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: dst
@@ -2810,29 +3003,38 @@ components:
         - src
         - dst
     PortalStatus:
+      description: Represents the current status of a Portal.
       type: object
       properties:
         status:
+          description: The current status of the Portal.
           type: string
         detail:
+          description: A detailed message about the current status of the Portal.
           type: string
       required:
         - status
         - detail
     PortalVersion:
+      description: Represents a Flightdeck Portal Version resource.
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - type: object
           properties:
             version:
+              description: The human-readable semver version of the Flightdeck Portal.
               type: string
             major:
+              description: The version's major release number.
               type: integer
             minor:
+              description: The version's minor release number.
               type: integer
             patch:
+              description: The version's patch release number.
               type: integer
             rev:
+              description: The version's revision release number.
               type: integer
           required:
             - version
@@ -2844,10 +3046,12 @@ components:
       type: object
       properties:
         items:
+          description: A lidt of Flightdeck Portal Version resources.
           type: array
           items:
             $ref: '#/components/schemas/PortalVersion'
         total:
+          description: The total number of Flightdeck Portal Version resources.
           type: integer
         pageInfo:
           $ref: '#/components/schemas/PageInfo'
@@ -2856,13 +3060,16 @@ components:
         - total
         - pageInfo
     PortalsListResponse:
+      description: Represents a list of Portal resources.
       type: object
       properties:
         items:
+          description: The list of Portal resources.
           type: array
           items:
             $ref: '#/components/schemas/Portal'
         total:
+          description: The total number of Portal resources.
           type: integer
         pageInfo:
           $ref: '#/components/schemas/PageInfo'
@@ -2871,15 +3078,20 @@ components:
         - total
         - pageInfo
     SubscriptionEntitlements:
+      description: Represents a Flightdeck Organization's Entitlements status.
       type: object
       properties:
         portals:
+          description: The number of Flightdeck Portals that this Organization is entitled to.
           type: integer
         tenants:
+          description: The number of Flightdeck Tenants that this Organization is entitled to
           type: integer
         tenantUsers:
+          description: The number of Flightdeck Tenant Users that this Organization is entitled to
           type: integer
         connections:
+          description: The number of Flightdeck Connections that this Organization is entitled to
           type: integer
       required:
         - portals
@@ -2919,7 +3131,6 @@ components:
       required:
         - authToken
     TaskScheduleDefinitionConfig:
-      x-arctir-generate: true
       x-oapi-codegen-extra-tags:
         tfsdk: '-'
       type: object
@@ -2934,6 +3145,7 @@ components:
       type: object
       properties:
         minutes:
+          description: The number of minutes between each run of the task.
           type: integer
           default: 10
           x-oapi-codegen-extra-tags:
@@ -2944,76 +3156,93 @@ components:
       type: object
       properties:
         minutes:
+          description: The number of minutes before the task times out.
           type: integer
           default: 10
           x-oapi-codegen-extra-tags:
             tfsdk: minutes
     Tenant:
+      description: Represents a Tenant resource.
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - $ref: '#/components/schemas/TenantInput'
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             identifier:
+              description: The internal identifier of the Tenant.
               type: string
             issuerUrl:
+              description: The URL of the Tenant's OIDC Issuer.
               type: string
           required:
             - organizationId
             - identifier
             - issuerUrl
     TenantInput:
+      description: Represents a Tenant resource.
       type: object
       properties:
         name:
+          description: The name of the Tenant.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 16
         displayName:
+          description: The display name of the Tenant.
           type: string
       required:
         - name
         - displayName
     TenantUser:
+      description: Represents a Tenant User resource.
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - $ref: '#/components/schemas/TenantUserInput'
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             tenantName:
+              description: The name of the Flightdeck Tenant.
               type: string
           required:
             - organizationId
             - tenantName
     TenantUserInput:
+      description: Represents a Tenant User Input resource.
       type: object
       properties:
         username:
+          description: The username of the Tenant User.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 16
         email:
+          description: The email of the Tenant User.
           type: string
           format: email
       required:
         - username
         - email
     TenantUsersListResponse:
+      description: Represents a list of Tenant User resources.
       type: object
       properties:
         items:
+          description: The list of Tenant User resources.
           type: array
           items:
             $ref: '#/components/schemas/TenantUser'
         total:
+          description: The total number of Tenant User resources.
           type: integer
         pageInfo:
           $ref: '#/components/schemas/PageInfo'
@@ -3022,13 +3251,16 @@ components:
         - total
         - pageInfo
     TenantsListResponse:
+      description: Represents a list of Tenant resources.
       type: object
       properties:
         items:
+          description: The list of Tenant resources.
           type: array
           items:
             $ref: '#/components/schemas/Tenant'
         total:
+          description: The total number of Tenant resources.
           type: integer
         pageInfo:
           $ref: '#/components/schemas/PageInfo'

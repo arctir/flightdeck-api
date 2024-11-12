@@ -1,14 +1,17 @@
 components:
   schemas:
     TenantUserInput:
+      description: Represents a Tenant User Input resource.
       type: object
       properties:
         username:
+          description: The username of the Tenant User.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 16
         email:
+          description: The email of the Tenant User.
           type: string
           format: email
       required:
@@ -16,28 +19,34 @@ components:
         - email
 
     TenantUser:
+      description: Represents a Tenant User resource.
       allOf:
         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
         - $ref: "#/components/schemas/TenantUserInput"
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             tenantName:
+              description: The name of the Flightdeck Tenant.
               type: string
           required:
             - organizationId
             - tenantName
 
     TenantUsersListResponse:
+      description: Represents a list of Tenant User resources.
       type: object
       properties:
         items:
+          description: The list of Tenant User resources.
           type: array
           items:
             $ref: "#/components/schemas/TenantUser"
         total:
+          description: The total number of Tenant User resources.
           type: integer
         pageInfo:
           $ref: "./pagination.yaml#/components/schemas/PageInfo"

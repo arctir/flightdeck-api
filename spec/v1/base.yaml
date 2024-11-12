@@ -4,9 +4,11 @@ components:
       type: object
       properties:
         id:
+          description: The ID of the Flightdeck resource.
           type: string
           format: uuid
         createdAt:
+          description: The date and time of the resources creation.
           type: string
           format: date-time
       required:

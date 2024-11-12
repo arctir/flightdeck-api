@@ -60,6 +60,7 @@ components:
         - webhookSecret
 
     GithubIntegration:
+      description: Represents a GitHub Integration resource.
       allOf:
         - $ref: "#/components/schemas/IntegrationConfig"
         - $ref: "#/components/schemas/GithubIntegrationInput"
@@ -103,31 +104,37 @@ components:
         - host
 
     GitlabIntegration:
+      description: Represents a Gitlab Integration resource.
       allOf:
         - $ref: "#/components/schemas/IntegrationConfig"
         - $ref: "#/components/schemas/GitlabIntegrationInput"
 
     GitlabIntegrationInput:
+      description: Represents a Gitlab Integration resource.
       type: object
       properties:
         host:
+          description: The hostname of the Gitlab instance.
           type: string
           default: gitlab.com
           format: hostname
           x-oapi-codegen-extra-tags:
             tfsdk: host
         token:
+          description: Token used to authenticate requests.
           type: string
           format: password
           writeOnly: true
           x-oapi-codegen-extra-tags:
             tfsdk: token
         baseUrl:
+          description: The base URL of the Gitlab instance.
           type: string
           default: "https://gitlab.com"
           x-oapi-codegen-extra-tags:
             tfsdk: base_url
         apiBaseUrl:
+          description: The base URL of the Gitlab API.
           type: string
           default: https://gitlab.com/api/v4
           x-oapi-codegen-extra-tags:
@@ -137,24 +144,29 @@ components:
         - token
 
     IntegrationConfig:
+      description: Represents an Integration configuration.
       type: object
       required:
         - configType
       properties:
         configType:
+          description: The type of integration configuration.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: "-"
 
     IntegrationInput:
+      description: Represents an Integration resource.
       type: object
       properties:
         name:
+          description: The name of the Integration.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 24
         integrationConfig:
+          description: The configuration of the Integration.
           oneOf:
             - $ref: "#/components/schemas/GithubIntegration"
             - $ref: "#/components/schemas/GitlabIntegration"
@@ -168,28 +180,34 @@ components:
         - integrationConfig
 
     Integration:
+      description: Represents an Integration resource.
       allOf:
         - $ref: "./base.yaml#/components/schemas/BaseResourceType"
         - $ref: "#/components/schemas/IntegrationInput"
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             portalName:
+              description: The name of the Flightdeck Portal.
               type: string
           required:
             - organizationId
             - portalName
 
     IntegrationsListResponse:
+      description: Represents a list of Integration resources.
       type: object
       properties:
         items:
+          description: The list of Integration resources.
           type: array
           items:
             $ref: "#/components/schemas/Integration"
         total:
+          description: The total number of Integration resources.
           type: integer
         pageInfo:
           $ref: "./pagination.yaml#/components/schemas/PageInfo"
