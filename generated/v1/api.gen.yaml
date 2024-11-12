@@ -1743,15 +1743,18 @@ components:
         - total
         - pageInfo
     Connection:
+      description: Represents a Flightdeck Connection resource.
       allOf:
         - $ref: '#/components/schemas/BaseResourceType'
         - $ref: '#/components/schemas/ConnectionInput'
         - type: object
           properties:
             organizationId:
+              description: The ID of the Flightdeck Organization.
               type: string
               format: uuid
             portalName:
+              description: The name of the Flightdeck Portal.
               type: string
           required:
             - organizationId
@@ -1762,6 +1765,7 @@ components:
         - configType
       properties:
         configType:
+          description: The type of the Flightdeck Connection configuration.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: '-'
@@ -1769,11 +1773,13 @@ components:
       type: object
       properties:
         name:
+          description: The name of the Flightdeck Connection resource.
           type: string
           format: lowercasealpha
           minLength: 3
           maxLength: 24
         connectionConfig:
+          description: The configuration for the Flightdeck Connection.
           oneOf:
             - $ref: '#/components/schemas/TailscaleConnection'
           discriminator:
@@ -1787,10 +1793,12 @@ components:
       type: object
       properties:
         items:
+          description: A list of Flightdeck Connections.
           type: array
           items:
             $ref: '#/components/schemas/Connection'
         total:
+          description: The total number of Flightdeck Connections.
           type: integer
         pageInfo:
           $ref: '#/components/schemas/PageInfo'
@@ -2889,6 +2897,7 @@ components:
         - status
         - entitlements
     TailscaleConnection:
+      description: Represents a Tailscale Connection resource.
       allOf:
         - $ref: '#/components/schemas/ConnectionConfig'
         - $ref: '#/components/schemas/TailscaleConnectionInput'
@@ -2896,9 +2905,17 @@ components:
       type: object
       properties:
         authToken:
+          description: The Tailscale connection auth token.
           type: string
           x-oapi-codegen-extra-tags:
             tfsdk: auth_token
+        hosts:
+          description: The Tailscale MagicDNS hosts to make available.
+          type: array
+          items:
+            type: string
+          x-oapi-codegen-extra-tags:
+            tfsdk: hosts
       required:
         - authToken
     TaskScheduleDefinitionConfig:
